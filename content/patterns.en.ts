@@ -14,7 +14,7 @@ export const CARE_NOTE =
   "If this brought up strong feelings, slow down and reach out to someone you trust or to a mental health professional. This tool is not a substitute for professional support.";
 
 export const DISCLAIMER =
-  "This is a self-report reflection tool, not a validated psychometric instrument and not a diagnostic tool. Bands and thresholds are the school's heuristics, not norms.";
+  "This is a self-report reflection tool. It is not a validated psychometric instrument, and it does not assess or identify any condition. Bands and thresholds are the school's heuristics, not norms.";
 
 export const PATTERNS: Record<PatternKey, { title: string; body: string }> = {
   SELF_LED: {
