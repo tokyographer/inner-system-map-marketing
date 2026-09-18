@@ -1,0 +1,60 @@
+"use client";
+import { useState, type FormEvent } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { CONSENT_POLICY_VERSION } from "@/config/app";
+import type { CompletedAttempt } from "@/lib/questionnaire/storage";
+
+type Status = "idle" | "sending" | "sent" | "invalid" | "rate" | "unavailable" | "error";
+
+export function EmailResultsForm({ attempt }: { attempt: CompletedAttempt }) {
+  const t = useTranslations("email");
+  const locale = useLocale();
+  const [email, setEmail] = useState("");
+  const [store, setStore] = useState(false);
+  const [newsletter, setNewsletter] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
+
+  async function submit(e: FormEvent) {
+    e.preventDefault();
+    if (!store || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setStatus("invalid"); return; }
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/public/email-results", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          email, locale, form: attempt.form, responses: attempt.responses,
+          durationSeconds: Math.round((attempt.completedAt - attempt.startedAt) / 1000),
+          ageConfirmed: true,
+          consent: { storeResults: true, newsletter, policyVersion: CONSENT_POLICY_VERSION },
+        }),
+      });
+      if (res.ok) setStatus("sent");
+      else if (res.status === 429) setStatus("rate");
+      else if (res.status === 503) setStatus("unavailable");
+      else if (res.status === 400) setStatus("invalid");
+      else setStatus("error");
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  const message: Partial<Record<Status, string>> = {
+    sent: t("sent"), invalid: t("errorInvalid"), rate: t("errorRate"), unavailable: t("errorUnavailable"), error: t("errorGeneric"),
+  };
+
+  return (
+    <form onSubmit={submit} noValidate className="space-y-3 rounded-lg border border-line p-4">
+      <h3 className="text-lg">{t("title")}</h3>
+      <p className="text-sm text-ink-muted">{t("lead")}</p>
+      <label className="block text-sm">
+        {t("email")}
+        <input type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 w-full rounded-md border border-line bg-paper px-3 py-2" required />
+      </label>
+      <label className="flex items-start gap-3 text-sm"><input type="checkbox" checked={store} onChange={(e) => setStore(e.target.checked)} className="mt-1 h-5 w-5" required /><span>{t("storeConsent")}</span></label>
+      <label className="flex items-start gap-3 text-sm"><input type="checkbox" checked={newsletter} onChange={(e) => setNewsletter(e.target.checked)} className="mt-1 h-5 w-5" /><span>{t("newsletter")}</span></label>
+      <button type="submit" disabled={status === "sending" || status === "sent"} className="rounded-md bg-accent px-5 py-2 text-accent-ink disabled:opacity-50">{status === "sending" ? t("sending") : t("send")}</button>
+      {message[status] && <p role={status === "sent" ? "status" : "alert"} className="text-sm">{message[status]}</p>}
+    </form>
+  );
+}

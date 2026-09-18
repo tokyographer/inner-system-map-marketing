@@ -18,6 +18,7 @@ npm install
 cp .env.example .env        # fill RESEND_* to send email
 npm run typecheck
 npm test                    # vitest, scoring engine must stay at 100% coverage
+npm run build && npm run e2e   # Playwright (starts next start on 3111 if not running)
 npm run dev
 ```
 
@@ -30,6 +31,9 @@ npm run dev
 - Pattern rules are evaluated in order; a manager/firefighter gap of exactly 0.3 resolves to MANAGED or REACTIVE, not POLARISED.
 - Team-of-protectors rule: top two, plus the third when within 0.4 of the second (assumption, see plan).
 - Rate limiting is in-memory for now (soft). Replace with Upstash in Phase 7.
+- Storage hydration uses `useSyncExternalStore` (lib/questionnaire/storage.ts); do not read localStorage in effects with setState (lint rule).
+- Completing the questionnaire clears progress, which notifies the store; the redirect-to-start effect is guarded by a `finished` ref.
+- Next 16 uses `proxy.ts` (not middleware.ts) for next-intl routing.
 - macOS `sips` does not rasterise the PDF's standard Helvetica; the text is there. Use Preview or pdftoppm to check visually.
 
 ## Configuration
@@ -45,8 +49,8 @@ npm run dev
 - Never commit `.env`.
 
 ## Current Status
-- Done: Phase 1 plan, Phase 2 scoring engine + item bank + EN content (100% coverage), results PDF, Resend email flow with institute copy, request validation, interim rate limiting.
-- Not done: questionnaire UI, results page, ES/RO, Supabase, cohort mode, dashboard, retention, e2e.
+- Done: Phase 1 plan. Phase 2 scoring engine + item bank + EN content (100% coverage), results PDF, Resend email flow with institute copy, request validation, interim rate limiting. Phase 3 public mode in EN: landing, start (age gate), questionnaire (seeded constrained order, localStorage autosave, keyboard Likert), results page in section 8 order, PDF download, email opt-in form, retake. next-intl routing /en /es /ro (ES/RO fall back to EN messages until Phase 4). Playwright happy path + axe audit (0 WCAG 2.1 AA violations) at 360px.
+- Not done: ES/RO translations, Supabase, cohort mode, dashboard, retention, Upstash rate limiting.
 - Item bank and content are DRAFT pending Anthony's clinical review.
 
 ## Future Integration

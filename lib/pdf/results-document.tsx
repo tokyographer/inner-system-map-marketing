@@ -143,7 +143,7 @@ export function ResultsDocument({ result, locale, mode, generatedOn }: Props) {
               <Field label="Wound" text={linked.length ? `${t.wound} ${PAIRING_SENTENCE(linked.join(" and "))}` : t.wound} />
               <Field label="Cost" text={t.cost} />
               <Field label="Protective need" text={t.protectiveNeed} />
-              <Text style={[s.muted, { marginTop: 4 }]}>A question to bring to this part: "{MICRO_QUESTION}"</Text>
+              <Text style={[s.muted, { marginTop: 4 }]}>A question to bring to this part: “{MICRO_QUESTION}”</Text>
             </View>
           );
         })}

@@ -21,6 +21,7 @@ npm run typecheck
 npm test             # unit tests (scoring engine, PDF, email, validation)
 npx vitest run --coverage
 npm run build
+npm run e2e          # Playwright: public happy path + accessibility audit (needs `npx playwright install chromium` once)
 ```
 
 ## API (public mode)
