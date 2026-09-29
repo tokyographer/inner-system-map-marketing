@@ -29,7 +29,7 @@ export const ITEM_TEXT_RO: Record<string, string> = {
   PLEA4: "În fața figurilor de autoritate devin mai conciliant/ă decât sunt de fapt.",
 
   CTRL1: "Schimbările de plan din ultimul moment mă tulbură mai mult decât pe alții.",
-  CTRL2: "Trec dinainte prin scenarii posibile ca nimic să nu mă ia prin surprindere.",
+  CTRL2: "Trec dinainte prin scenarii posibile pentru că nu suport să fiu luat/ă prin surprindere.",
   CTRL3: "Îmi e greu să deleg, pentru că nu va fi făcut cum trebuie.",
   CTRL4: "Am nevoie de structură și reguli clare ca să mă pot relaxa.",
 

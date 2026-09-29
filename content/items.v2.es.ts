@@ -29,7 +29,7 @@ export const ITEM_TEXT_ES: Record<string, string> = {
   PLEA4: "Ante figuras de autoridad me vuelvo más complaciente de lo que soy en realidad.",
 
   CTRL1: "Los cambios de planes de última hora me desestabilizan más que a otras personas.",
-  CTRL2: "Repaso posibles escenarios de antemano para que nada me tome por sorpresa.",
+  CTRL2: "Repaso posibles escenarios de antemano porque no soporto que algo me tome por sorpresa.",
   CTRL3: "Me cuesta delegar porque no se hará como debe hacerse.",
   CTRL4: "Necesito estructura y reglas claras antes de poder relajarme.",
 

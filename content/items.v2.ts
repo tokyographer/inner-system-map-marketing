@@ -81,7 +81,7 @@ export const ITEMS: Item[] = [
   i("PLEA", "managers", 4, false, "Around authority figures I become more agreeable than I really am."),
 
   i("CTRL", "managers", 1, true, "Last-minute changes of plan unsettle me more than they seem to unsettle others."),
-  i("CTRL", "managers", 2, true, "I run through possible scenarios in advance so nothing catches me off guard."),
+  i("CTRL", "managers", 2, true, "I run through possible scenarios in advance because I cannot stand being caught off guard."),
   i("CTRL", "managers", 3, true, "I find it hard to delegate because it will not be done properly."),
   i("CTRL", "managers", 4, false, "I need clear structure and rules before I can relax."),
 
