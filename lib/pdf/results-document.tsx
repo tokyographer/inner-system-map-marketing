@@ -44,7 +44,7 @@ const C = {
 
 const s = StyleSheet.create({
   page: { padding: 40, fontFamily: "Jost", fontWeight: 300, fontSize: 10.5, color: C.ink, backgroundColor: C.paper, lineHeight: 1.45 },
-  h1: { fontFamily: "Jost", fontWeight: 400, fontSize: 22, marginBottom: 4, color: C.navy },
+  h1: { fontFamily: "Jost", fontWeight: 400, fontSize: 22, lineHeight: 1.3, marginBottom: 6, color: C.navy },
   h2: { fontFamily: "Jost", fontWeight: 400, fontSize: 15, marginTop: 18, marginBottom: 6, color: C.navy },
   h3: { fontFamily: "Jost", fontWeight: 500, fontSize: 11, marginTop: 10, marginBottom: 3 },
   p: { marginBottom: 6 },
@@ -52,10 +52,10 @@ const s = StyleSheet.create({
   box: { borderWidth: 1, borderColor: C.line, borderRadius: 4, padding: 10, marginBottom: 10 },
   careBox: { borderWidth: 1, borderColor: C.line, borderRadius: 4, padding: 10, marginBottom: 12, backgroundColor: C.parchment },
   row: { flexDirection: "row", alignItems: "center", marginBottom: 4 },
-  label: { width: 150 },
+  label: { width: 140 },
   track: { flexGrow: 1, height: 7, backgroundColor: C.track, borderRadius: 4 },
   fill: { height: 7, borderRadius: 4 },
-  value: { width: 70, textAlign: "right", color: C.muted, fontSize: 9 },
+  value: { width: 110, textAlign: "right", color: C.muted, fontSize: 9 },
   card: { borderWidth: 1, borderColor: C.line, borderRadius: 4, padding: 10, marginBottom: 8 },
   field: { marginBottom: 3 },
   fieldLabel: { fontFamily: "Jost", fontWeight: 500 },
