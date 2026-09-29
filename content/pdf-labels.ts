@@ -36,4 +36,12 @@ export const PDF_LABELS: Record<Locale, PdfLabels> = {
     howItFeels: "Cum se poate simți când iese la suprafață", burden: "Povara pe care o poate purta", longsFor: "Ce își dorește",
     invite: "Dacă vrei să cunoști aceste părți într-un spațiu ținut cu grijă, Programul de Self-Leadership de la Transcendent Institute lucrează exact cu această hartă. transcendentinstitute.com",
   },
+  tr: {
+    generated: "Oluşturulma", form: { full: "tam form", short: "kısa form" }, itemBank: "madde bankası", mode: { public: "açık mod", cohort: "grup modu" },
+    whoIsLeading: "Kim yönetiyor?", exileFeelings: "Sürgün duyguları", lead: "öncü", self: "Self", selfLeadership: "Öz liderlik", protectorProfile: "Koruyucu profili",
+    leadingProtector: "Önde gelen koruyucun ve yanındaki parçalar", team: "Bir koruyucu ekibi", howItShows: "Nasıl ortaya çıkma eğiliminde", triggers: "Onu ne tetikleme eğiliminde",
+    strategy: "Strateji", wound: "Yara", cost: "Bedel", protectiveNeed: "Koruyucu ihtiyaç", microQuestion: "Bu parçaya götürülecek bir soru", proposed: "önerilen ölçek",
+    howItFeels: "Yüzeye çıktığında nasıl hissettirebilir", burden: "Taşıyor olabileceği yük", longsFor: "Neye özlem duyuyor",
+    invite: "Bu parçaları tutulan bir alanda tanımak istersen, Transcendent Institute'ün Öz Liderlik Programı tam olarak bu haritayla çalışır. transcendentinstitute.com",
+  },
 };

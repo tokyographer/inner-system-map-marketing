@@ -6,25 +6,32 @@ import type { Locale } from "@/config/app";
 import { EXILES, EXILE_SECTION_COPY, type ExileTheme } from "./exiles.en";
 import { EXILES_ES, EXILE_SECTION_COPY_ES } from "./exiles.es";
 import { EXILES_RO, EXILE_SECTION_COPY_RO } from "./exiles.ro";
+import { EXILES_TR, EXILE_SECTION_COPY_TR } from "./exiles.tr";
 import { BELIEF_FRAME, EXERCISE_INTRO, EXERCISE_STEPS, type ExerciseStep } from "./exercise.en";
 import { BELIEF_FRAME_ES, EXERCISE_INTRO_ES, EXERCISE_STEPS_ES } from "./exercise.es";
 import { BELIEF_FRAME_RO, EXERCISE_INTRO_RO, EXERCISE_STEPS_RO } from "./exercise.ro";
+import { BELIEF_FRAME_TR, EXERCISE_INTRO_TR, EXERCISE_STEPS_TR } from "./exercise.tr";
 import { ITEMS, type Item } from "./items.v2";
 import { ITEM_TEXT_ES } from "./items.v2.es";
 import { ITEM_TEXT_RO } from "./items.v2.ro";
+import { ITEM_TEXT_TR } from "./items.v2.tr";
 import { LEVEL_TWO } from "./level-two.en";
 import { LEVEL_TWO_ES } from "./level-two.es";
 import { LEVEL_TWO_RO } from "./level-two.ro";
+import { LEVEL_TWO_TR } from "./level-two.tr";
 import * as en from "./patterns.en";
 import * as es from "./patterns.es";
 import * as ro from "./patterns.ro";
+import * as tr from "./patterns.tr";
 import { PDF_LABELS, type PdfLabels } from "./pdf-labels";
 import { SUPPORT_RESOURCES, type SupportResource } from "./support-resources.en";
 import { SUPPORT_RESOURCES_ES } from "./support-resources.es";
 import { SUPPORT_RESOURCES_RO } from "./support-resources.ro";
+import { SUPPORT_RESOURCES_TR } from "./support-resources.tr";
 import { MICRO_QUESTION, TYPOLOGIES, type Typology } from "./typologies.en";
 import { MICRO_QUESTION_ES, TYPOLOGIES_ES } from "./typologies.es";
 import { MICRO_QUESTION_RO, TYPOLOGIES_RO } from "./typologies.ro";
+import { MICRO_QUESTION_TR, TYPOLOGIES_TR } from "./typologies.tr";
 import type { Band, ExileKey, ModifierKey, PatternKey, ProtectorKey, SelfBand } from "@/lib/scoring/types";
 
 export interface Content {
@@ -68,13 +75,19 @@ const CONTENT: Record<Locale, Content> = {
     framing: ro.FRAMING_RO, selfNote: ro.SELF_NOTE_RO, careNote: ro.CARE_NOTE_RO, disclaimer: ro.DISCLAIMER_RO, pairingSentence: ro.PAIRING_SENTENCE_RO,
     exercise: { intro: EXERCISE_INTRO_RO, steps: EXERCISE_STEPS_RO, belief: BELIEF_FRAME_RO }, support: SUPPORT_RESOURCES_RO, levelTwo: LEVEL_TWO_RO, pdf: PDF_LABELS.ro,
   },
+  tr: {
+    locale: "tr", typologies: TYPOLOGIES_TR, microQuestion: MICRO_QUESTION_TR, exiles: EXILES_TR, exileSection: EXILE_SECTION_COPY_TR,
+    patterns: tr.PATTERNS_TR, modifiers: tr.MODIFIERS_TR, bandLabels: tr.BAND_LABELS_TR, selfBandLabels: tr.SELF_BAND_LABELS_TR, groupLabels: tr.GROUP_LABELS_TR,
+    framing: tr.FRAMING_TR, selfNote: tr.SELF_NOTE_TR, careNote: tr.CARE_NOTE_TR, disclaimer: tr.DISCLAIMER_TR, pairingSentence: tr.PAIRING_SENTENCE_TR,
+    exercise: { intro: EXERCISE_INTRO_TR, steps: EXERCISE_STEPS_TR, belief: BELIEF_FRAME_TR }, support: SUPPORT_RESOURCES_TR, levelTwo: LEVEL_TWO_TR, pdf: PDF_LABELS.tr,
+  },
 };
 
 export function getContent(locale: Locale): Content {
   return CONTENT[locale] ?? CONTENT.en;
 }
 
-const ITEM_TEXT: Record<Locale, Record<string, string> | null> = { en: null, es: ITEM_TEXT_ES, ro: ITEM_TEXT_RO };
+const ITEM_TEXT: Record<Locale, Record<string, string> | null> = { en: null, es: ITEM_TEXT_ES, ro: ITEM_TEXT_RO, tr: ITEM_TEXT_TR };
 
 /** Item text in the given locale, falling back to the English master. */
 export function itemText(item: Item, locale: Locale): string {

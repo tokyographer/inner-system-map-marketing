@@ -49,13 +49,14 @@ test("public mode happy path: landing → start → questionnaire → results �
   const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "Download PDF" }).click()]);
   expect(download.suggestedFilename()).toBe("inner-system-map-results.pdf");
 
-  // Email form refuses without consent; with consent and no RESEND key the server answers 503 → friendly message.
+  // Email form refuses without consent. With consent, intercept the route so the test never sends real mail.
+  await page.route("**/api/public/email-results", (route) => route.fulfill({ status: 503, contentType: "application/json", body: JSON.stringify({ error: "email_not_configured" }) }));
   await page.getByLabel("Email address").fill("person@example.com");
   await page.getByRole("button", { name: "Send" }).click();
   await expect(page.locator("p[role=alert]")).toContainText("consent");
   await page.getByRole("checkbox", { name: /Send my results PDF/ }).check();
   await page.getByRole("button", { name: "Send" }).click();
-  await expect(page.locator("p[role=alert], p[role=status]")).toContainText(/not available|Sent/);
+  await expect(page.locator("p[role=alert]")).toContainText("not available");
 
   // No horizontal scroll at 360px.
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);

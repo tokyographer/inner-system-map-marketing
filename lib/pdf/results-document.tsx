@@ -4,7 +4,20 @@
  * exiles (never before protectors), care note, disclaimer. No exercise
  * for an exile is ever included.
  */
-import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
+import { Document, Font, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
+import path from "node:path";
+
+// Brand sans embedded so Turkish and Romanian glyphs render (built-in Helvetica cannot).
+const FONT_DIR = path.join(process.cwd(), "lib", "pdf", "fonts");
+Font.register({
+  family: "Jost",
+  fonts: [
+    { src: path.join(FONT_DIR, "Jost-Light.ttf"), fontWeight: 300 },
+    { src: path.join(FONT_DIR, "Jost-Regular.ttf"), fontWeight: 400 },
+    { src: path.join(FONT_DIR, "Jost-Medium.ttf"), fontWeight: 500 },
+  ],
+});
+Font.registerHyphenationCallback((word) => [word]);
 import { APP_NAME, type Locale } from "@/config/app";
 import { getContent, type Content } from "@/content";
 import { SCORING } from "@/config/scoring";
@@ -30,10 +43,10 @@ const C = {
 };
 
 const s = StyleSheet.create({
-  page: { padding: 40, fontFamily: "Helvetica", fontSize: 10.5, color: C.ink, backgroundColor: C.paper, lineHeight: 1.45 },
-  h1: { fontFamily: "Times-Roman", fontSize: 22, marginBottom: 4, color: C.navy },
-  h2: { fontFamily: "Times-Roman", fontSize: 15, marginTop: 18, marginBottom: 6, color: C.navy },
-  h3: { fontFamily: "Helvetica-Bold", fontSize: 11, marginTop: 10, marginBottom: 3 },
+  page: { padding: 40, fontFamily: "Jost", fontWeight: 300, fontSize: 10.5, color: C.ink, backgroundColor: C.paper, lineHeight: 1.45 },
+  h1: { fontFamily: "Jost", fontWeight: 400, fontSize: 22, marginBottom: 4, color: C.navy },
+  h2: { fontFamily: "Jost", fontWeight: 400, fontSize: 15, marginTop: 18, marginBottom: 6, color: C.navy },
+  h3: { fontFamily: "Jost", fontWeight: 500, fontSize: 11, marginTop: 10, marginBottom: 3 },
   p: { marginBottom: 6 },
   muted: { color: C.muted, fontSize: 9.5 },
   box: { borderWidth: 1, borderColor: C.line, borderRadius: 4, padding: 10, marginBottom: 10 },
@@ -45,7 +58,7 @@ const s = StyleSheet.create({
   value: { width: 70, textAlign: "right", color: C.muted, fontSize: 9 },
   card: { borderWidth: 1, borderColor: C.line, borderRadius: 4, padding: 10, marginBottom: 8 },
   field: { marginBottom: 3 },
-  fieldLabel: { fontFamily: "Helvetica-Bold" },
+  fieldLabel: { fontFamily: "Jost", fontWeight: 500 },
 });
 
 interface Props {

@@ -3,7 +3,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { LOCALES } from "@/config/app";
 import { Link, usePathname } from "@/i18n/navigation";
 
-const NAMES: Record<string, string> = { en: "English", es: "Español", ro: "Română" };
+const NAMES: Record<string, string> = { en: "English", es: "Español", ro: "Română", tr: "Türkçe" };
 
 export function LocaleSwitcher() {
   const locale = useLocale();

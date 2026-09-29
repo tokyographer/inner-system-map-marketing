@@ -5,10 +5,11 @@ export const APP_NAME = {
   en: "Inner System Map",
   es: "Mapa del Sistema Interno",
   ro: "Harta Sistemului Interior",
+  tr: "İç Sistem Haritası",
 } as const;
 
 export type Locale = keyof typeof APP_NAME;
-export const LOCALES: Locale[] = ["en", "es", "ro"];
+export const LOCALES: Locale[] = ["en", "es", "ro", "tr"];
 export const DEFAULT_LOCALE: Locale = "en";
 
 export type Mode = "public" | "cohort";

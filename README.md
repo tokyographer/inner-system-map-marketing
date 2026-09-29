@@ -1,5 +1,7 @@
 # Inner System Map
 
+Available in English, Spanish, Romanian and Turkish (translations are drafts pending human review).
+
 A self-report reflection tool that maps a person's inner system in Internal Family Systems (IFS) terms: available Self-leadership, which group of parts is leading, and which parts are most active. Built for Transcendent Institute's Self Leadership Program. It is not a validated psychometric instrument and does not assess any condition.
 
 ## Prerequisites

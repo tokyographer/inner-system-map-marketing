@@ -57,13 +57,14 @@ npm run dev
 - Never use "diagnosis", "disorder", "clinical", "scientifically validated" in user-facing copy (test enforces).
 - Never add self-harm or suicidality items.
 - Never show exile content before protector content; never write an exercise addressed to an exile.
+- Adding a locale: `config/app.ts` LOCALES and APP_NAME, `messages/<l>.json` (same key set as en), `content/*.<l>.ts` for items, typologies, exiles, patterns, exercise, support, level-two, `content/pdf-labels.ts`, `content/index.ts`, `LocaleSwitcher` NAMES, a migration widening the locale checks, and the forbidden-word list in the locales test.
 - Never log responses, emails or scores. Log job outcome and reason only.
 - Never present thresholds as norms.
 - Never commit `.env`.
 
 ## Current Status
 - Done: Phase 1 plan. Phase 2 scoring engine + item bank + EN content (100% coverage), results PDF, Resend email flow with institute copy, request validation, interim rate limiting. Phase 3 public mode in EN: landing, start (age gate), questionnaire (seeded constrained order, localStorage autosave, keyboard Likert), results page in section 8 order, PDF download, email opt-in form, retake. next-intl routing /en /es /ro (ES/RO fall back to EN messages until Phase 4). Playwright happy path + axe audit (0 WCAG 2.1 AA violations) at 360px.
-- Phase 4 done: ES and RO drafts for items (`content/items.v2.{es,ro}.ts`, keyed by ID), typologies, exiles, patterns, exercise, support resources, Level II, PDF labels and `messages/{es,ro}.json`. All marked "DRAFT, pending human review". `content/index.ts` resolves content and item text by locale; the PDF renders in the request locale. Locale completeness and forbidden-word tests in `tests/unit/content/locales.test.ts`.
+- Phase 4 done: ES and RO drafts for items (`content/items.v2.{es,ro}.ts`, keyed by ID), typologies, exiles, patterns, exercise, support resources, Level II, PDF labels and `messages/{es,ro}.json`. All marked "DRAFT, pending human review". `content/index.ts` resolves content and item text by locale; the PDF renders in the request locale. Locale completeness and forbidden-word tests in `tests/unit/content/locales.test.ts`. Turkish (`tr`) added on 2026-09-29 with the same file set; the PDF embeds Jost from `lib/pdf/fonts/` because the built-in Helvetica lacks Turkish and Romanian glyphs.
 - Phase 5 done on Neon (Vercel Marketplace, Frankfurt) with Neon Auth: migrations in `db/migrations/*.sql` applied by `scripts/migrate.mjs`, per-user RLS via `withUser()` in `lib/db/index.ts` (transaction as role `app_user` with `app.user_id` set), Neon Auth sign-in by emailed six-digit code, cohort join with hashed access codes, consent logging, cohort questionnaire scored server-side in `lib/actions/cohort.ts`, attempt history, notes, JSON export, real deletion (`app.delete_my_data()` + Neon Auth `deleteUser`).
 - Not done: facilitator dashboard, RLS tests (pgTAP), audit-log UI, CSV exports, retention cron, Upstash rate limiting, Playwright cohort e2e in CI.
 - Item bank and content are DRAFT pending Anthony's clinical review.
