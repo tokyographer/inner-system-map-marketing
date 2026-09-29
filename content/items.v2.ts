@@ -72,7 +72,7 @@ export const ITEMS: Item[] = [
 
   i("CRIT", "managers", 1, true, "An inner voice points out my flaws before anyone else can."),
   i("CRIT", "managers", 2, true, "When I receive feedback, I am harder on myself than the other person was."),
-  i("CRIT", "managers", 3, true, "When I feel vulnerable, my tone becomes hard, inwardly or out loud."),
+  i("CRIT", "managers", 3, true, "When I feel exposed or hurt, I get harsh, with myself or with the other person."),
   i("CRIT", "managers", 4, false, "I notice other people's faults quickly and find it hard to let them go."),
 
   i("PLEA", "managers", 1, true, "I say yes when I want to say no."),

@@ -20,7 +20,7 @@ export const ITEM_TEXT_ES: Record<string, string> = {
 
   CRIT1: "Una voz interior señala mis fallos antes de que lo haga nadie.",
   CRIT2: "Cuando recibo una crítica, soy más duro o dura conmigo que la otra persona.",
-  CRIT3: "Cuando me siento vulnerable, mi tono se endurece, por dentro o en voz alta.",
+  CRIT3: "Cuando me siento expuesto o herido, me vuelvo duro, conmigo o con la otra persona.",
   CRIT4: "Noto rápido los defectos de los demás y me cuesta dejarlos pasar.",
 
   PLEA1: "Digo que sí cuando quiero decir que no.",
