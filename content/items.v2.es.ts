@@ -39,7 +39,7 @@ export const ITEM_TEXT_ES: Record<string, string> = {
   INTL4: "Las personas cercanas dicen que vivo en mi cabeza.",
 
   AVOI1: "Postergo las tareas que más me importan.",
-  AVOI2: "Cuando tengo una decisión importante delante, encuentro otra cosa que hacer.",
+  AVOI2: "Cuando una decisión importante me está esperando, me mantengo ocupado u ocupada con otras cosas en su lugar.",
   AVOI3: "Evito las situaciones en las que van a evaluar mi desempeño.",
   AVOI4: "Solo empiezo cuando la fecha límite no me deja otra opción.",
 

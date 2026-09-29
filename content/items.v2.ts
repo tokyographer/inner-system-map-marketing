@@ -91,7 +91,7 @@ export const ITEMS: Item[] = [
   i("INTL", "managers", 4, false, "People close to me say I live in my head."),
 
   i("AVOI", "managers", 1, true, "I put off the tasks that matter most to me."),
-  i("AVOI", "managers", 2, true, "When I face an important decision, I find something else to do."),
+  i("AVOI", "managers", 2, true, "When an important decision is waiting for me, I keep myself busy with other things instead."),
   i("AVOI", "managers", 3, true, "I stay away from situations where my performance will be evaluated."),
   i("AVOI", "managers", 4, false, "I only start when the deadline leaves me no choice."),
 
