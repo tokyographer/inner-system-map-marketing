@@ -38,7 +38,7 @@ export const ITEM_TEXT_ES: Record<string, string> = {
   INTL3: "Necesito entender por qué siento algo antes de permitirme sentirlo.",
   INTL4: "Las personas cercanas dicen que vivo en mi cabeza.",
 
-  AVOI1: "Postergo las tareas que más me importan.",
+  AVOI1: "Evito empezar las cosas que más me importan, porque podrían no salir bien.",
   AVOI2: "Cuando una decisión importante me está esperando, me mantengo ocupado u ocupada con otras cosas en su lugar.",
   AVOI3: "Evito las situaciones en las que van a evaluar mi desempeño.",
   AVOI4: "Solo empiezo cuando la fecha límite no me deja otra opción.",

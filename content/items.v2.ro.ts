@@ -38,7 +38,7 @@ export const ITEM_TEXT_RO: Record<string, string> = {
   INTL3: "Am nevoie să înțeleg de ce simt ceva înainte să-mi permit să simt.",
   INTL4: "Oamenii apropiați spun că trăiesc în mintea mea.",
 
-  AVOI1: "Amân lucrurile care contează cel mai mult pentru mine.",
+  AVOI1: "Evit să încep lucrurile care contează cel mai mult pentru mine, pentru că s-ar putea să nu iasă bine.",
   AVOI2: "Când o decizie importantă mă așteaptă, mă țin ocupat/ă cu altceva în loc să o iau.",
   AVOI3: "Evit situațiile în care îmi va fi evaluată performanța.",
   AVOI4: "Încep doar când termenul-limită nu-mi mai lasă de ales.",
