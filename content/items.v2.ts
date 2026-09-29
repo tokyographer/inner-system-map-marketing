@@ -143,7 +143,7 @@ export const ITEMS: Item[] = [
   i("SHAM", "exiles", 3, true, "Deep down I doubt that I am enough."),
   i("SHAM", "exiles", 4, false, "I feel ashamed of who I am, not only of what I did."),
 
-  i("ABAN", "exiles", 1, true, "When someone becomes distant, I feel an ache that seems bigger than the situation."),
+  i("ABAN", "exiles", 1, true, "When someone I care about becomes distant, I feel an ache that seems bigger than the situation."),
   i("ABAN", "exiles", 2, true, "I fear that people will leave once they really know me."),
   i("ABAN", "exiles", 3, true, "Deep down I doubt that I can be loved as I am."),
   i("ABAN", "exiles", 4, false, "I feel like the one who is left out or not chosen."),

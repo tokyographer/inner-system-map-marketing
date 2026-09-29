@@ -28,7 +28,7 @@ export const EXILES: Record<ExileKey, ExileTheme> = {
   },
   ABAN: {
     key: "ABAN", name: "Abandoned / Unlovable",
-    howItFeels: "Ache or panic when someone withdraws, feeling not chosen.",
+    howItFeels: "Ache or panic when someone you care about withdraws, feeling not chosen.",
     burdenBelief: "\"I will be left. I cannot be loved as I am.\"",
     whatItNeeds: "To be stayed with.",
   },
