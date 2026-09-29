@@ -105,6 +105,6 @@ export const ITEM_TEXT_ES: Record<string, string> = {
 
   LONE1: "Siento una soledad profunda incluso cuando estoy con gente.",
   LONE2: "Me invade una tristeza que parece más antigua que mi vida presente.",
-  LONE3: "Cargo con el anhelo de algo que nunca recibí.",
+  LONE3: "Anhelo un tipo de cuidado o cercanía que nunca recibí.",
   LONE4: "Siento un vacío por dentro que nada llena del todo.",
 };

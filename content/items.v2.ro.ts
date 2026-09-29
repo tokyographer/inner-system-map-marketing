@@ -105,6 +105,6 @@ export const ITEM_TEXT_RO: Record<string, string> = {
 
   LONE1: "Simt o singurătate adâncă chiar și când sunt cu oameni.",
   LONE2: "Mă cuprinde o tristețe care pare mai veche decât viața mea de acum.",
-  LONE3: "Port în mine dorul după ceva ce n-am primit niciodată.",
+  LONE3: "Tânjesc după un fel de grijă sau apropiere pe care n-am primit-o niciodată.",
   LONE4: "Simt un gol înăuntru pe care nimic nu-l umple pe deplin.",
 };

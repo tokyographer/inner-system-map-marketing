@@ -160,7 +160,7 @@ export const ITEMS: Item[] = [
 
   i("LONE", "exiles", 1, true, "I feel a deep loneliness even when I am with people."),
   i("LONE", "exiles", 2, true, "A sadness comes over me that feels older than my present life."),
-  i("LONE", "exiles", 3, true, "I carry a longing for something I never received."),
+  i("LONE", "exiles", 3, true, "I long for a kind of care or closeness that I never got."),
   i("LONE", "exiles", 4, false, "I feel an emptiness inside that nothing quite fills."),
 ];
 
