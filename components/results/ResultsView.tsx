@@ -15,9 +15,9 @@ import { RESULTS_SECTIONS, type ResultsSection } from "./sections";
 import { SelfPanel } from "./SelfPanel";
 import { WhoIsLeading } from "./WhoIsLeading";
 
-interface Props { result: Result; attempt: CompletedAttempt; mode: "public" | "cohort" }
+interface Props { result: Result; attempt: CompletedAttempt; mode: "public" | "cohort"; readOnly?: boolean }
 
-export function ResultsView({ result, attempt, mode }: Props) {
+export function ResultsView({ result, attempt, mode, readOnly = false }: Props) {
   const t = useTranslations("results");
   const content = getContent(useLocale() as Locale);
   const flooded = result.pattern.key === "FLOODED";
@@ -31,9 +31,9 @@ export function ResultsView({ result, attempt, mode }: Props) {
     protectorProfile: () => <ProtectorBars result={result} content={content} />,
     protectorCards: () => <ProtectorCards result={result} content={content} />,
     exiles: () => <ExilesSection result={result} content={content} />,
-    exercise: () => <MeetThisPart protectorKey={topProtector} content={content} />,
+    exercise: () => (readOnly ? null : <MeetThisPart protectorKey={topProtector} content={content} />),
     careNote: () => (flooded ? null : <CareNote content={content} withResources={false} />),
-    actions: () => <ResultsActions attempt={attempt} mode={mode} />,
+    actions: () => (readOnly ? null : <ResultsActions attempt={attempt} mode={mode} />),
     levelTwo: () => (mode === "cohort" ? (
       <section aria-labelledby="lvl2" className="space-y-2 border-t border-line pt-6"><h2 id="lvl2" className="text-xl">{content.levelTwo.title}</h2><p>{content.levelTwo.body}</p></section>
     ) : null),

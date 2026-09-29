@@ -126,6 +126,37 @@ describe.skipIf(!enabled)("RLS and SQL functions (Neon)", () => {
     }
   });
 
+  it("admin can create cohorts and assign facilitators; facilitators cannot", async () => {
+    const created = await as(ids.admin, "insert into public.cohorts (name, access_code_hash, access_code_expires_at) values ($1, 'z', now() + interval '1 day') returning id", [`C ${run}`]);
+    expect(created.error).toBeNull();
+    const cohortC = created.rows[0].id as string;
+    expect((await as(ids.facA, "insert into public.cohorts (name, access_code_hash, access_code_expires_at) values ('x', 'z', now())")).error ?? "no error").toMatch(/row-level security/);
+    expect((await as(ids.admin, "insert into public.cohort_facilitators (cohort_id, user_id) values ($1, $2)", [cohortC, ids.facB])).error).toBeNull();
+    expect((await as(ids.facA, "insert into public.cohort_facilitators (cohort_id, user_id) values ($1, $2)", [cohortC, ids.facA])).error ?? "no error").toMatch(/row-level security/);
+    expect((await as(ids.facB, "select id from public.cohorts where id = $1", [cohortC])).rows).toHaveLength(1);
+    await service("delete from public.cohorts where id = $1", [cohortC]);
+  });
+
+  it("email lookups are guarded in SQL: admin only for members, cohort facilitators for facilitators", async () => {
+    expect((await as(ids.facA, "select * from app.find_user_by_email($1)", ["x@example.test"])).error ?? "no error").toMatch(/admin only/);
+    expect((await as(ids.facA, "select * from app.member_emails($1)", [cohortA])).error ?? "no error").toMatch(/admin only/);
+    expect((await as(ids.facB, "select * from app.facilitator_emails($1)", [cohortA])).error ?? "no error").toMatch(/not allowed/);
+    const own = await as(ids.facA, "select email from app.facilitator_emails($1)", [cohortA]);
+    expect(own.error).toBeNull();
+    expect(own.rows.map((r) => r.email)).toContain(`facA-${run}@example.test`);
+    const adminLookup = await as(ids.admin, "select id from app.find_user_by_email($1)", [`facB-${run}@example.test`]);
+    expect(adminLookup.rows[0]?.id).toBe(ids.facB);
+  });
+
+  it("access is audited: facilitators write through log_access and only admins read the log", async () => {
+    expect((await as(ids.facA, "select app.log_access('view_participant', $1, $2)", [cohortA, ids.p2])).error).toBeNull();
+    expect((await as(ids.facA, "insert into public.audit_log (actor_id, action) values ($1, 'forged')", [ids.facA])).error ?? "no error").toMatch(/permission denied/);
+    expect((await as(ids.facA, "select id from public.audit_log")).rows).toEqual([]);
+    const seen = await as(ids.admin, "select action from public.audit_log where actor_id = $1", [ids.facA]);
+    expect(seen.rows.map((r) => r.action)).toContain("view_participant");
+    await service("delete from public.audit_log where actor_id = $1", [ids.facA]);
+  });
+
   it("run_retention deletes expired public results (service only)", async () => {
     await service("insert into public.public_results (email, locale, item_bank_version, scoring_version, form, responses, scores, policy_version, delete_token_hash, expires_at) values ('x@example.test', 'en', 'v2', 't', 'short', '{}', '{}', 't', 'h', now() - interval '1 second')");
     const rows = await service("select * from app.run_retention()");

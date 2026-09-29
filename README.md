@@ -30,11 +30,7 @@ Create the first admin after that person has signed in once:
 ```
 update public.profiles set role = 'admin' where id = '<neon_auth user id>';
 ```
-Cohorts and access codes are created by an admin (facilitator dashboard, Phase 6). Until then, insert one directly:
-```
-insert into public.cohorts (name, level, language, ends_on, access_code_hash, access_code_expires_at)
-values ('Balance 2026', 'II', 'en', '2026-12-31', app.hash_access_code('BAL-2026'), now() + interval '90 days');
-```
+Cohorts, access codes and facilitator assignments are then managed in the dashboard at `/{locale}/admin/cohorts` (admins) and `/{locale}/facilitator` (facilitators and admins). A facilitator must have signed in once before they can be assigned.
 
 ## Commands
 ```
@@ -48,6 +44,11 @@ npm run e2e          # Playwright: public happy path + accessibility audit (need
 
 ## Cohort mode flow
 `/{locale}/cohort/join` → access code + email → six-digit sign-in code by email (Neon Auth) → `/{locale}/cohort/consent` (logged consents: store_results, facilitator_visibility, newsletter) → `/{locale}/cohort` (attempt history) → full-form questionnaire → `/{locale}/cohort/results/{attemptId}` with a private note that can be shared with the facilitator. `/{locale}/cohort/settings` exports all data as JSON and deletes the account with a real cascade.
+
+## Facilitator dashboard
+- `/{locale}/facilitator`: cohorts you are assigned to → participant table (completion, pattern, Self, top protectors, top exile theme, quality flags, "may benefit from extra support"), cohort picture (hidden until 5 participants have completed), pseudonymised item-level CSV.
+- `/{locale}/facilitator/cohorts/{id}/participants/{userId}`: history across attempts, notes the participant chose to share, latest map. Each view is written to the audit log.
+- `/{locale}/admin/cohorts`: create cohorts (the access code is shown once), assign facilitators, identified CSV, audit log at `/{locale}/admin/audit`.
 
 ## API (public mode)
 `POST /api/public/results-pdf` with JSON `{ locale, form, responses, durationSeconds?, ageConfirmed: true }` returns `application/pdf`.
