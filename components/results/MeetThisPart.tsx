@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import type { Content } from "@/content";
+import { EXERCISE_STEPS_READY } from "@/config/app";
 import { PROTECTOR_KEYS, type ProtectorKey } from "@/lib/scoring/types";
 
 /** Exercise for a PROTECTOR only. Throws if handed anything else. Input stays in the browser. */
@@ -16,15 +17,22 @@ export function MeetThisPart({ protectorKey, content }: { protectorKey: Protecto
   return (
     <section aria-labelledby="exercise" className="card space-y-4 p-5">
       <h2 id="exercise" className="text-2xl">{t("exercise")}: {name}</h2>
-      <p className="text-ink-muted">{ex.intro}</p>
-      <ol className="space-y-3">
-        {ex.steps.map((s, i) => (
-          <li key={s.key} className="space-y-1">
-            <h3 className="text-lg">{i + 1}. {s.title}</h3>
-            <p>{s.body}</p>
-          </li>
-        ))}
-      </ol>
+      <p>{t("exerciseWhy")}</p>
+      {EXERCISE_STEPS_READY ? (
+        <>
+          <p className="text-ink-muted">{ex.intro}</p>
+          <ol className="space-y-3">
+            {ex.steps.map((s, i) => (
+              <li key={s.key} className="space-y-1">
+                <h3 className="text-lg">{i + 1}. {s.title}</h3>
+                <p>{s.body}</p>
+              </li>
+            ))}
+          </ol>
+        </>
+      ) : (
+        <p className="card card-warm p-4 text-sm">{t("exerciseSteps")}</p>
+      )}
       <div className="space-y-2">
         <p>{ex.belief.intro}</p>
         <p className="flex flex-wrap items-baseline gap-2 font-serif text-lg">

@@ -48,6 +48,7 @@ test("public mode happy path: landing → start → questionnaire → results �
   expect(sections.indexOf("protectorProfile")).toBeLessThan(sections.indexOf("exiles"));
   expect(sections.indexOf("protectorCards")).toBeLessThan(sections.indexOf("exiles"));
   await expect(page.getByRole("heading", { name: /^Meet this part:/ })).toBeVisible();
+  await expect(page.getByText("[PLACEHOLDER]")).toHaveCount(0);
 
   // Progress cleared on completion, attempt retained for the results page.
   expect(await page.evaluate(() => localStorage.getItem("ism:progress:v2"))).toBeNull();

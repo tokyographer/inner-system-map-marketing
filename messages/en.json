@@ -105,7 +105,9 @@
     "sendingTo": "Sending your results to {email}",
     "sentTo": "Your results were sent to {email}.",
     "sendFailed": "Your results could not be emailed to {email}. You can download the PDF, or try again.",
-    "sendAgain": "Send again"
+    "sendAgain": "Send again",
+    "exerciseWhy": "This short reflection is for the protector named above, the part that most often takes the lead in your answers. In IFS we begin with protectors, never with the young parts they guard: a protector that feels understood can relax, and only then does the system open. Nothing you write here leaves your device unless you choose to share it.",
+    "exerciseSteps": "The five guided steps of this reflection are being prepared by Transcendent Institute and will appear here. For now, you can start with the sentence below."
   },
   "email": {
     "title": "Email me my results",

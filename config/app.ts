@@ -26,3 +26,6 @@ export const MIN_COMPLETED_FOR_AGGREGATES = 5;
 export const PUBLIC_RESULTS_RETENTION_MONTHS = 6;
 export const COHORT_RETENTION_MONTHS = 12;
 export const CONSENT_POLICY_VERSION = "2026-09-draft";
+
+/** The five guided steps of "Meet this part" are shown only once the school has supplied them. */
+export const EXERCISE_STEPS_READY = false;

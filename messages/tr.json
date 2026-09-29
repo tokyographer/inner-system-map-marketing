@@ -106,7 +106,9 @@
     "sendingTo": "Sonuçların {email} adresine gönderiliyor",
     "sentTo": "Sonuçların {email} adresine gönderildi.",
     "sendFailed": "Sonuçların {email} adresine gönderilemedi. PDF'i indirebilir ya da tekrar deneyebilirsin.",
-    "sendAgain": "Tekrar gönder"
+    "sendAgain": "Tekrar gönder",
+    "exerciseWhy": "Bu kısa yansıtma, yukarıda adı geçen koruyucu içindir; yanıtlarında en sık öne çıkan parça. IFS'te koruyuculardan başlarız, onların koruduğu genç parçalardan asla: anlaşıldığını hisseden bir koruyucu gevşeyebilir ve sistem ancak o zaman açılır. Burada yazdıkların, paylaşmayı seçmedikçe cihazından çıkmaz.",
+    "exerciseSteps": "Bu yansıtmanın beş rehberli adımı Transcendent Institute tarafından hazırlanıyor ve burada görünecek. Şimdilik aşağıdaki cümleyle başlayabilirsin."
   },
   "email": {
     "title": "Sonuçlarımı e-postayla gönder",

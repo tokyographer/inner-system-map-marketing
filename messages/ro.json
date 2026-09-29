@@ -106,7 +106,9 @@
     "sendingTo": "Îți trimitem rezultatele la {email}",
     "sentTo": "Rezultatele tale au fost trimise la {email}.",
     "sendFailed": "Rezultatele nu au putut fi trimise la {email}. Poți descărca PDF-ul sau poți încerca din nou.",
-    "sendAgain": "Trimite din nou"
+    "sendAgain": "Trimite din nou",
+    "exerciseWhy": "Această scurtă reflecție este pentru protectorul numit mai sus, partea care preia cel mai des conducerea în răspunsurile tale. În IFS începem cu protectorii, niciodată cu părțile tinere pe care le păzesc: un protector care se simte înțeles se poate relaxa, și abia atunci sistemul se deschide. Nimic din ce scrii aici nu părăsește dispozitivul tău decât dacă alegi să împărtășești.",
+    "exerciseSteps": "Cei cinci pași ghidați ai acestei reflecții sunt pregătiți de Transcendent Institute și vor apărea aici. Deocamdată, poți începe cu propoziția de mai jos."
   },
   "email": {
     "title": "Trimite-mi rezultatele pe email",
