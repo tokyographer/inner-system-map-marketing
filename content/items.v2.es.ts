@@ -54,7 +54,7 @@ export const ITEM_TEXT_ES: Record<string, string> = {
   HYPV4: "Compruebo las cosas más de una vez o busco que me tranquilicen.",
 
   DIST1: "Cuando una relación se vuelve muy cercana, siento el impulso de retirarme.",
-  DIST2: "Le quito importancia a mis necesidades, ante mí y ante los demás.",
+  DIST2: "Cuando necesito algo, me lo guardo y actúo como si estuviera bien.",
   DIST3: "Recibir cuidado o ayuda me incomoda.",
   DIST4: "Me digo que en realidad no necesito a nadie.",
 

@@ -106,7 +106,7 @@ export const ITEMS: Item[] = [
   i("HYPV", "managers", 4, false, "I check things more than once or look for reassurance."),
 
   i("DIST", "managers", 1, true, "When a relationship gets very close, I feel an urge to pull back."),
-  i("DIST", "managers", 2, true, "I play down my needs, to myself and to others."),
+  i("DIST", "managers", 2, true, "When I need something, I keep it to myself and act as if I am fine."),
   i("DIST", "managers", 3, true, "Receiving care or help makes me uncomfortable."),
   i("DIST", "managers", 4, false, "I tell myself I do not really need anyone."),
 

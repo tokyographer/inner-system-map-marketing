@@ -54,7 +54,7 @@ export const ITEM_TEXT_RO: Record<string, string> = {
   HYPV4: "Verific lucrurile de mai multe ori sau caut să fiu liniștit/ă.",
 
   DIST1: "Când o relație devine foarte apropiată, simt nevoia să mă retrag.",
-  DIST2: "Îmi minimalizez nevoile, față de mine și față de ceilalți.",
+  DIST2: "Când am nevoie de ceva, țin pentru mine și mă port ca și cum aș fi bine.",
   DIST3: "Să primesc grijă sau ajutor mă face să mă simt inconfortabil.",
   DIST4: "Îmi spun că, de fapt, nu am nevoie de nimeni.",
 
