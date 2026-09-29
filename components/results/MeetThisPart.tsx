@@ -14,7 +14,7 @@ export function MeetThisPart({ protectorKey, content }: { protectorKey: Protecto
   const ex = content.exercise;
   const name = content.typologies[protectorKey].name;
   return (
-    <section aria-labelledby="exercise" className="space-y-4 rounded-lg border border-line p-5">
+    <section aria-labelledby="exercise" className="card space-y-4 p-5">
       <h2 id="exercise" className="text-2xl">{t("exercise")}: {name}</h2>
       <p className="text-ink-muted">{ex.intro}</p>
       <ol className="space-y-3">

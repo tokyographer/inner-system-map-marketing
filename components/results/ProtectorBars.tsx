@@ -14,7 +14,7 @@ function Group({ title, keys, color, result, content }: { title: string; keys: r
   const sorted = [...keys].sort((a, b) => result.protectors.ranked.indexOf(a) - result.protectors.ranked.indexOf(b));
   return (
     <div className="space-y-2">
-      <h3 className="font-sans text-sm font-semibold uppercase tracking-wide text-ink-muted">{title}</h3>
+      <h3 className="eyebrow">{title}</h3>
       {sorted.map((k) => <Bar key={k} label={content.typologies[k].name} value={result.scales[k].mean} display={result.scales[k].display} band={band(result.scales[k].band)} color={color} />)}
     </div>
   );

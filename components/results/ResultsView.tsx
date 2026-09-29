@@ -41,7 +41,7 @@ export function ResultsView({ result, attempt, mode }: Props) {
   };
 
   return (
-    <article className={`space-y-10 py-6 ${flooded ? "[&_h2]:font-normal" : ""}`}>
+    <article className={`space-y-12 py-10 ${flooded ? "[&_h2]:font-normal" : ""}`}>
       <h1 className="text-3xl">{t("title")}</h1>
       {RESULTS_SECTIONS.map((s) => <div key={s} data-section={s}>{render[s]()}</div>)}
       <p className="text-xs text-ink-muted">{content.disclaimer}</p>

@@ -11,7 +11,7 @@ export function WhoIsLeading({ result, content }: { result: Result; content: Con
   const p = content.patterns[result.pattern.key];
   const selfBand = { hardToReach: t("selfHardToReach"), availableAtTimes: t("selfAvailableAtTimes"), oftenAvailable: t("selfOftenAvailable") }[result.self.band];
   return (
-    <section aria-labelledby="who" className="space-y-5 rounded-lg border border-line p-5">
+    <section aria-labelledby="who" className="card space-y-5 p-5">
       <h2 id="who" className="text-2xl">{t("whoIsLeading")}</h2>
       <div className="grid gap-6 sm:grid-cols-[280px_1fr] sm:items-center">
         <SystemDiagram result={result} />

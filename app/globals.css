@@ -1,23 +1,50 @@
 @import "tailwindcss";
 
-/* Earth-toned palette as CSS variables, to be aligned with the TI brand later.
-   Band colours carry no good/bad meaning; no red for high. */
+/* Transcendent Institute design system — alchemical palette, Newsreader + Jost.
+   Source: claude.ai/artifact/Y6TqWTS3vbH8p9UC1SLoAK (tokens.json, colors_and_type.css).
+   Band colours for scores carry no good/bad meaning; no red for high. */
 :root {
-  --paper: #fbf8f3;
-  --paper-2: #f3eee6;
-  --ink: #2b2622;
-  --ink-muted: #6b625a;
-  --line: #e2d9cc;
-  --accent: #8a6a4a;
+  --ti-nigredo: #1c244b;
+  --ti-lead: #324a6d;
+  --ti-slate: #6e738a;
+  --ti-copper: #b27c66;
+  --ti-gold-deep: #cc9f48;
+  --ti-gold: #d9b139;
+  --ti-pale-gold: #eddc91;
+  --ti-parchment: #f0e9c5;
+  --ti-platinum: #f3f5f8;
+  --ti-hairline: #e4e7ec;
+  --ti-ink: #1c1c1c;
+  --ti-mid: #5a5a52;
+  --ti-faint: #8a8a82;
+  --ti-line-l: rgba(28, 36, 75, 0.1);
+  --ti-line-d: rgba(255, 255, 255, 0.1);
+  --ti-on-dark: rgba(255, 255, 255, 0.92);
+  --ti-on-dark-2: rgba(255, 255, 255, 0.62);
+
+  /* app roles */
+  --paper: var(--ti-platinum);
+  --paper-2: var(--ti-parchment);
+  --ink: var(--ti-ink);
+  --ink-muted: var(--ti-mid);
+  --line: var(--ti-line-l);
+  --navy: var(--ti-nigredo);
+  --interactive: var(--ti-lead);
+  --accent: var(--ti-nigredo);
   --accent-ink: #ffffff;
-  --self: #8a9a5b;
-  --manager: #a7784f;
-  --firefighter: #c49a3c;
-  --exile: #7c8ea3;
-  --track: #ebe4d8;
-  --focus: #4c6b8a;
-  --font-serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
-  --font-sans: Seravek, "Gill Sans Nova", Ubuntu, Calibri, "DejaVu Sans", "Segoe UI", system-ui, sans-serif;
+  --gold: var(--ti-gold);
+  --gold-deep: var(--ti-gold-deep);
+  --self: var(--ti-gold);
+  --manager: var(--ti-nigredo);
+  --firefighter: var(--ti-copper);
+  --exile: var(--ti-slate);
+  --track: var(--ti-hairline);
+  --focus: var(--ti-lead);
+  --r-1: 2px;
+  --r-2: 4px;
+  --ease: cubic-bezier(0.2, 0, 0.2, 1);
+  --font-serif: var(--font-newsreader), "EB Garamond", Garamond, Georgia, serif;
+  --font-sans: var(--font-jost), Futura, system-ui, -apple-system, "Helvetica Neue", sans-serif;
 }
 
 @theme inline {
@@ -26,8 +53,12 @@
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
   --color-line: var(--line);
+  --color-navy: var(--navy);
+  --color-interactive: var(--interactive);
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
+  --color-gold: var(--gold);
+  --color-gold-deep: var(--gold-deep);
   --color-self: var(--self);
   --color-manager: var(--manager);
   --color-firefighter: var(--firefighter);
@@ -38,11 +69,42 @@
   --font-sans: var(--font-sans);
 }
 
+@layer base {
 html { background: var(--paper); color: var(--ink); }
-body { font-family: var(--font-sans); line-height: 1.55; }
-h1, h2, h3 { font-family: var(--font-serif); font-weight: 400; letter-spacing: -0.01em; }
+body { font-family: var(--font-sans); font-weight: 300; line-height: 1.7; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+h1, h2, h3 { font-family: var(--font-serif); font-weight: 400; color: var(--navy); letter-spacing: -0.01em; line-height: 1.16; }
+h1 { letter-spacing: -0.015em; line-height: 1.1; }
+strong, b { font-weight: 500; }
+a { color: var(--interactive); text-underline-offset: 4px; text-decoration-thickness: 1px; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+}
 
-:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+@layer components {
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 44px;
+    padding: 13px 30px; border-radius: var(--r-1); border: 1px solid transparent;
+    font-family: var(--font-sans); font-weight: 500; font-size: 12px; line-height: 1;
+    letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer;
+    transition: background-color 120ms var(--ease), color 120ms var(--ease), border-color 120ms var(--ease);
+  }
+  .btn:disabled { opacity: 0.45; cursor: default; }
+  .btn-primary { background: var(--navy); color: #fff; }
+  .btn-primary:hover:not(:disabled) { background: var(--interactive); }
+  .btn-gold { background: var(--gold); color: var(--navy); }
+  .btn-gold:hover:not(:disabled) { background: var(--gold-deep); }
+  .btn-outline { background: transparent; color: var(--navy); border-color: var(--navy); }
+  .btn-outline:hover:not(:disabled) { background: rgba(28, 36, 75, 0.06); }
+
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--r-2); }
+  .card-warm { background: var(--paper-2); }
+
+  .eyebrow { font-family: var(--font-sans); font-weight: 600; font-size: 13px; line-height: 1; letter-spacing: 0.2em; text-transform: uppercase; color: var(--interactive); }
+  .label { font-family: var(--font-sans); font-weight: 500; font-size: 12px; line-height: 1; letter-spacing: 0.14em; text-transform: uppercase; color: var(--navy); }
+  .wordmark { font-family: var(--font-sans); font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--navy); }
+  .on-dark { background: var(--navy); color: var(--ti-on-dark); }
+  .on-dark a { color: #fff; }
+  .on-dark .eyebrow { color: var(--ti-pale-gold); }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }

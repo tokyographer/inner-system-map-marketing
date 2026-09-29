@@ -30,7 +30,7 @@ export function LikertItem({ itemId, text, value, onChange }: Props) {
   return (
     <fieldset className="space-y-5">
       <legend className="sr-only">{tq("question")}</legend>
-      <p id={`${itemId}-text`} className="font-serif text-2xl leading-snug sm:text-3xl">{text}</p>
+      <p id={`${itemId}-text`} className="font-serif text-[26px] leading-snug text-navy sm:text-3xl">{text}</p>
       <div role="radiogroup" aria-labelledby={`${itemId}-text`} onKeyDown={onKey} className="grid gap-2 sm:grid-cols-5">
         {VALUES.map((v) => {
           const selected = value === v;
@@ -42,7 +42,7 @@ export function LikertItem({ itemId, text, value, onChange }: Props) {
               aria-checked={selected}
               tabIndex={selected || (!value && v === 1) ? 0 : -1}
               onClick={() => onChange(v)}
-              className={`rounded-md border px-3 py-3 text-left text-sm sm:text-center ${selected ? "border-accent bg-accent text-accent-ink" : "border-line bg-paper hover:bg-paper-2"}`}
+              className={`min-h-[44px] rounded-[2px] border px-3 py-3 text-left text-sm transition-colors duration-[120ms] sm:text-center ${selected ? "border-navy bg-navy text-white" : "border-line bg-paper hover:bg-paper-2"}`}
             >
               <span className="mr-2 opacity-70 sm:mr-0 sm:block">{v}</span>{t(String(v))}
             </button>

@@ -19,33 +19,36 @@ import {
 } from "@/lib/scoring/types";
 
 // Earth-toned palette mirroring the CSS variables; no red for high.
+// Transcendent Institute alchemical palette (design system tokens.json).
 const C = {
-  ink: "#2b2622",
-  muted: "#6b625a",
-  line: "#e6ded3",
-  paper: "#fbf8f3",
-  self: "#8a9a5b",
-  manager: "#a7784f",
-  firefighter: "#c49a3c",
-  exile: "#7c8ea3",
-  track: "#efe9df",
+  ink: "#1c1c1c",
+  muted: "#5a5a52",
+  navy: "#1c244b",
+  line: "#e4e7ec",
+  paper: "#f3f5f8",
+  parchment: "#f0e9c5",
+  self: "#d9b139",
+  manager: "#1c244b",
+  firefighter: "#b27c66",
+  exile: "#6e738a",
+  track: "#e4e7ec",
 };
 
 const s = StyleSheet.create({
   page: { padding: 40, fontFamily: "Helvetica", fontSize: 10.5, color: C.ink, backgroundColor: C.paper, lineHeight: 1.45 },
-  h1: { fontFamily: "Times-Roman", fontSize: 22, marginBottom: 4 },
-  h2: { fontFamily: "Times-Roman", fontSize: 15, marginTop: 18, marginBottom: 6 },
+  h1: { fontFamily: "Times-Roman", fontSize: 22, marginBottom: 4, color: C.navy },
+  h2: { fontFamily: "Times-Roman", fontSize: 15, marginTop: 18, marginBottom: 6, color: C.navy },
   h3: { fontFamily: "Helvetica-Bold", fontSize: 11, marginTop: 10, marginBottom: 3 },
   p: { marginBottom: 6 },
   muted: { color: C.muted, fontSize: 9.5 },
-  box: { borderWidth: 1, borderColor: C.line, borderRadius: 6, padding: 10, marginBottom: 10 },
-  careBox: { borderWidth: 1, borderColor: C.exile, borderRadius: 6, padding: 10, marginBottom: 12, backgroundColor: "#f1f4f8" },
+  box: { borderWidth: 1, borderColor: C.line, borderRadius: 4, padding: 10, marginBottom: 10 },
+  careBox: { borderWidth: 1, borderColor: C.line, borderRadius: 4, padding: 10, marginBottom: 12, backgroundColor: C.parchment },
   row: { flexDirection: "row", alignItems: "center", marginBottom: 4 },
   label: { width: 150 },
   track: { flexGrow: 1, height: 7, backgroundColor: C.track, borderRadius: 4 },
   fill: { height: 7, borderRadius: 4 },
   value: { width: 70, textAlign: "right", color: C.muted, fontSize: 9 },
-  card: { borderWidth: 1, borderColor: C.line, borderRadius: 6, padding: 10, marginBottom: 8 },
+  card: { borderWidth: 1, borderColor: C.line, borderRadius: 4, padding: 10, marginBottom: 8 },
   field: { marginBottom: 3 },
   fieldLabel: { fontFamily: "Helvetica-Bold" },
 });

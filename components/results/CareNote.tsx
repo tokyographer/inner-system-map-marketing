@@ -5,7 +5,7 @@ import type { Content } from "@/content";
 export function CareNote({ content, withResources }: { content: Content; withResources: boolean }) {
   const t = useTranslations("support");
   return (
-    <aside className="space-y-3 rounded-lg border border-exile bg-[#f1f4f8] p-4" aria-label={t("title")}>
+    <aside className="card card-warm space-y-3 p-5" aria-label={t("title")}>
       <p>{content.careNote}</p>
       {withResources && (
         <div>

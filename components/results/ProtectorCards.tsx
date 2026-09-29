@@ -18,12 +18,12 @@ export function ProtectorCards({ result, content }: { result: Result; content: C
         const ty = content.typologies[k];
         const linked = result.pairings.filter((p) => p.protector === k).map((p) => content.exiles[p.exile].name);
         return (
-          <article key={k} className="space-y-3 rounded-lg border border-line p-5">
+          <article key={k} className="card space-y-3 p-5">
             <h3 className="text-xl">{ty.name} <span className="text-base text-ink-muted">· {ty.role}{ty.proposed ? ` · ${t("proposed")}` : ""}</span></h3>
             <Field label={t("howItShows")} text={ty.visibleBehaviour} />
             <Field label={t("triggers")} text={ty.triggers} />
-            <div className="rounded-md bg-paper-2 p-3">
-              <p className="mb-1 font-sans text-xs font-semibold uppercase tracking-wide text-ink-muted">{t("triangle")}</p>
+            <div className="card-warm rounded-[4px] p-4">
+              <p className="label mb-2">{t("triangle")}</p>
               <Field label={t("strategy")} text={ty.strategy} />
               <Field label={t("wound")} text={linked.length ? `${ty.wound} ${content.pairingSentence(linked.join(" and "))}` : ty.wound} />
               <Field label={t("cost")} text={ty.cost} />

@@ -44,16 +44,16 @@ export function EmailResultsForm({ attempt }: { attempt: CompletedAttempt }) {
   };
 
   return (
-    <form onSubmit={submit} noValidate className="space-y-3 rounded-lg border border-line p-4">
+    <form onSubmit={submit} noValidate className="card space-y-4 p-5">
       <h3 className="text-lg">{t("title")}</h3>
       <p className="text-sm text-ink-muted">{t("lead")}</p>
       <label className="block text-sm">
         {t("email")}
-        <input type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 w-full rounded-md border border-line bg-paper px-3 py-2" required />
+        <input type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 min-h-[44px] w-full rounded-[2px] border border-line bg-paper px-3 py-2 focus:border-interactive" required />
       </label>
       <label className="flex items-start gap-3 text-sm"><input type="checkbox" checked={store} onChange={(e) => setStore(e.target.checked)} className="mt-1 h-5 w-5" required /><span>{t("storeConsent")}</span></label>
       <label className="flex items-start gap-3 text-sm"><input type="checkbox" checked={newsletter} onChange={(e) => setNewsletter(e.target.checked)} className="mt-1 h-5 w-5" /><span>{t("newsletter")}</span></label>
-      <button type="submit" disabled={status === "sending" || status === "sent"} className="rounded-md bg-accent px-5 py-2 text-accent-ink disabled:opacity-50">{status === "sending" ? t("sending") : t("send")}</button>
+      <button type="submit" disabled={status === "sending" || status === "sent"} className="btn btn-primary">{status === "sending" ? t("sending") : t("send")}</button>
       {message[status] && <p role={status === "sent" ? "status" : "alert"} className="text-sm">{message[status]}</p>}
     </form>
   );

@@ -72,15 +72,15 @@ export function Questionnaire() {
   }
 
   return (
-    <div className="space-y-8 py-6">
+    <div className="space-y-8 py-10">
       <ProgressBar current={index + 1} total={items.length} />
       <div key={item.id}>
         <LikertItem itemId={item.id} text={item.text} value={value} onChange={answer} />
       </div>
-      {error && <p role="alert" className="text-sm text-focus">{error}</p>}
+      {error && <p role="alert" className="text-sm text-interactive">{error}</p>}
       <div className="flex items-center justify-between">
-        <button type="button" onClick={back} disabled={index === 0} className="rounded-md border border-line px-4 py-2 disabled:opacity-40">{t("back")}</button>
-        <button type="button" onClick={forward} className="rounded-md bg-accent px-5 py-2 text-accent-ink">{isLast ? t("finish") : t("next")}</button>
+        <button type="button" onClick={back} disabled={index === 0} className="btn btn-outline">{t("back")}</button>
+        <button type="button" onClick={forward} className="btn btn-primary">{isLast ? t("finish") : t("next")}</button>
       </div>
       <p className="text-xs text-ink-muted">{t("pause")}</p>
     </div>

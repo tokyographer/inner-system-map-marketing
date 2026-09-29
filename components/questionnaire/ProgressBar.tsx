@@ -7,8 +7,8 @@ export function ProgressBar({ current, total }: { current: number; total: number
   return (
     <div className="space-y-1">
       <p className="text-sm text-ink-muted">{t("progress", { current, total })}</p>
-      <div role="progressbar" aria-valuemin={0} aria-valuemax={total} aria-valuenow={current} aria-label={t("progress", { current, total })} className="h-2 w-full rounded bg-track">
-        <div className="h-2 rounded bg-accent transition-[width] duration-300" style={{ width: `${pct}%` }} />
+      <div role="progressbar" aria-valuemin={0} aria-valuemax={total} aria-valuenow={current} aria-label={t("progress", { current, total })} className="h-[3px] w-full bg-track">
+        <div className="h-[3px] bg-gold transition-[width] duration-300" style={{ width: `${pct}%` }} />
       </div>
     </div>
   );

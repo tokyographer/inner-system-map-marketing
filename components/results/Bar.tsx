@@ -6,8 +6,8 @@ export function Bar({ label, value, display, band, color }: { label: string; val
         <span className="text-sm">{label}</span>
         <span className="text-xs text-ink-muted sm:hidden">{meta}</span>
       </div>
-      <div className="mt-1 h-2.5 w-full rounded bg-track sm:mt-0" aria-hidden="true">
-        <div className="h-2.5 rounded" style={{ width: `${display}%`, backgroundColor: color }} />
+      <div className="mt-1 h-2.5 w-full rounded-[2px] bg-track sm:mt-0" aria-hidden="true">
+        <div className="h-2.5 rounded-[2px]" style={{ width: `${display}%`, backgroundColor: color }} />
       </div>
       <span className="hidden text-right text-xs text-ink-muted sm:block">{meta}</span>
     </div>

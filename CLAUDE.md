@@ -36,6 +36,14 @@ npm run dev
 - Next 16 uses `proxy.ts` (not middleware.ts) for next-intl routing.
 - macOS `sips` does not rasterise the PDF's standard Helvetica; the text is there. Use Preview or pdftoppm to check visually.
 
+## Design system
+- Source of truth: Transcendent Institute Design System, claude.ai/artifact/Y6TqWTS3vbH8p9UC1SLoAK (tokens.json, colors_and_type.css, README brand book).
+- Tokens live in `app/globals.css` (`--ti-*` raw stops, app roles below them). Fonts: Newsreader (next/font/google) for headings, Jost (self-hosted in `app/fonts/`) for body and UI. Body weight 300.
+- Brand classes: `.btn .btn-primary|.btn-gold|.btn-outline` (2px radius, uppercase tracked), `.card`/`.card-warm` (1px hairline, 4px radius), `.eyebrow`, `.label`, `.on-dark`.
+- Gold is the single primary CTA (landing "Begin the work") and thin decorative fills only; readable text never uses gold (fails AA on platinum, per the brand book). Eyebrows use lead (#324A6D) for that reason.
+- Score colours: Self gold, Managers nigredo, Firefighters copper, Exiles slate. No red anywhere.
+- Never use #FFFFFF as a surface; platinum is the base. No gradients, no shadows on dark, no left-border card accents.
+
 ## Configuration
 - `.env` from `.env.example`. `RESULTS_COPY_TO` empty disables the institute copy.
 

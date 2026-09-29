@@ -1,6 +1,14 @@
 {
-  "meta": { "description": "A self-report map of your inner system in IFS terms: Self, Managers, Firefighters and what they protect." },
-  "nav": { "skip": "Skip to content", "language": "Language", "footer": "Transcendent Institute. This tool is a reflection aid, not therapy, not a quick fix and not a religion. It is not a validated psychometric instrument." },
+  "meta": {
+    "description": "A self-report map of your inner system in IFS terms: Self, Managers, Firefighters and what they protect."
+  },
+  "nav": {
+    "skip": "Skip to content",
+    "language": "Language",
+    "footer": "Transcendent Institute is a school of integrative psychology and self-leadership. This tool is a reflection aid — not therapy, not a quick fix, not a religion. It is not a validated psychometric instrument.",
+    "home": "Transcendent Institute home",
+    "institute": "Transcendent Institute"
+  },
   "landing": {
     "title": "Who is leading your inner life right now?",
     "lead": "This short questionnaire maps how your inner system is organised at the moment, in the language of Internal Family Systems (IFS): how much Self-leadership is available, which group of parts tends to take the lead, and which parts are most active.",
@@ -9,8 +17,9 @@
     "time": "About 10 minutes. 63 short statements. Nothing is stored unless you choose to at the end.",
     "disclaimer": "This is a self-report reflection tool. It is not a validated psychometric instrument and does not assess or identify any condition. It is not therapy and not a substitute for professional support.",
     "program": "Transcendent Institute teaches a Self Leadership Program that integrates IFS with Kabbalah, Yoga and Andean tradition. This tool belongs to its second level, Balance. You do not need the program to use the tool.",
-    "begin": "Begin",
-    "privacy": "How your answers are handled"
+    "begin": "Begin the work",
+    "privacy": "How your answers are handled",
+    "eyebrow": "Self-leadership · Level II"
   },
   "start": {
     "title": "Before you begin",
@@ -24,7 +33,13 @@
     "startOver": "Start over",
     "start": "Start"
   },
-  "likert": { "1": "Never or almost never", "2": "Rarely", "3": "Sometimes", "4": "Often", "5": "Almost always" },
+  "likert": {
+    "1": "Never or almost never",
+    "2": "Rarely",
+    "3": "Sometimes",
+    "4": "Often",
+    "5": "Almost always"
+  },
   "questionnaire": {
     "progress": "Statement {current} of {total}",
     "question": "Statement",
@@ -73,8 +88,12 @@
     "downloadError": "The PDF could not be prepared. Please try again in a moment.",
     "retake": "Retake",
     "retakeConfirm": "This clears your current map on this device. Continue?",
-    "bandQuiet": "quiet", "bandPresent": "present", "bandVeryActive": "very active",
-    "selfHardToReach": "hard to reach right now", "selfAvailableAtTimes": "available at times", "selfOftenAvailable": "often available"
+    "bandQuiet": "quiet",
+    "bandPresent": "present",
+    "bandVeryActive": "very active",
+    "selfHardToReach": "hard to reach right now",
+    "selfAvailableAtTimes": "available at times",
+    "selfOftenAvailable": "often available"
   },
   "email": {
     "title": "Email me my results",
@@ -95,6 +114,12 @@
     "body": "Parts are best met in a held space. The Self Leadership Program at Transcendent Institute works with exactly this map, over time and with facilitators. If that speaks to you, you are welcome to have a look.",
     "link": "About the Self Leadership Program"
   },
-  "support": { "title": "Support near you" },
-  "errors": { "title": "Something went wrong", "body": "Please reload the page. If the problem continues, your answers are still saved on this device.", "reload": "Reload" }
+  "support": {
+    "title": "Support near you"
+  },
+  "errors": {
+    "title": "Something went wrong",
+    "body": "Please reload the page. If the problem continues, your answers are still saved on this device.",
+    "reload": "Reload"
+  }
 }

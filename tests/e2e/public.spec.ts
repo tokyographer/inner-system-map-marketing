@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 test("public mode happy path: landing → start → questionnaire → results → PDF", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveURL(/\/en$/);
-  await page.getByRole("link", { name: "Begin" }).click();
+  await page.getByRole("link", { name: "Begin the work" }).click();
 
   await expect(page.getByRole("heading", { name: "Before you begin" })).toBeVisible();
   await page.getByRole("button", { name: "Start" }).click();

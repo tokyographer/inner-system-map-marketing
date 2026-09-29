@@ -40,8 +40,8 @@ export function ResultsActions({ attempt, mode }: { attempt: CompletedAttempt; m
     <section aria-labelledby="actions" className="space-y-4">
       <h2 id="actions" className="text-2xl">{t("actions")}</h2>
       <div className="flex flex-wrap gap-3">
-        <button type="button" onClick={download} disabled={pdf === "busy"} className="rounded-md bg-accent px-5 py-2 text-accent-ink disabled:opacity-50">{pdf === "busy" ? t("downloading") : t("download")}</button>
-        <button type="button" onClick={retake} className="rounded-md border border-line px-5 py-2">{t("retake")}</button>
+        <button type="button" onClick={download} disabled={pdf === "busy"} className="btn btn-primary">{pdf === "busy" ? t("downloading") : t("download")}</button>
+        <button type="button" onClick={retake} className="btn btn-outline">{t("retake")}</button>
       </div>
       {pdf === "error" && <p role="alert" className="text-sm">{t("downloadError")}</p>}
       {mode === "public" && <EmailResultsForm attempt={attempt} />}

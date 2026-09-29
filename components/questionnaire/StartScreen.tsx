@@ -22,11 +22,11 @@ export function StartScreen() {
   }
 
   return (
-    <div className="space-y-8 py-6">
-      <h1 className="text-3xl">{t("title")}</h1>
+    <div className="space-y-8 py-10">
+      <h1 className="text-[34px] sm:text-4xl">{t("title")}</h1>
       <p className="text-lg">{t("instruction")}</p>
-      <section className="rounded-lg border border-line bg-paper-2 p-4">
-        <h2 className="mb-2 text-base font-sans font-semibold">{t("scaleTitle")}</h2>
+      <section className="card card-warm p-5">
+        <h2 className="label mb-3">{t("scaleTitle")}</h2>
         <ol className="grid gap-1 text-sm sm:grid-cols-5">
           {[1, 2, 3, 4, 5].map((v) => <li key={v}><span className="text-ink-muted">{v}</span> {tl(String(v))}</li>)}
         </ol>
@@ -34,11 +34,11 @@ export function StartScreen() {
       <p className="text-sm text-ink-muted">{t("browser")}</p>
 
       {existing && Object.keys(existing.responses).length > 0 ? (
-        <div className="space-y-3 rounded-lg border border-line p-4">
+        <div className="card space-y-4 p-5">
           <p>{t("resume")}</p>
           <div className="flex flex-wrap gap-3">
-            <button type="button" onClick={() => router.push("/questionnaire")} className="rounded-md bg-accent px-5 py-2 text-accent-ink">{t("continue")}</button>
-            <button type="button" onClick={() => clearProgress()} className="rounded-md border border-line px-5 py-2">{t("startOver")}</button>
+            <button type="button" onClick={() => router.push("/questionnaire")} className="btn btn-primary">{t("continue")}</button>
+            <button type="button" onClick={() => clearProgress()} className="btn btn-outline">{t("startOver")}</button>
           </div>
         </div>
       ) : (
@@ -47,8 +47,8 @@ export function StartScreen() {
             <input type="checkbox" checked={age} onChange={(e) => { setAge(e.target.checked); setError(null); }} className="mt-1 h-5 w-5" aria-describedby={error ? "age-error" : undefined} />
             <span>{t("age")}</span>
           </label>
-          {error && <p id="age-error" role="alert" className="text-sm text-focus">{error}</p>}
-          <button type="submit" className="rounded-md bg-accent px-6 py-3 text-accent-ink">{t("start")}</button>
+          {error && <p id="age-error" role="alert" className="text-sm text-interactive">{error}</p>}
+          <button type="submit" className="btn btn-primary">{t("start")}</button>
         </form>
       )}
     </div>

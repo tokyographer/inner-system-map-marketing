@@ -26,7 +26,7 @@ export function ResultsLoader({ mode }: { mode: "public" | "cohort" }) {
     return (
       <div className="space-y-4 py-10">
         <p>{t("empty")}</p>
-        <Link href="/start" className="inline-block rounded-md bg-accent px-5 py-2 text-accent-ink">{t("takeIt")}</Link>
+        <Link href="/start" className="btn btn-primary no-underline">{t("takeIt")}</Link>
       </div>
     );
   }

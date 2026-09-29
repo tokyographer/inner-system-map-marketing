@@ -17,9 +17,11 @@ export function LocaleSwitcher() {
           href={pathname}
           locale={l}
           aria-current={l === locale ? "true" : undefined}
-          className={`rounded px-2 py-1 ${l === locale ? "bg-paper-2 font-semibold" : "text-ink-muted hover:text-ink"}`}
+          aria-label={NAMES[l]}
+          title={NAMES[l]}
+          className={`label rounded-[2px] px-2 py-2 no-underline ${l === locale ? "bg-paper-2" : "!text-ink-muted hover:!text-navy"}`}
         >
-          {NAMES[l]}
+          {l}
         </Link>
       ))}
     </nav>
