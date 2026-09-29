@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import type { Locale } from "@/config/app";
+import { itemText } from "@/content";
 import { useRouter } from "@/i18n/navigation";
 import { orderItems } from "@/lib/questionnaire/order";
 import { clearProgress, saveAttempt, saveProgress, useProgress, type Progress } from "@/lib/questionnaire/storage";
@@ -12,6 +14,7 @@ const ADVANCE_DELAY_MS = 350;
 
 export function Questionnaire() {
   const t = useTranslations("questionnaire");
+  const locale = useLocale() as Locale;
   const router = useRouter();
   const progress = useProgress();
   const [error, setError] = useState<string | null>(null);
@@ -75,7 +78,7 @@ export function Questionnaire() {
     <div className="space-y-8 py-10">
       <ProgressBar current={index + 1} total={items.length} />
       <div key={item.id}>
-        <LikertItem itemId={item.id} text={item.text} value={value} onChange={answer} />
+        <LikertItem itemId={item.id} text={itemText(item, locale)} value={value} onChange={answer} />
       </div>
       {error && <p role="alert" className="text-sm text-interactive">{error}</p>}
       <div className="flex items-center justify-between">

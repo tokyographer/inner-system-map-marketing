@@ -4,7 +4,7 @@
 Self-report screener that maps a person's inner system in Internal Family Systems (IFS) terms for Transcendent Institute: how much Self-leadership is available, which group of parts leads (Managers, Firefighters, Exiles) and which parts are most active. Public mode (website lead tool) and cohort mode (program participants with facilitator dashboard). Not a diagnostic or validated instrument; copy must say so.
 
 ## Architecture
-- `content/items.v2.ts` → item bank (84 items, stable IDs, short-form flags). Translations and typology/exile copy in `content/*.{en,es,ro}.ts`.
+- `content/items.v2.ts` → item bank (84 items, stable IDs, short-form flags). ES/RO item text keyed by ID in `items.v2.{es,ro}.ts`. All other copy in `content/*.{en,es,ro}.ts`, resolved through `getContent(locale)` / `itemText(item, locale)` in `content/index.ts`. Never import a `.en.ts` file directly from a component.
 - `config/scoring.ts` → every threshold (heuristic, never norms). `config/app.ts` → names, forms, retention.
 - `lib/scoring/` → pure scoring engine: `score(input) → Result` (scales, leads, pattern, modifiers, ranking, pairings, flags). No I/O.
 - `lib/pdf/` → results PDF (@react-pdf/renderer), same static content as the results page, section 8 order.
@@ -58,7 +58,8 @@ npm run dev
 
 ## Current Status
 - Done: Phase 1 plan. Phase 2 scoring engine + item bank + EN content (100% coverage), results PDF, Resend email flow with institute copy, request validation, interim rate limiting. Phase 3 public mode in EN: landing, start (age gate), questionnaire (seeded constrained order, localStorage autosave, keyboard Likert), results page in section 8 order, PDF download, email opt-in form, retake. next-intl routing /en /es /ro (ES/RO fall back to EN messages until Phase 4). Playwright happy path + axe audit (0 WCAG 2.1 AA violations) at 360px.
-- Not done: ES/RO translations, Supabase, cohort mode, dashboard, retention, Upstash rate limiting.
+- Phase 4 done: ES and RO drafts for items (`content/items.v2.{es,ro}.ts`, keyed by ID), typologies, exiles, patterns, exercise, support resources, Level II, PDF labels and `messages/{es,ro}.json`. All marked "DRAFT, pending human review". `content/index.ts` resolves content and item text by locale; the PDF renders in the request locale. Locale completeness and forbidden-word tests in `tests/unit/content/locales.test.ts`.
+- Not done: Supabase, cohort mode, dashboard, retention, Upstash rate limiting.
 - Item bank and content are DRAFT pending Anthony's clinical review.
 
 ## Future Integration
