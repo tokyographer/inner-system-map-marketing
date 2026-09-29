@@ -16,8 +16,18 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
+  const safeLocale = (hasLocale(routing.locales, locale) ? locale : "en") as Locale;
   const t = await getTranslations({ locale, namespace: "meta" });
-  return { title: APP_NAME[(hasLocale(routing.locales, locale) ? locale : "en") as Locale], description: t("description") };
+  const title = APP_NAME[safeLocale];
+  const description = t("description");
+  const image = { url: "/og-image.png", width: 1200, height: 630, alt: `${title} · Transcendent Institute` };
+  return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000")),
+    title,
+    description,
+    openGraph: { title, description, siteName: "Transcendent Institute", type: "website", locale: safeLocale, images: [image] },
+    twitter: { card: "summary_large_image", title, description, images: [image.url] },
+  };
 }
 
 export default async function LocaleLayout({ children, params }: { children: ReactNode; params: Promise<{ locale: string }> }) {
