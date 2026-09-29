@@ -69,7 +69,7 @@ export const ITEM_TEXT_ES: Record<string, string> = {
   DISS4: "Me doy cuenta de que llevo horas en piloto automático.",
 
   ANGR1: "Cuando me siento ignorado o humillado, reacciono rápido y con fuerza.",
-  ANGR2: "Mi enojo llega antes de que pueda pensar.",
+  ANGR2: "Mi enojo llega antes de que me dé tiempo a pensar.",
   ANGR3: "Uso el sarcasmo o subo la voz para cortar una conversación.",
   ANGR4: "Cuando alguien cruza mis límites, paso al ataque.",
 

@@ -122,7 +122,7 @@ export const ITEMS: Item[] = [
   i("DISS", "firefighters", 4, false, "I realize I have been on autopilot for hours."),
 
   i("ANGR", "firefighters", 1, true, "When I feel dismissed or humiliated, I react fast and with force."),
-  i("ANGR", "firefighters", 2, true, "My anger arrives faster than I can think."),
+  i("ANGR", "firefighters", 2, true, "My anger comes before I have had time to think."),
   i("ANGR", "firefighters", 3, true, "I use sarcasm or a raised voice to end a conversation."),
   i("ANGR", "firefighters", 4, false, "When someone crosses my boundaries, I go on the attack."),
 

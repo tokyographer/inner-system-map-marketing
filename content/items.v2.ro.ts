@@ -69,7 +69,7 @@ export const ITEM_TEXT_RO: Record<string, string> = {
   DISS4: "Îmi dau seama că am fost ore întregi pe pilot automat.",
 
   ANGR1: "Când mă simt desconsiderat/ă sau umilit/ă, reacționez rapid și cu forță.",
-  ANGR2: "Furia îmi vine mai repede decât apuc să gândesc.",
+  ANGR2: "Furia îmi vine înainte să am timp să gândesc.",
   ANGR3: "Folosesc sarcasmul sau ridic vocea ca să închei o conversație.",
   ANGR4: "Când cineva îmi încalcă limitele, trec la atac.",
 
