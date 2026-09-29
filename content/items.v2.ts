@@ -112,7 +112,7 @@ export const ITEMS: Item[] = [
 
   // ── Firefighters ────────────────────────────────────────────────────
   i("NUMB", "firefighters", 1, true, "After a hard moment I reach for screens, food, a drink or something else to switch off."),
-  i("NUMB", "firefighters", 2, true, "I go for quick relief even when I know it will cost me later."),
+  i("NUMB", "firefighters", 2, true, "I soothe difficult feelings with something quick, even when I know it will cost me later."),
   i("NUMB", "firefighters", 3, true, "Once I start (scrolling, eating, drinking, working), I find it hard to stop."),
   i("NUMB", "firefighters", 4, false, "I keep myself busy so that I do not have to feel."),
 

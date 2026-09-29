@@ -59,7 +59,7 @@ export const ITEM_TEXT_RO: Record<string, string> = {
   DIST4: "Îmi spun că, de fapt, nu am nevoie de nimeni.",
 
   NUMB1: "După un moment greu, mă refugiez în ecrane, mâncare, un pahar sau altceva care mă deconectează.",
-  NUMB2: "Caut ușurare rapidă chiar dacă știu că mă va costa mai târziu.",
+  NUMB2: "Îmi liniștesc emoțiile dificile cu ceva rapid, chiar dacă știu că mă va costa mai târziu.",
   NUMB3: "Odată ce încep (să derulez, să mănânc, să beau, să muncesc), îmi e greu să mă opresc.",
   NUMB4: "Mă țin ocupat/ă ca să nu fiu nevoit/ă să simt.",
 

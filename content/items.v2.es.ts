@@ -59,7 +59,7 @@ export const ITEM_TEXT_ES: Record<string, string> = {
   DIST4: "Me digo que en realidad no necesito a nadie.",
 
   NUMB1: "Después de un momento difícil, recurro a pantallas, comida, una copa u otra cosa para desconectar.",
-  NUMB2: "Busco alivio rápido aunque sepa que me costará más tarde.",
+  NUMB2: "Calmo las emociones difíciles con algo rápido, aunque sepa que me costará más tarde.",
   NUMB3: "Una vez que empiezo (a hacer scroll, comer, beber, trabajar), me cuesta parar.",
   NUMB4: "Me mantengo ocupado u ocupada para no tener que sentir.",
 
