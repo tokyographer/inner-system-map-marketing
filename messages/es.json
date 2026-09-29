@@ -1,7 +1,15 @@
 {
   "_comment": "DRAFT, pending human review. Spanish (neutral, tú).",
-  "meta": { "description": "Un mapa de autoinforme de tu sistema interno en términos de IFS: Self, Gestores, Bomberos y lo que protegen." },
-  "nav": { "skip": "Saltar al contenido", "language": "Idioma", "home": "Inicio de Transcendent Institute", "institute": "Transcendent Institute", "footer": "Transcendent Institute es una escuela de psicología integrativa y autoliderazgo. Esta herramienta es una ayuda para la reflexión — no es terapia, no es una solución rápida, no es una religión. No es un instrumento psicométrico validado." },
+  "meta": {
+    "description": "Un mapa de autoinforme de tu sistema interno en términos de IFS: Self, Gestores, Bomberos y lo que protegen."
+  },
+  "nav": {
+    "skip": "Saltar al contenido",
+    "language": "Idioma",
+    "home": "Inicio de Transcendent Institute",
+    "institute": "Transcendent Institute",
+    "footer": "Transcendent Institute es una escuela de psicología integrativa y autoliderazgo. Esta herramienta es una ayuda para la reflexión — no es terapia, no es una solución rápida, no es una religión. No es un instrumento psicométrico validado."
+  },
   "landing": {
     "eyebrow": "Autoliderazgo · Nivel II",
     "title": "¿Quién está liderando tu vida interior ahora mismo?",
@@ -26,7 +34,13 @@
     "startOver": "Empezar de nuevo",
     "start": "Empezar"
   },
-  "likert": { "1": "Nunca o casi nunca", "2": "Rara vez", "3": "A veces", "4": "A menudo", "5": "Casi siempre" },
+  "likert": {
+    "1": "Nunca o casi nunca",
+    "2": "Rara vez",
+    "3": "A veces",
+    "4": "A menudo",
+    "5": "Casi siempre"
+  },
   "questionnaire": {
     "progress": "Afirmación {current} de {total}",
     "question": "Afirmación",
@@ -75,8 +89,12 @@
     "downloadError": "No se pudo preparar el PDF. Inténtalo de nuevo en un momento.",
     "retake": "Repetir",
     "retakeConfirm": "Esto borra tu mapa actual en este dispositivo. ¿Continuar?",
-    "bandQuiet": "tranquila", "bandPresent": "presente", "bandVeryActive": "muy activa",
-    "selfHardToReach": "difícil de alcanzar ahora mismo", "selfAvailableAtTimes": "disponible a ratos", "selfOftenAvailable": "disponible a menudo"
+    "bandQuiet": "tranquila",
+    "bandPresent": "presente",
+    "bandVeryActive": "muy activa",
+    "selfHardToReach": "difícil de alcanzar ahora mismo",
+    "selfAvailableAtTimes": "disponible a ratos",
+    "selfOftenAvailable": "disponible a menudo"
   },
   "email": {
     "title": "Enviarme mis resultados por correo",
@@ -97,6 +115,55 @@
     "body": "A las partes se las conoce mejor en un espacio sostenido. El Programa de Autoliderazgo de Transcendent Institute trabaja exactamente con este mapa, con tiempo y con facilitadores. Si te resuena, puedes echar un vistazo.",
     "link": "Sobre el Programa de Autoliderazgo"
   },
-  "support": { "title": "Apoyo cerca de ti" },
-  "errors": { "title": "Algo salió mal", "body": "Recarga la página. Si el problema continúa, tus respuestas siguen guardadas en este dispositivo.", "reload": "Recargar" }
+  "support": {
+    "title": "Apoyo cerca de ti"
+  },
+  "errors": {
+    "title": "Algo salió mal",
+    "body": "Recarga la página. Si el problema continúa, tus respuestas siguen guardadas en este dispositivo.",
+    "reload": "Recargar"
+  },
+  "cohort": {
+    "joinTitle": "Únete a tu cohorte",
+    "joinLead": "Introduce el código de acceso que te dio tu facilitador y el correo que quieres usar. Te enviaremos un enlace para entrar. Sin contraseña.",
+    "code": "Código de acceso",
+    "email": "Dirección de correo",
+    "sendLink": "Enviarme un enlace de acceso",
+    "linkSent": "Revisa tu bandeja de entrada: te hemos enviado un enlace de acceso. Caduca en una hora.",
+    "invalidCode": "Ese código de acceso no es válido o ha caducado. Compruébalo con tu facilitador.",
+    "invalidInput": "Introduce un código de acceso y un correo válidos.",
+    "rateLimited": "Demasiados intentos desde este dispositivo. Inténtalo más tarde.",
+    "unavailable": "El acceso no está disponible ahora mismo. Inténtalo más tarde.",
+    "consentTitle": "Antes de guardar nada",
+    "consentLead": "Te estás uniendo a {cohort}. En modo cohorte tus respuestas se guardan bajo tu cuenta y son visibles para los facilitadores designados de esta cohorte, para que puedan acompañar tu trabajo en el retiro.",
+    "consentStore": "Acepto que mis respuestas y resultados se guarden bajo mi cuenta y sean visibles para los facilitadores de {cohort}. Puedo retirar este consentimiento, exportar mis datos o eliminar mi cuenta en cualquier momento.",
+    "consentNewsletter": "Añadirme también al boletín de Transcendent Institute.",
+    "consentRequired": "Marca la primera casilla para continuar.",
+    "consentPolicy": "Aviso de consentimiento y privacidad (provisional, pendiente de revisión legal)",
+    "continue": "Continuar",
+    "homeTitle": "Tu cohorte",
+    "homeLead": "Cada intento se guarda con su fecha. Puedes repetir el cuestionario, ver cualquier mapa anterior y exportar o eliminar tus datos.",
+    "startFull": "Responder el cuestionario (forma completa)",
+    "noAttempts": "Todavía no has respondido el cuestionario.",
+    "attempt": "Intento",
+    "pattern": "Patrón",
+    "view": "Ver",
+    "settings": "Tus datos",
+    "signOut": "Cerrar sesión",
+    "notMember": "Tu cuenta todavía no forma parte de una cohorte. Introduce un código de acceso para unirte.",
+    "saving": "Guardando tu mapa",
+    "saveError": "No se pudo guardar tu mapa. Tus respuestas siguen en este dispositivo; inténtalo de nuevo.",
+    "noteTitle": "Tus notas sobre esta parte",
+    "noteShare": "Compartir esta nota con mi facilitador",
+    "noteSave": "Guardar nota",
+    "noteSaved": "Guardado.",
+    "exportTitle": "Exportar tus datos",
+    "exportJson": "Descargar todo en JSON",
+    "deleteTitle": "Eliminar tu cuenta",
+    "deleteLead": "Esto elimina de forma permanente tu cuenta y todos tus intentos, notas y registros de consentimiento. No se puede deshacer.",
+    "deleteConfirm": "Escribe DELETE para confirmar",
+    "deleteButton": "Eliminar mi cuenta y todos mis datos",
+    "deleted": "Tu cuenta y tus datos han sido eliminados.",
+    "levelTwo": "En el Nivel II"
+  }
 }

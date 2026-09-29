@@ -10,7 +10,7 @@ for (const [locale, begin, statement] of [["es", "Comenzar el trabajo", /Afirmac
     await page.getByRole("button").filter({ hasText: /Empezar|Începe/ }).click();
     await expect(page.getByText(statement)).toBeVisible();
     const itemText = await page.locator("fieldset p").first().textContent();
-    expect(itemText).not.toMatch(/\b(I|my|me)\b/);
+    expect(itemText).not.toMatch(/\b(the|when|with|that|myself)\b/i);
     const a = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
     expect(a.violations.map((v) => v.id)).toEqual([]);
   });

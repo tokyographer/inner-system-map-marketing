@@ -31,6 +31,9 @@ npm run dev
 - Pattern rules are evaluated in order; a manager/firefighter gap of exactly 0.3 resolves to MANAGED or REACTIVE, not POLARISED.
 - Team-of-protectors rule: top two, plus the third when within 0.4 of the second (assumption, see plan).
 - Rate limiting is in-memory for now (soft). Replace with Upstash in Phase 7.
+- Supabase: the service-role client (`lib/supabase/admin.ts`) is used only for access-code lookup before sign-in, public opt-in results and retention. Everything else runs as the user under RLS. Facilitator reads of attempts are gated in SQL on an active `facilitator_visibility` consent.
+- After editing a migration: `npx supabase db reset` then regenerate `lib/supabase/types.ts` (see README). Never hand-edit the generated file.
+- `.env.local` holds local Supabase keys and is gitignored; `.env.example` lists every variable.
 - Storage hydration uses `useSyncExternalStore` (lib/questionnaire/storage.ts); do not read localStorage in effects with setState (lint rule).
 - Completing the questionnaire clears progress, which notifies the store; the redirect-to-start effect is guarded by a `finished` ref.
 - Next 16 uses `proxy.ts` (not middleware.ts) for next-intl routing.
@@ -59,7 +62,8 @@ npm run dev
 ## Current Status
 - Done: Phase 1 plan. Phase 2 scoring engine + item bank + EN content (100% coverage), results PDF, Resend email flow with institute copy, request validation, interim rate limiting. Phase 3 public mode in EN: landing, start (age gate), questionnaire (seeded constrained order, localStorage autosave, keyboard Likert), results page in section 8 order, PDF download, email opt-in form, retake. next-intl routing /en /es /ro (ES/RO fall back to EN messages until Phase 4). Playwright happy path + axe audit (0 WCAG 2.1 AA violations) at 360px.
 - Phase 4 done: ES and RO drafts for items (`content/items.v2.{es,ro}.ts`, keyed by ID), typologies, exiles, patterns, exercise, support resources, Level II, PDF labels and `messages/{es,ro}.json`. All marked "DRAFT, pending human review". `content/index.ts` resolves content and item text by locale; the PDF renders in the request locale. Locale completeness and forbidden-word tests in `tests/unit/content/locales.test.ts`.
-- Not done: Supabase, cohort mode, dashboard, retention, Upstash rate limiting.
+- Phase 5 done: Supabase migrations (`supabase/migrations/0001_schema.sql`, `0002_functions.sql`, `0003_rls.sql`), generated types in `lib/supabase/types.ts`, magic-link auth via `/auth/callback`, cohort join with hashed access codes, consent logging (append-only rows), cohort questionnaire (full form) scored server-side in `lib/actions/cohort.ts`, attempt history, results with private/shareable notes, JSON export, real account deletion with cascade. Session refresh in `proxy.ts`.
+- Not done: facilitator dashboard, RLS tests (pgTAP), audit-log UI, CSV exports, retention cron, Upstash rate limiting, Playwright cohort e2e in CI.
 - Item bank and content are DRAFT pending Anthony's clinical review.
 
 ## Future Integration

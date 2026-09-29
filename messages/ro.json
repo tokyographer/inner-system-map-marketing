@@ -1,7 +1,15 @@
 {
   "_comment": "DRAFT, pending human review. Romanian, natural spoken register.",
-  "meta": { "description": "O hartă de autoevaluare a sistemului tău interior în termeni IFS: Self, Manageri, Pompieri și ce protejează ei." },
-  "nav": { "skip": "Sari la conținut", "language": "Limba", "home": "Pagina principală Transcendent Institute", "institute": "Transcendent Institute", "footer": "Transcendent Institute este o școală de psihologie integrativă și self-leadership. Acest instrument este un sprijin pentru reflecție — nu este terapie, nu este o soluție rapidă, nu este o religie. Nu este un instrument psihometric validat." },
+  "meta": {
+    "description": "O hartă de autoevaluare a sistemului tău interior în termeni IFS: Self, Manageri, Pompieri și ce protejează ei."
+  },
+  "nav": {
+    "skip": "Sari la conținut",
+    "language": "Limba",
+    "home": "Pagina principală Transcendent Institute",
+    "institute": "Transcendent Institute",
+    "footer": "Transcendent Institute este o școală de psihologie integrativă și self-leadership. Acest instrument este un sprijin pentru reflecție — nu este terapie, nu este o soluție rapidă, nu este o religie. Nu este un instrument psihometric validat."
+  },
   "landing": {
     "eyebrow": "Self-leadership · Nivelul II",
     "title": "Cine îți conduce viața interioară chiar acum?",
@@ -26,7 +34,13 @@
     "startOver": "Ia de la capăt",
     "start": "Începe"
   },
-  "likert": { "1": "Niciodată sau aproape niciodată", "2": "Rareori", "3": "Uneori", "4": "Des", "5": "Aproape întotdeauna" },
+  "likert": {
+    "1": "Niciodată sau aproape niciodată",
+    "2": "Rareori",
+    "3": "Uneori",
+    "4": "Des",
+    "5": "Aproape întotdeauna"
+  },
   "questionnaire": {
     "progress": "Afirmația {current} din {total}",
     "question": "Afirmație",
@@ -75,8 +89,12 @@
     "downloadError": "PDF-ul nu a putut fi pregătit. Te rugăm să încerci din nou peste puțin timp.",
     "retake": "Reia",
     "retakeConfirm": "Aceasta șterge harta ta actuală de pe acest dispozitiv. Continui?",
-    "bandQuiet": "liniștită", "bandPresent": "prezentă", "bandVeryActive": "foarte activă",
-    "selfHardToReach": "greu de atins chiar acum", "selfAvailableAtTimes": "disponibil uneori", "selfOftenAvailable": "disponibil adesea"
+    "bandQuiet": "liniștită",
+    "bandPresent": "prezentă",
+    "bandVeryActive": "foarte activă",
+    "selfHardToReach": "greu de atins chiar acum",
+    "selfAvailableAtTimes": "disponibil uneori",
+    "selfOftenAvailable": "disponibil adesea"
   },
   "email": {
     "title": "Trimite-mi rezultatele pe email",
@@ -97,6 +115,55 @@
     "body": "Părțile sunt cel mai bine întâlnite într-un spațiu ținut cu grijă. Programul de Self-Leadership de la Transcendent Institute lucrează exact cu această hartă, în timp și cu facilitatori. Dacă îți vorbește, ești binevenit să arunci o privire.",
     "link": "Despre Programul de Self-Leadership"
   },
-  "support": { "title": "Sprijin în apropierea ta" },
-  "errors": { "title": "Ceva n-a mers", "body": "Te rugăm să reîncarci pagina. Dacă problema continuă, răspunsurile tale sunt încă salvate pe acest dispozitiv.", "reload": "Reîncarcă" }
+  "support": {
+    "title": "Sprijin în apropierea ta"
+  },
+  "errors": {
+    "title": "Ceva n-a mers",
+    "body": "Te rugăm să reîncarci pagina. Dacă problema continuă, răspunsurile tale sunt încă salvate pe acest dispozitiv.",
+    "reload": "Reîncarcă"
+  },
+  "cohort": {
+    "joinTitle": "Alătură-te cohortei tale",
+    "joinLead": "Introdu codul de acces primit de la facilitator și adresa de email pe care vrei s-o folosești. Îți trimitem un link de autentificare. Fără parolă.",
+    "code": "Cod de acces",
+    "email": "Adresa de email",
+    "sendLink": "Trimite-mi un link de autentificare",
+    "linkSent": "Verifică-ți inboxul: ți-am trimis un link de autentificare. Expiră într-o oră.",
+    "invalidCode": "Acest cod de acces nu este valid sau a expirat. Verifică-l cu facilitatorul tău.",
+    "invalidInput": "Te rugăm să introduci un cod de acces și o adresă de email valide.",
+    "rateLimited": "Prea multe încercări de pe acest dispozitiv. Te rugăm să încerci mai târziu.",
+    "unavailable": "Autentificarea nu este disponibilă chiar acum. Te rugăm să încerci mai târziu.",
+    "consentTitle": "Înainte să stocăm ceva",
+    "consentLead": "Te alături cohortei {cohort}. În modul cohortă, răspunsurile tale sunt stocate în contul tău și sunt vizibile facilitatorilor desemnați ai acestei cohorte, ca să-ți poată sprijini munca în retreat.",
+    "consentStore": "Sunt de acord ca răspunsurile și rezultatele mele să fie stocate în contul meu și să fie vizibile facilitatorilor cohortei {cohort}. Pot retrage acest acord, îmi pot exporta datele sau îmi pot șterge contul oricând.",
+    "consentNewsletter": "Adaugă-mă și la newsletterul Transcendent Institute.",
+    "consentRequired": "Te rugăm să bifezi prima căsuță pentru a continua.",
+    "consentPolicy": "Notă de consimțământ și confidențialitate (provizorie, în așteptarea revizuirii juridice)",
+    "continue": "Continuă",
+    "homeTitle": "Cohorta ta",
+    "homeLead": "Fiecare încercare este stocată cu data ei. Poți relua chestionarul, poți vedea orice hartă anterioară și îți poți exporta sau șterge datele.",
+    "startFull": "Completează chestionarul (forma completă)",
+    "noAttempts": "Nu ai completat încă chestionarul.",
+    "attempt": "Încercare",
+    "pattern": "Tipar",
+    "view": "Vezi",
+    "settings": "Datele tale",
+    "signOut": "Deconectare",
+    "notMember": "Contul tău nu face încă parte dintr-o cohortă. Introdu un cod de acces pentru a te alătura uneia.",
+    "saving": "Îți salvăm harta",
+    "saveError": "Harta ta nu a putut fi salvată. Răspunsurile tale sunt încă pe acest dispozitiv; te rugăm să încerci din nou.",
+    "noteTitle": "Notele tale despre această parte",
+    "noteShare": "Împărtășește această notă cu facilitatorul meu",
+    "noteSave": "Salvează nota",
+    "noteSaved": "Salvat.",
+    "exportTitle": "Exportă-ți datele",
+    "exportJson": "Descarcă totul ca JSON",
+    "deleteTitle": "Șterge-ți contul",
+    "deleteLead": "Aceasta îți șterge definitiv contul și fiecare încercare, notă și înregistrare de consimțământ. Nu se poate anula.",
+    "deleteConfirm": "Scrie DELETE pentru a confirma",
+    "deleteButton": "Șterge-mi contul și toate datele mele",
+    "deleted": "Contul și datele tale au fost șterse.",
+    "levelTwo": "În Nivelul II"
+  }
 }

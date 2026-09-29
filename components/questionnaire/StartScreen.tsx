@@ -1,12 +1,12 @@
 "use client";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { DEFAULT_FORM } from "@/config/app";
+import { DEFAULT_FORM, type Form } from "@/config/app";
 import { useRouter } from "@/i18n/navigation";
 import { newSeed } from "@/lib/questionnaire/order";
 import { clearProgress, saveProgress, useProgress } from "@/lib/questionnaire/storage";
 
-export function StartScreen() {
+export function StartScreen({ form = DEFAULT_FORM.public, questionnairePath = "/questionnaire" }: { form?: Form; questionnairePath?: string } = {}) {
   const t = useTranslations("start");
   const tl = useTranslations("likert");
   const router = useRouter();
@@ -17,8 +17,8 @@ export function StartScreen() {
   function begin() {
     if (!age) { setError(t("ageRequired")); return; }
     clearProgress();
-    saveProgress({ seed: newSeed(), form: DEFAULT_FORM.public, startedAt: Date.now(), index: 0, responses: {} });
-    router.push("/questionnaire");
+    saveProgress({ seed: newSeed(), form, startedAt: Date.now(), index: 0, responses: {} });
+    router.push(questionnairePath);
   }
 
   return (
@@ -37,7 +37,7 @@ export function StartScreen() {
         <div className="card space-y-4 p-5">
           <p>{t("resume")}</p>
           <div className="flex flex-wrap gap-3">
-            <button type="button" onClick={() => router.push("/questionnaire")} className="btn btn-primary">{t("continue")}</button>
+            <button type="button" onClick={() => router.push(questionnairePath)} className="btn btn-primary">{t("continue")}</button>
             <button type="button" onClick={() => clearProgress()} className="btn btn-outline">{t("startOver")}</button>
           </div>
         </div>

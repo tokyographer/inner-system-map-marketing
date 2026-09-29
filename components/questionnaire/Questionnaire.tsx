@@ -5,19 +5,25 @@ import type { Locale } from "@/config/app";
 import { itemText } from "@/content";
 import { useRouter } from "@/i18n/navigation";
 import { orderItems } from "@/lib/questionnaire/order";
-import { clearProgress, saveAttempt, saveProgress, useProgress, type Progress } from "@/lib/questionnaire/storage";
+import { clearProgress, saveAttempt, saveProgress, useProgress, type CompletedAttempt, type Progress } from "@/lib/questionnaire/storage";
 import type { Response } from "@/lib/scoring/types";
 import { LikertItem } from "./LikertItem";
 import { ProgressBar } from "./ProgressBar";
 
 const ADVANCE_DELAY_MS = 350;
 
-export function Questionnaire() {
+interface Props {
+  /** Called with the finished attempt in cohort mode; public mode stores it in the browser and navigates. */
+  onComplete?: (attempt: CompletedAttempt) => Promise<boolean>;
+}
+
+export function Questionnaire({ onComplete }: Props = {}) {
   const t = useTranslations("questionnaire");
   const locale = useLocale() as Locale;
   const router = useRouter();
   const progress = useProgress();
   const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
   const timer = useRef<number | null>(null);
   const finished = useRef(false);
   const form = progress?.form;
@@ -65,8 +71,14 @@ export function Questionnaire() {
         setError(t("missing"));
         return;
       }
+      const attempt: CompletedAttempt = { seed: progress!.seed, form: progress!.form, startedAt: progress!.startedAt, completedAt: Date.now(), responses: progress!.responses };
+      if (onComplete) {
+        setBusy(true);
+        void onComplete(attempt).then((done) => { if (done) { finished.current = true; clearProgress(); } else { setBusy(false); } });
+        return;
+      }
       finished.current = true;
-      saveAttempt({ seed: progress!.seed, form: progress!.form, startedAt: progress!.startedAt, completedAt: Date.now(), responses: progress!.responses });
+      saveAttempt(attempt);
       clearProgress();
       router.push("/results");
       return;
@@ -83,7 +95,7 @@ export function Questionnaire() {
       {error && <p role="alert" className="text-sm text-interactive">{error}</p>}
       <div className="flex items-center justify-between">
         <button type="button" onClick={back} disabled={index === 0} className="btn btn-outline">{t("back")}</button>
-        <button type="button" onClick={forward} className="btn btn-primary">{isLast ? t("finish") : t("next")}</button>
+        <button type="button" onClick={forward} disabled={busy} className="btn btn-primary">{isLast ? t("finish") : t("next")}</button>
       </div>
       <p className="text-xs text-ink-muted">{t("pause")}</p>
     </div>
