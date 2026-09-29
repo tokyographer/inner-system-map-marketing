@@ -14,11 +14,11 @@ export const ITEM_TEXT_RO: Record<string, string> = {
   SELF8: "Mă simt conectat/ă cu ceilalți oameni și cu viața.",
 
   PERF1: "Verific sau refac lucruri care sunt deja suficient de bune.",
-  PERF2: "Țin lucrurile pentru mine pentru că nu mi se par încă gata.",
-  PERF3: "Îmi impun standarde pe care nu le-aș cere nimănui altcuiva.",
+  PERF2: "Amân să arăt sau să predau ce am lucrat, pentru că niciodată nu mi se pare gata.",
+  PERF3: "Îmi cer mie mai mult decât i-aș cere vreodată oricui altcuiva.",
   PERF4: "Îmi vine greu să mă bucur de un rezultat pentru că văd ce putea fi mai bine.",
 
-  CRIT1: "O voce interioară îmi arată defectele înainte s-o facă altcineva.",
+  CRIT1: "Mă critic singur/ă înainte să apuce altcineva s-o facă.",
   CRIT2: "Când primesc feedback, sunt mai dur/ă cu mine decât a fost cealaltă persoană.",
   CRIT3: "Când mă simt expus/ă sau rănit/ă, devin dur/ă, cu mine sau cu cealaltă persoană.",
   CRIT4: "Observ repede greșelile altora și îmi e greu să trec peste ele.",
@@ -75,7 +75,7 @@ export const ITEM_TEXT_RO: Record<string, string> = {
 
   IMPL1: "Când presiunea crește, iau decizii bruște doar ca să scap (demisionez, plec, pun capăt).",
   IMPL2: "Când mă simt rău, cheltuiesc bani sau îmi asum riscuri din impuls.",
-  IMPL3: "Fac lucruri la cald pe care apoi nu le pot explica.",
+  IMPL3: "Când sunt tulburat/ă, acționez din impuls în feluri care mai târziu nu au niciun sens pentru mine.",
   IMPL4: "Când mă simt prins/ă în capcană, îmi vine să las totul și să fug.",
 
   REBL1: "Când mi se spune ce să fac, simt imediat un „nu” în interior.",
@@ -104,7 +104,7 @@ export const ITEM_TEXT_RO: Record<string, string> = {
   POWL4: "Mă simt prins/ă în capcană, fără nicio cale de a schimba lucrurile.",
 
   LONE1: "Simt o singurătate adâncă chiar și când sunt cu oameni.",
-  LONE2: "Mă cuprinde o tristețe care pare mai veche decât viața mea de acum.",
+  LONE2: "Mă cuprinde o tristețe care pare mult mai veche decât orice se întâmplă acum.",
   LONE3: "Tânjesc după un fel de grijă sau apropiere pe care n-am primit-o niciodată.",
   LONE4: "Simt un gol înăuntru pe care nimic nu-l umple pe deplin.",
 };

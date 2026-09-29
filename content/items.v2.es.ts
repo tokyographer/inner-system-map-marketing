@@ -14,11 +14,11 @@ export const ITEM_TEXT_ES: Record<string, string> = {
   SELF8: "Me siento conectado o conectada con las demás personas y con la vida.",
 
   PERF1: "Reviso o rehago trabajos que ya están suficientemente bien.",
-  PERF2: "Retengo cosas porque todavía no me parecen listas.",
-  PERF3: "Me pongo estándares que no le pediría a nadie más.",
+  PERF2: "Retraso compartir o entregar mi trabajo porque nunca me parece listo.",
+  PERF3: "Me exijo más de lo que jamás le exigiría a nadie.",
   PERF4: "Me cuesta disfrutar de un resultado porque veo lo que podría haber sido mejor.",
 
-  CRIT1: "Una voz interior señala mis fallos antes de que lo haga nadie.",
+  CRIT1: "Me critico antes de que nadie más tenga la oportunidad de hacerlo.",
   CRIT2: "Cuando recibo una crítica, soy más duro o dura conmigo que la otra persona.",
   CRIT3: "Cuando me siento al descubierto o me hieren, me pongo duro o dura, conmigo o con la otra persona.",
   CRIT4: "Noto rápido los defectos de los demás y me cuesta dejarlos pasar.",
@@ -75,7 +75,7 @@ export const ITEM_TEXT_ES: Record<string, string> = {
 
   IMPL1: "Cuando la presión sube, tomo decisiones repentinas solo para salir de ahí (renunciar, irme, terminar cosas).",
   IMPL2: "Cuando me siento mal, gasto dinero o corro riesgos por impulso.",
-  IMPL3: "Hago cosas en caliente que después no puedo explicar.",
+  IMPL3: "Cuando estoy alterado o alterada, actúo por impulso de maneras que después no tienen sentido para mí.",
   IMPL4: "Cuando me siento atrapado o atrapada, me dan ganas de dejarlo todo y huir.",
 
   REBL1: "Cuando me dicen qué hacer, siento un \"no\" inmediato por dentro.",
@@ -104,7 +104,7 @@ export const ITEM_TEXT_ES: Record<string, string> = {
   POWL4: "Me siento atrapado o atrapada, sin manera de cambiar las cosas.",
 
   LONE1: "Siento una soledad profunda incluso cuando estoy con gente.",
-  LONE2: "Me invade una tristeza que parece más antigua que mi vida presente.",
+  LONE2: "Me invade una tristeza que parece mucho más antigua que cualquier cosa que esté pasando ahora.",
   LONE3: "Anhelo un tipo de cuidado o cercanía que nunca recibí.",
   LONE4: "Siento un vacío por dentro que nada llena del todo.",
 };

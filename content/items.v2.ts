@@ -66,11 +66,11 @@ export const ITEMS: Item[] = [
 
   // ── Managers ────────────────────────────────────────────────────────
   i("PERF", "managers", 1, true, "I re-check or redo work that is already good enough."),
-  i("PERF", "managers", 2, true, "I hold things back because they do not feel ready yet."),
-  i("PERF", "managers", 3, true, "I set standards for myself that I would not ask of anyone else."),
+  i("PERF", "managers", 2, true, "I delay sharing or handing in my work because it never feels ready."),
+  i("PERF", "managers", 3, true, "I demand more of myself than I would ever demand of anyone else."),
   i("PERF", "managers", 4, false, "I find it hard to enjoy a result because I see what could have been better."),
 
-  i("CRIT", "managers", 1, true, "An inner voice points out my flaws before anyone else can."),
+  i("CRIT", "managers", 1, true, "I criticise myself before anyone else gets the chance."),
   i("CRIT", "managers", 2, true, "When I receive feedback, I am harder on myself than the other person was."),
   i("CRIT", "managers", 3, true, "When I feel exposed or hurt, I get harsh, with myself or with the other person."),
   i("CRIT", "managers", 4, false, "I notice other people's faults quickly and find it hard to let them go."),
@@ -128,7 +128,7 @@ export const ITEMS: Item[] = [
 
   i("IMPL", "firefighters", 1, true, "When pressure builds, I make sudden decisions just to get out of it (quitting, leaving, ending things)."),
   i("IMPL", "firefighters", 2, true, "When I feel bad, I spend money or take risks on impulse."),
-  i("IMPL", "firefighters", 3, true, "I do things in the heat of the moment that I cannot explain afterwards."),
+  i("IMPL", "firefighters", 3, true, "When I am upset, I act on impulse in ways that later make no sense to me."),
   i("IMPL", "firefighters", 4, false, "When I feel trapped, I get the urge to drop everything and run."),
 
   // ── Mixed role ──────────────────────────────────────────────────────
@@ -159,7 +159,7 @@ export const ITEMS: Item[] = [
   i("POWL", "exiles", 4, false, "I feel trapped, with no way to change things."),
 
   i("LONE", "exiles", 1, true, "I feel a deep loneliness even when I am with people."),
-  i("LONE", "exiles", 2, true, "A sadness comes over me that feels older than my present life."),
+  i("LONE", "exiles", 2, true, "A sadness comes over me that feels much older than anything happening now."),
   i("LONE", "exiles", 3, true, "I long for a kind of care or closeness that I never got."),
   i("LONE", "exiles", 4, false, "I feel an emptiness inside that nothing quite fills."),
 ];
