@@ -2,21 +2,24 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getContent } from "@/content";
 import type { Locale } from "@/config/app";
 import { Link, redirect } from "@/i18n/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { userWithProfile } from "@/lib/actions/session";
+import { withUser } from "@/lib/db";
 import type { PatternKey } from "@/lib/scoring/types";
+
+export const dynamic = "force-dynamic";
 
 export default async function CohortHome({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await userWithProfile(locale);
   if (!user) redirect({ href: "/cohort/join", locale });
   const t = await getTranslations("cohort");
   const content = getContent(locale as Locale);
 
-  const { data: memberships } = await supabase.from("cohort_members").select("cohort_id, cohorts(name, level)").eq("user_id", user!.id);
-  const { data: attempts } = await supabase.from("attempts").select("id, completed_at, pattern, form").eq("user_id", user!.id).order("completed_at", { ascending: false });
-  const membership = memberships?.[0];
+  const { membership, attempts } = await withUser(user!.id, async (db) => ({
+    membership: (await db.query<{ cohort_id: string }>("select cohort_id from public.cohort_members where user_id = $1 limit 1", [user!.id])).rows[0],
+    attempts: (await db.query<{ id: string; completed_at: string; pattern: string }>("select id, completed_at, pattern from public.attempts where user_id = $1 order by completed_at desc", [user!.id])).rows,
+  }));
 
   return (
     <div className="space-y-8 py-10">
@@ -29,7 +32,7 @@ export default async function CohortHome({ params }: { params: Promise<{ locale:
           <Link href="/cohort/start" className="btn btn-primary no-underline">{t("startFull")}</Link>
           <section aria-labelledby="attempts" className="space-y-3">
             <h2 id="attempts" className="text-2xl">{t("attempt")}s</h2>
-            {!attempts?.length ? <p className="text-ink-muted">{t("noAttempts")}</p> : (
+            {attempts.length === 0 ? <p className="text-ink-muted">{t("noAttempts")}</p> : (
               <ul className="divide-y divide-line">
                 {attempts.map((a) => (
                   <li key={a.id} className="flex flex-wrap items-center justify-between gap-2 py-3">

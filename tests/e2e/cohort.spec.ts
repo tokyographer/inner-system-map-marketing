@@ -1,35 +1,37 @@
-import { createClient } from "@supabase/supabase-js";
+import { Pool, neonConfig } from "@neondatabase/serverless";
 import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
 
 function loadEnv(): Record<string, string> {
-  try { return Object.fromEntries(readFileSync(".env.local", "utf8").split("\n").filter((l) => l.includes("=")).map((l) => { const i = l.indexOf("="); return [l.slice(0, i), l.slice(i + 1)]; })); } catch { return {}; }
+  try { return Object.fromEntries(readFileSync(".env.local", "utf8").split("\n").filter((l) => l.includes("=") && !l.startsWith("#")).map((l) => { const i = l.indexOf("="); return [l.slice(0, i), l.slice(i + 1).replace(/^"|"$/g, "")]; })); } catch { return {}; }
 }
 const env = loadEnv();
-const enabled = Boolean(env.NEXT_PUBLIC_SUPABASE_URL && env.SUPABASE_SERVICE_ROLE_KEY);
+const enabled = Boolean(env.DATABASE_URL && env.NEON_AUTH_BASE_URL);
+test.skip(!enabled, "needs Neon keys in .env.local");
 
-test.skip(!enabled, "needs local Supabase keys in .env.local");
-
-test("cohort mode: join → magic link → consent → full questionnaire → results → note → export → delete", async ({ page, baseURL }) => {
-  test.setTimeout(180_000);
-  const admin = createClient(env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } });
+test("cohort mode: join → sign in → consent → full questionnaire → results → note → export → delete", async ({ page }) => {
+  test.setTimeout(240_000);
+  neonConfig.webSocketConstructor ??= globalThis.WebSocket;
+  const pool = new Pool({ connectionString: env.DATABASE_URL_UNPOOLED ?? env.DATABASE_URL });
+  const sql = async (q: string, p: unknown[] = []) => { const c = await pool.connect(); try { return (await c.query(q, p)).rows; } finally { c.release(); } };
   const run = Date.now().toString(36);
   const code = `E2E-${run}`;
   const email = `e2e-${run}@example.test`;
-  const { data: hash } = await admin.rpc("hash_access_code", { p_code: code });
-  const { data: cohort } = await admin.from("cohorts").insert({ name: `E2E ${run}`, access_code_hash: hash!, access_code_expires_at: new Date(Date.now() + 864e5).toISOString() }).select("id").single();
+  const [cohort] = await sql("insert into public.cohorts (name, access_code_hash, access_code_expires_at) values ($1, app.hash_access_code($2), now() + interval '1 day') returning id", [`E2E ${run}`, code]);
 
   try {
     await page.goto("/en/cohort/join");
     await page.getByLabel("Access code").fill(code);
     await page.getByLabel("Email address").fill(email);
-    await page.getByRole("button", { name: "Send me a sign-in link" }).click();
-    await expect(page.getByRole("status")).toContainText("Check your inbox");
+    await page.getByRole("button", { name: "Send me a sign-in code" }).click();
+    await expect(page.getByRole("status")).toContainText("six-digit code");
 
-    // Stand in for the email: generate the link server-side and open it.
-    const { data: link, error } = await admin.auth.admin.generateLink({ type: "magiclink", email });
-    expect(error).toBeNull();
-    await page.goto(`${baseURL}/auth/callback?token_hash=${link!.properties!.hashed_token}&type=magiclink&next=/en/cohort/consent`);
+    // The emailed code is stored hashed, so stand in for it: create the account
+    // through the app's own auth handler, which sets the same session cookie.
+    const signUp = await page.request.post("/api/auth/sign-up/email", { data: { email, password: `Pw-${run}-long-enough!`, name: "E2E" } });
+    expect(signUp.ok(), await signUp.text()).toBe(true);
+
+    await page.goto("/en/cohort/consent");
     await expect(page.getByRole("heading", { name: "Before we store anything" })).toBeVisible();
     await page.getByRole("button", { name: "Continue" }).click();
     await expect(page.locator("p[role=alert]")).toContainText("tick the first box");
@@ -66,12 +68,11 @@ test("cohort mode: join → magic link → consent → full questionnaire → re
     await page.getByLabel("Type DELETE to confirm").fill("DELETE");
     await page.getByRole("button", { name: "Delete my account and all my data" }).click();
     await expect(page).toHaveURL(/\/en$/);
-    const { data: users } = await admin.auth.admin.listUsers({ perPage: 1000 });
-    expect(users.users.find((u) => u.email === email)).toBeUndefined();
+    expect(await sql('select 1 from neon_auth."user" where email = $1', [email])).toEqual([]);
+    expect(await sql("select 1 from public.attempts where cohort_id = $1", [cohort.id])).toEqual([]);
   } finally {
-    await admin.from("cohorts").delete().eq("id", cohort!.id);
-    const { data: users } = await admin.auth.admin.listUsers({ perPage: 1000 });
-    const u = users.users.find((x) => x.email === email);
-    if (u) await admin.auth.admin.deleteUser(u.id);
+    await sql("delete from public.cohorts where id = $1", [cohort.id]);
+    await sql('delete from neon_auth."user" where email = $1', [email]);
+    await pool.end();
   }
 });

@@ -125,11 +125,9 @@
   },
   "cohort": {
     "joinTitle": "Únete a tu cohorte",
-    "joinLead": "Introduce el código de acceso que te dio tu facilitador y el correo que quieres usar. Te enviaremos un enlace para entrar. Sin contraseña.",
+    "joinLead": "Introduce el código de acceso que te dio tu facilitador y el correo que quieres usar. Te enviaremos un código de seis dígitos por correo. Sin contraseña.",
     "code": "Código de acceso",
     "email": "Dirección de correo",
-    "sendLink": "Enviarme un enlace de acceso",
-    "linkSent": "Revisa tu bandeja de entrada: te hemos enviado un enlace de acceso. Caduca en una hora.",
     "invalidCode": "Ese código de acceso no es válido o ha caducado. Compruébalo con tu facilitador.",
     "invalidInput": "Introduce un código de acceso y un correo válidos.",
     "rateLimited": "Demasiados intentos desde este dispositivo. Inténtalo más tarde.",
@@ -164,6 +162,11 @@
     "deleteConfirm": "Escribe DELETE para confirmar",
     "deleteButton": "Eliminar mi cuenta y todos mis datos",
     "deleted": "Tu cuenta y tus datos han sido eliminados.",
-    "levelTwo": "En el Nivel II"
+    "levelTwo": "En el Nivel II",
+    "sendCode": "Enviarme un código de acceso",
+    "codeSent": "Te hemos enviado un código de seis dígitos por correo. Caduca en unos minutos.",
+    "otp": "Código de acceso",
+    "verify": "Continuar",
+    "invalidOtp": "Ese código no es válido o ha caducado. Solicita uno nuevo."
   }
 }

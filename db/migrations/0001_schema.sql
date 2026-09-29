@@ -1,16 +1,17 @@
--- Inner System Map: core schema (cohort mode + public opt-in results).
--- All response data is treated as special category data (GDPR Art. 9).
--- Email lives only in auth.users (cohort) or public_results (opt-in). No IPs, no DOB.
+-- Inner System Map: core schema on Neon Postgres. Identity comes from Neon Auth
+-- (schema neon_auth, table "user" with uuid ids). All response data is treated as
+-- special category data (GDPR Art. 9). Email lives only in neon_auth."user"
+-- (cohort) or public_results (opt-in). No IPs, no DOB.
 
-create extension if not exists pgcrypto with schema extensions;
+create extension if not exists pgcrypto;
 
 create type public.app_role as enum ('admin', 'facilitator', 'participant');
 create type public.consent_kind as enum ('store_results', 'facilitator_visibility', 'newsletter');
 create type public.form_kind as enum ('full', 'short');
 
--- ── profiles ───────────────────────────────────────────────────────────
+-- ── profiles (one per Neon Auth user; created on first sign-in) ────────
 create table public.profiles (
-  id uuid primary key references auth.users (id) on delete cascade,
+  id uuid primary key references neon_auth."user" (id) on delete cascade,
   display_name text,
   role public.app_role not null default 'participant',
   locale text not null default 'en' check (locale in ('en', 'es', 'ro')),
@@ -131,17 +132,3 @@ create table public.app_settings (
   default_cohort_retention_months int not null default 12
 );
 insert into public.app_settings (id) values (1);
-
--- ── profile bootstrap on sign-up ───────────────────────────────────────
-create or replace function public.handle_new_user()
-returns trigger language plpgsql security definer set search_path = public as $$
-begin
-  insert into public.profiles (id, locale)
-  values (new.id, coalesce(new.raw_user_meta_data ->> 'locale', 'en'))
-  on conflict (id) do nothing;
-  return new;
-end $$;
-
-create trigger on_auth_user_created
-  after insert on auth.users
-  for each row execute function public.handle_new_user();

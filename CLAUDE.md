@@ -10,7 +10,7 @@ Self-report screener that maps a person's inner system in Internal Family System
 - `lib/pdf/` → results PDF (@react-pdf/renderer), same static content as the results page, section 8 order.
 - `lib/email/send-results.ts` → Resend: one email to the person, a separate copy to `RESULTS_COPY_TO`.
 - `app/api/public/results-pdf` (POST → PDF) and `app/api/public/email-results` (POST → sends). Both zod-validated and rate limited.
-- Phases 3–7 (UI, i18n, Supabase, dashboard, retention) are planned in `docs/PHASE-1-PLAN.md`.
+- `db/migrations/` → SQL schema, functions and RLS for Neon; `lib/db/` → connection and per-user transaction; `lib/auth/` → Neon Auth. Phases 6–7 (dashboard, retention, e2e in CI) are planned in `docs/PHASE-1-PLAN.md` (which still describes the original Supabase design; Neon replaced it).
 
 ## Run Order
 ```
@@ -23,7 +23,7 @@ npm run dev
 ```
 
 ## Hardware & Environment
-- Node 24+, npm. Deploy target: Vercel, region fra1 (EU). Supabase EU project (Phase 5).
+- Node 24+, npm. Deploy target: Vercel, region fra1 (EU). Neon Postgres + Neon Auth in eu-central-1 via the Vercel Marketplace.
 
 ## Key Dependencies & Gotchas
 - Next 16 App Router. `@react-pdf/renderer` is in `serverExternalPackages`; PDF routes set `runtime = "nodejs"`.
@@ -31,9 +31,11 @@ npm run dev
 - Pattern rules are evaluated in order; a manager/firefighter gap of exactly 0.3 resolves to MANAGED or REACTIVE, not POLARISED.
 - Team-of-protectors rule: top two, plus the third when within 0.4 of the second (assumption, see plan).
 - Rate limiting is in-memory for now (soft). Replace with Upstash in Phase 7.
-- Supabase: the service-role client (`lib/supabase/admin.ts`) is used only for access-code lookup before sign-in, public opt-in results and retention. Everything else runs as the user under RLS. Facilitator reads of attempts are gated in SQL on an active `facilitator_visibility` consent.
-- After editing a migration: `npx supabase db reset` then regenerate `lib/supabase/types.ts` (see README). Never hand-edit the generated file.
-- `.env.local` holds local Supabase keys and is gitignored; `.env.example` lists every variable.
+- Data access: `withUser(userId, fn)` for anything a signed-in person does (RLS applies); `asService(fn)` only for access-code lookup before sign-in, public opt-in results and retention. Facilitator reads of attempts are gated in SQL on an active `facilitator_visibility` consent.
+- Migrations are append-only: never edit an applied file, add `db/migrations/000N_*.sql`. Postgres functions are executable by PUBLIC by default; revoke from `public` explicitly (see 0004).
+- Neon Auth ids are uuid; `profiles.id` references `neon_auth."user"(id)`. The emailed OTP is stored hashed, so tests sign in through `/api/auth/sign-up/email` instead.
+- Server Components that read the session export `dynamic = "force-dynamic"`.
+- `.env.local` comes from `npx vercel env pull` plus `NEON_AUTH_COOKIE_SECRET`; gitignored. `.env.example` lists every variable.
 - Storage hydration uses `useSyncExternalStore` (lib/questionnaire/storage.ts); do not read localStorage in effects with setState (lint rule).
 - Completing the questionnaire clears progress, which notifies the store; the redirect-to-start effect is guarded by a `finished` ref.
 - Next 16 uses `proxy.ts` (not middleware.ts) for next-intl routing.
@@ -62,9 +64,9 @@ npm run dev
 ## Current Status
 - Done: Phase 1 plan. Phase 2 scoring engine + item bank + EN content (100% coverage), results PDF, Resend email flow with institute copy, request validation, interim rate limiting. Phase 3 public mode in EN: landing, start (age gate), questionnaire (seeded constrained order, localStorage autosave, keyboard Likert), results page in section 8 order, PDF download, email opt-in form, retake. next-intl routing /en /es /ro (ES/RO fall back to EN messages until Phase 4). Playwright happy path + axe audit (0 WCAG 2.1 AA violations) at 360px.
 - Phase 4 done: ES and RO drafts for items (`content/items.v2.{es,ro}.ts`, keyed by ID), typologies, exiles, patterns, exercise, support resources, Level II, PDF labels and `messages/{es,ro}.json`. All marked "DRAFT, pending human review". `content/index.ts` resolves content and item text by locale; the PDF renders in the request locale. Locale completeness and forbidden-word tests in `tests/unit/content/locales.test.ts`.
-- Phase 5 done: Supabase migrations (`supabase/migrations/0001_schema.sql`, `0002_functions.sql`, `0003_rls.sql`), generated types in `lib/supabase/types.ts`, magic-link auth via `/auth/callback`, cohort join with hashed access codes, consent logging (append-only rows), cohort questionnaire (full form) scored server-side in `lib/actions/cohort.ts`, attempt history, results with private/shareable notes, JSON export, real account deletion with cascade. Session refresh in `proxy.ts`.
+- Phase 5 done on Neon (Vercel Marketplace, Frankfurt) with Neon Auth: migrations in `db/migrations/*.sql` applied by `scripts/migrate.mjs`, per-user RLS via `withUser()` in `lib/db/index.ts` (transaction as role `app_user` with `app.user_id` set), Neon Auth sign-in by emailed six-digit code, cohort join with hashed access codes, consent logging, cohort questionnaire scored server-side in `lib/actions/cohort.ts`, attempt history, notes, JSON export, real deletion (`app.delete_my_data()` + Neon Auth `deleteUser`).
 - Not done: facilitator dashboard, RLS tests (pgTAP), audit-log UI, CSV exports, retention cron, Upstash rate limiting, Playwright cohort e2e in CI.
 - Item bank and content are DRAFT pending Anthony's clinical review.
 
 ## Future Integration
-- Input: item responses `{ itemId: 1..5 }` + form + locale. Output: `Result` JSON, PDF, email. Cohort data to Supabase (Phase 5).
+- Input: item responses `{ itemId: 1..5 }` + form + locale. Output: `Result` JSON, PDF, email. Cohort data in Neon Postgres.

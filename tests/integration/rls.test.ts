@@ -1,147 +1,134 @@
 /**
- * Runs against a local Supabase (npx supabase start) using keys from .env.local.
- * Skipped when the keys are absent so `npm test` stays green without Docker.
+ * Runs against the Neon development branch using DATABASE_URL from .env.local.
+ * Skipped when the variable is absent. Creates its own Neon Auth users (rows in
+ * neon_auth."user") and removes everything it made.
  */
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { Pool, neonConfig } from "@neondatabase/serverless";
+import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { build } from "../unit/scoring/helpers";
-import type { Database } from "@/lib/supabase/types";
 
 function loadEnv(): Record<string, string> {
-  try {
-    return Object.fromEntries(readFileSync(".env.local", "utf8").split("\n").filter((l) => l.includes("=")).map((l) => { const i = l.indexOf("="); return [l.slice(0, i), l.slice(i + 1)]; }));
-  } catch { return {}; }
+  try { return Object.fromEntries(readFileSync(".env.local", "utf8").split("\n").filter((l) => l.includes("=") && !l.startsWith("#")).map((l) => { const i = l.indexOf("="); return [l.slice(0, i), l.slice(i + 1).replace(/^"|"$/g, "")]; })); } catch { return {}; }
 }
 const env = loadEnv();
-const URL = env.NEXT_PUBLIC_SUPABASE_URL, ANON = env.NEXT_PUBLIC_SUPABASE_ANON_KEY, SERVICE = env.SUPABASE_SERVICE_ROLE_KEY;
-const enabled = Boolean(URL && ANON && SERVICE);
+const URL = env.DATABASE_URL_UNPOOLED ?? env.DATABASE_URL;
+const enabled = Boolean(URL);
+neonConfig.webSocketConstructor ??= globalThis.WebSocket;
+const pool = enabled ? new Pool({ connectionString: URL }) : null;
 
-type Client = SupabaseClient<Database>;
-const admin = enabled ? createClient<Database>(URL, SERVICE, { auth: { persistSession: false } }) : null;
-const run = Date.now().toString(36);
-const password = "Test-pass-1234!";
-const ids: Record<string, string> = {};
-const clients: Record<string, Client> = {};
-
-async function user(name: string, role?: "admin" | "facilitator"): Promise<Client> {
-  const email = `${name}-${run}@example.test`;
-  const { data, error } = await admin!.auth.admin.createUser({ email, password, email_confirm: true });
-  if (error) throw error;
-  ids[name] = data.user.id;
-  if (role) await admin!.from("profiles").update({ role }).eq("id", data.user.id);
-  const c = createClient<Database>(URL, ANON, { auth: { persistSession: false } });
-  const { error: sErr } = await c.auth.signInWithPassword({ email, password });
-  if (sErr) throw sErr;
-  clients[name] = c;
-  return c;
+type Row = Record<string, unknown>;
+async function service(sql: string, params: unknown[] = []): Promise<Row[]> {
+  const c = await pool!.connect();
+  try { return (await c.query(sql, params)).rows; } finally { c.release(); }
+}
+/** Mirrors lib/db withUser: one transaction as app_user with app.user_id set. */
+async function as(userId: string | null, sql: string, params: unknown[] = []): Promise<{ rows: Row[]; error: string | null }> {
+  const c = await pool!.connect();
+  try {
+    await c.query("begin");
+    await c.query("set local role app_user");
+    if (userId) await c.query("select set_config('app.user_id', $1, true)", [userId]);
+    try {
+      const r = await c.query(sql, params);
+      await c.query("commit");
+      return { rows: r.rows, error: null };
+    } catch (e) {
+      await c.query("rollback");
+      return { rows: [], error: e instanceof Error ? e.message : String(e) };
+    }
+  } finally { c.release(); }
 }
 
+const run = Date.now().toString(36);
+const ids: Record<string, string> = {};
 const CODE = `RLS-${run}`;
 let cohortA = "", cohortB = "", attemptP1 = "";
 
-describe.skipIf(!enabled)("RLS and SQL functions (local Supabase)", () => {
+async function user(name: string, role?: "admin" | "facilitator") {
+  const id = randomUUID();
+  ids[name] = id;
+  await service(`insert into neon_auth."user" (id, name, email, "emailVerified", "createdAt", "updatedAt") values ($1, $2, $3, true, now(), now())`, [id, name, `${name}-${run}@example.test`]);
+  await service("insert into public.profiles (id, role) values ($1, $2)", [id, role ?? "participant"]);
+}
+
+describe.skipIf(!enabled)("RLS and SQL functions (Neon)", () => {
   beforeAll(async () => {
     await user("admin", "admin");
-    const { data: a } = await admin!.from("cohorts").insert({ name: `A ${run}`, access_code_hash: "x", access_code_expires_at: new Date(Date.now() + 864e5).toISOString() }).select("id").single();
-    const { data: b } = await admin!.from("cohorts").insert({ name: `B ${run}`, access_code_hash: "y", access_code_expires_at: new Date(Date.now() + 864e5).toISOString() }).select("id").single();
-    cohortA = a!.id; cohortB = b!.id;
-    const { data: hash } = await admin!.rpc("hash_access_code", { p_code: CODE });
-    await admin!.from("cohorts").update({ access_code_hash: hash! }).eq("id", cohortA);
+    const a = await service("insert into public.cohorts (name, access_code_hash, access_code_expires_at) values ($1, app.hash_access_code($2), now() + interval '1 day') returning id", [`A ${run}`, CODE]);
+    const b = await service("insert into public.cohorts (name, access_code_hash, access_code_expires_at) values ($1, 'y', now() + interval '1 day') returning id", [`B ${run}`]);
+    cohortA = a[0].id as string; cohortB = b[0].id as string;
     await user("p1"); await user("p2"); await user("p3");
     await user("facA", "facilitator"); await user("facB", "facilitator");
-    await admin!.from("cohort_facilitators").insert([{ cohort_id: cohortA, user_id: ids.facA }, { cohort_id: cohortB, user_id: ids.facB }]);
+    await service("insert into public.cohort_facilitators (cohort_id, user_id) values ($1, $2), ($3, $4)", [cohortA, ids.facA, cohortB, ids.facB]);
   }, 60_000);
 
   afterAll(async () => {
-    for (const name of Object.keys(ids)) await admin!.auth.admin.deleteUser(ids[name]).catch(() => {});
-    await admin!.from("cohorts").delete().in("id", [cohortA, cohortB]);
+    await service("delete from public.cohorts where id = any($1)", [[cohortA, cohortB]]);
+    await service('delete from neon_auth."user" where id = any($1)', [Object.values(ids)]);
+    await pool!.end();
   });
 
-  it("anon cannot look up access codes; the server can", async () => {
-    const anon = createClient<Database>(URL, ANON, { auth: { persistSession: false } });
-    const { error } = await anon.rpc("lookup_access_code", { p_code: CODE });
-    expect(error).not.toBeNull();
-    const { data } = await admin!.rpc("lookup_access_code", { p_code: CODE });
-    expect(data?.[0]?.id).toBe(cohortA);
-    const { data: none } = await admin!.rpc("lookup_access_code", { p_code: "WRONG-1" });
-    expect(none).toEqual([]);
+  it("app_user cannot look up or hash access codes; the service connection can", async () => {
+    expect((await as(ids.p1, "select * from app.lookup_access_code($1)", [CODE])).error ?? "no error").toMatch(/permission denied/);
+    expect((await as(ids.p1, "select app.hash_access_code($1)", [CODE])).error ?? "no error").toMatch(/permission denied/);
+    const rows = await service("select id from app.lookup_access_code($1)", [CODE]);
+    expect(rows[0]?.id).toBe(cohortA);
+    expect(await service("select id from app.lookup_access_code($1)", ["WRONG-1"])).toEqual([]);
   });
 
   it("participants join with the code and consent; attempts need store_results consent", async () => {
-    for (const name of ["p1", "p2", "p3"]) {
-      const { data, error } = await clients[name].rpc("join_cohort_with_code", { p_code: CODE });
-      expect(error).toBeNull(); expect(data).toBe(cohortA);
+    for (const n of ["p1", "p2", "p3"]) {
+      const r = await as(ids[n], "select app.join_cohort_with_code($1) as id", [CODE]);
+      expect(r.error).toBeNull(); expect(r.rows[0].id).toBe(cohortA);
     }
-    const base = (u: string) => ({ user_id: ids[u], cohort_id: cohortA, policy_version: "t", locale: "en" });
-    await clients.p1.from("consents").insert([{ ...base("p1"), kind: "store_results", granted: true }, { ...base("p1"), kind: "facilitator_visibility", granted: true }]);
-    await clients.p2.from("consents").insert([{ ...base("p2"), kind: "store_results", granted: true }]);
-    const attempt = (u: string) => ({
-      user_id: ids[u], cohort_id: cohortA, item_bank_version: "v2", scoring_version: "t", form: "short" as const, locale: "en", seed: 1,
-      started_at: new Date().toISOString(), duration_seconds: 300, responses: build("short", {}, 3), scores: {}, pattern: "QUIET_OR_GUARDED",
-      self_score: 3, top_protectors: ["PERF"], top_exile: "SHAM",
-    });
-    const { data: a1, error: e1 } = await clients.p1.from("attempts").insert(attempt("p1")).select("id").single();
-    expect(e1).toBeNull(); attemptP1 = a1!.id;
-    const { error: e3 } = await clients.p3.from("attempts").insert(attempt("p3"));
-    expect(e3).not.toBeNull();
-    const { error: eSpoof } = await clients.p2.from("attempts").insert({ ...attempt("p2"), user_id: ids.p1 });
-    expect(eSpoof).not.toBeNull();
+    expect((await as(null, "select app.join_cohort_with_code($1)", [CODE])).error ?? "no error").toMatch(/not signed in/);
+    const consent = (u: string, kind: string, granted = true) => as(ids[u], "insert into public.consents (user_id, cohort_id, kind, granted, policy_version, locale) values ($1, $2, $3, $4, 't', 'en')", [ids[u], cohortA, kind, granted]);
+    await consent("p1", "store_results"); await consent("p1", "facilitator_visibility"); await consent("p2", "store_results");
+    const attempt = (u: string, owner = u) => as(ids[u],
+      `insert into public.attempts (user_id, cohort_id, item_bank_version, scoring_version, form, locale, seed, started_at, duration_seconds, responses, scores, pattern, self_score, top_protectors, top_exile)
+       values ($1, $2, 'v2', 't', 'short', 'en', 1, now(), 300, $3, '{}', 'QUIET_OR_GUARDED', 3, '{PERF}', 'SHAM') returning id`, [ids[owner], cohortA, JSON.stringify(build("short", {}, 3))]);
+    const a1 = await attempt("p1"); expect(a1.error).toBeNull(); attemptP1 = a1.rows[0].id as string;
+    expect((await attempt("p3")).error ?? "no error").toMatch(/row-level security/);
+    expect((await attempt("p2", "p1")).error ?? "no error").toMatch(/row-level security/);
   });
 
   it("a participant cannot read another participant's attempts, notes or profile", async () => {
-    const { data } = await clients.p2.from("attempts").select("id");
-    expect(data?.map((r) => r.id)).not.toContain(attemptP1);
-    const { data: prof } = await clients.p2.from("profiles").select("id").eq("id", ids.p1);
-    expect(prof).toEqual([]);
-    await clients.p1.from("participant_notes").insert({ attempt_id: attemptP1, user_id: ids.p1, protector_key: "PERF", body: "private", shared_with_facilitator: false });
-    const { data: notes } = await clients.p2.from("participant_notes").select("id");
-    expect(notes).toEqual([]);
+    expect((await as(ids.p2, "select id from public.attempts")).rows.map((r) => r.id)).not.toContain(attemptP1);
+    expect((await as(ids.p2, "select id from public.profiles where id = $1", [ids.p1])).rows).toEqual([]);
+    await as(ids.p1, "insert into public.participant_notes (attempt_id, user_id, protector_key, body) values ($1, $2, 'PERF', 'private')", [attemptP1, ids.p1]);
+    expect((await as(ids.p2, "select id from public.participant_notes")).rows).toEqual([]);
   });
 
-  it("facilitator of the cohort sees attempts only while visibility consent is active; other cohort's facilitator sees nothing", async () => {
-    const { data: seen } = await clients.facA.from("attempts").select("id");
-    expect(seen?.map((r) => r.id)).toContain(attemptP1);
-    const { data: notesHidden } = await clients.facA.from("participant_notes").select("id");
-    expect(notesHidden).toEqual([]);
-    await clients.p1.from("participant_notes").update({ shared_with_facilitator: true }).eq("attempt_id", attemptP1);
-    const { data: notesShared } = await clients.facA.from("participant_notes").select("body");
-    expect(notesShared?.[0]?.body).toBe("private");
-    const { data: other } = await clients.facB.from("attempts").select("id");
-    expect(other).toEqual([]);
-    const { data: otherMembers } = await clients.facB.from("cohort_members").select("user_id").eq("cohort_id", cohortA);
-    expect(otherMembers).toEqual([]);
-    await clients.p1.from("consents").insert({ user_id: ids.p1, cohort_id: cohortA, kind: "facilitator_visibility", granted: false, policy_version: "t", locale: "en" });
-    const { data: afterWithdraw } = await clients.facA.from("attempts").select("id");
-    expect(afterWithdraw).toEqual([]);
+  it("facilitator sees attempts only while visibility consent is active; other cohort's facilitator sees nothing", async () => {
+    expect((await as(ids.facA, "select id from public.attempts")).rows.map((r) => r.id)).toContain(attemptP1);
+    expect((await as(ids.facA, "select id from public.participant_notes")).rows).toEqual([]);
+    await as(ids.p1, "update public.participant_notes set shared_with_facilitator = true where attempt_id = $1", [attemptP1]);
+    expect((await as(ids.facA, "select body from public.participant_notes")).rows[0]?.body).toBe("private");
+    expect((await as(ids.facB, "select id from public.attempts")).rows).toEqual([]);
+    expect((await as(ids.facB, "select user_id from public.cohort_members where cohort_id = $1", [cohortA])).rows).toEqual([]);
+    await as(ids.p1, "insert into public.consents (user_id, cohort_id, kind, granted, policy_version, locale) values ($1, $2, 'facilitator_visibility', false, 't', 'en')", [ids.p1, cohortA]);
+    expect((await as(ids.facA, "select id from public.attempts")).rows).toEqual([]);
   });
 
-  it("a participant cannot escalate their role", async () => {
-    const { error } = await clients.p1.from("profiles").update({ role: "admin" }).eq("id", ids.p1);
-    expect(error).not.toBeNull();
-    const { data } = await clients.p1.from("profiles").select("role").eq("id", ids.p1).single();
-    expect(data?.role).toBe("participant");
+  it("a participant cannot escalate their role and cannot touch public_results", async () => {
+    expect((await as(ids.p1, "update public.profiles set role = 'admin' where id = $1", [ids.p1])).error ?? "no error").toMatch(/admin/);
+    expect((await as(ids.p1, "select role from public.profiles where id = $1", [ids.p1])).rows[0].role).toBe("participant");
+    expect((await as(ids.p1, "select * from public.public_results")).error ?? "no error").toMatch(/permission denied/);
+    expect((await as(ids.p1, "select * from app.run_retention()")).error ?? "no error").toMatch(/permission denied/);
   });
 
-  it("delete_my_account removes every row and the auth user", async () => {
-    const { error } = await clients.p1.rpc("delete_my_account");
-    expect(error).toBeNull();
-    for (const table of ["attempts", "participant_notes", "consents", "cohort_members", "profiles"] as const) {
-      const col = table === "profiles" ? "id" : "user_id";
-      const { data } = await admin!.from(table).select("*").filter(col, "eq", ids.p1);
-      expect(data, table).toEqual([]);
+  it("delete_my_data removes every app row for the user", async () => {
+    expect((await as(ids.p1, "select app.delete_my_data()")).error).toBeNull();
+    for (const [table, col] of [["attempts", "user_id"], ["participant_notes", "user_id"], ["consents", "user_id"], ["cohort_members", "user_id"], ["profiles", "id"]]) {
+      expect(await service(`select 1 from public.${table} where ${col} = $1`, [ids.p1]), table).toEqual([]);
     }
-    const { data: u } = await admin!.auth.admin.getUserById(ids.p1);
-    expect(u.user).toBeNull();
-    delete ids.p1;
   });
 
-  it("run_retention is server-only and deletes expired public results", async () => {
-    const { error: denied } = await clients.p2.rpc("run_retention");
-    expect(denied).not.toBeNull();
-    await admin!.from("public_results").insert({ email: "x@example.test", locale: "en", item_bank_version: "v2", scoring_version: "t", form: "short", responses: {}, scores: {}, policy_version: "t", delete_token_hash: "h", expires_at: new Date(Date.now() - 1000).toISOString() });
-    const { data, error } = await admin!.rpc("run_retention");
-    expect(error).toBeNull();
-    expect(data?.[0]?.public_results_deleted).toBeGreaterThanOrEqual(1);
+  it("run_retention deletes expired public results (service only)", async () => {
+    await service("insert into public.public_results (email, locale, item_bank_version, scoring_version, form, responses, scores, policy_version, delete_token_hash, expires_at) values ('x@example.test', 'en', 'v2', 't', 'short', '{}', '{}', 't', 'h', now() - interval '1 second')");
+    const rows = await service("select * from app.run_retention()");
+    expect(Number(rows[0].public_results_deleted)).toBeGreaterThanOrEqual(1);
   });
 });

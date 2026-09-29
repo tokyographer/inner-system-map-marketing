@@ -10,6 +10,12 @@ export const joinRequestSchema = z.object({
   locale: z.enum(LOCALES),
 });
 
+export const verifyCodeSchema = z.object({
+  email: z.email().max(254),
+  otp: z.string().trim().regex(/^\d{6}$/),
+  locale: z.enum(LOCALES),
+});
+
 export const consentSchema = z.object({
   code: accessCodeSchema,
   storeAndShare: z.literal(true),
@@ -38,6 +44,7 @@ export const noteSchema = z.object({
 });
 
 export type JoinRequest = z.infer<typeof joinRequestSchema>;
+export type VerifyCodeInput = z.infer<typeof verifyCodeSchema>;
 export type ConsentInput = z.infer<typeof consentSchema>;
 export type CohortAttemptInput = z.infer<typeof cohortAttemptSchema>;
 export type NoteInput = z.infer<typeof noteSchema>;

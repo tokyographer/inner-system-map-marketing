@@ -124,11 +124,9 @@
   },
   "cohort": {
     "joinTitle": "Join your cohort",
-    "joinLead": "Enter the access code your facilitator gave you and the email address you want to use. We will send you a sign-in link. No password.",
+    "joinLead": "Enter the access code your facilitator gave you and the email address you want to use. We will email you a six-digit sign-in code. No password.",
     "code": "Access code",
     "email": "Email address",
-    "sendLink": "Send me a sign-in link",
-    "linkSent": "Check your inbox for a sign-in link. It expires in one hour.",
     "invalidCode": "That access code is not valid or has expired. Check it with your facilitator.",
     "invalidInput": "Please enter a valid access code and email address.",
     "rateLimited": "Too many attempts from this device. Please try again later.",
@@ -163,6 +161,11 @@
     "deleteConfirm": "Type DELETE to confirm",
     "deleteButton": "Delete my account and all my data",
     "deleted": "Your account and data have been deleted.",
-    "levelTwo": "In Level II"
+    "levelTwo": "In Level II",
+    "sendCode": "Send me a sign-in code",
+    "codeSent": "We emailed you a six-digit code. It expires in a few minutes.",
+    "otp": "Sign-in code",
+    "verify": "Continue",
+    "invalidOtp": "That code is not valid or has expired. Request a new one."
   }
 }

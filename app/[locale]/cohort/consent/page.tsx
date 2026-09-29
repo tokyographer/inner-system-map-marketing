@@ -1,14 +1,15 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { redirect } from "@/i18n/navigation";
 import { pendingCohort } from "@/lib/actions/cohort";
-import { createClient } from "@/lib/supabase/server";
+import { userWithProfile } from "@/lib/actions/session";
 import { ConsentForm } from "@/components/cohort/ConsentForm";
+
+export const dynamic = "force-dynamic";
 
 export default async function ConsentPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await userWithProfile(locale);
   if (!user) redirect({ href: "/cohort/join", locale });
   const pending = await pendingCohort();
   if (!pending) redirect({ href: "/cohort/join?error=missing_code", locale });

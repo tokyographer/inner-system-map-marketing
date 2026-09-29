@@ -125,11 +125,9 @@
   },
   "cohort": {
     "joinTitle": "Alătură-te cohortei tale",
-    "joinLead": "Introdu codul de acces primit de la facilitator și adresa de email pe care vrei s-o folosești. Îți trimitem un link de autentificare. Fără parolă.",
+    "joinLead": "Introdu codul de acces primit de la facilitator și adresa de email pe care vrei s-o folosești. Îți trimitem pe email un cod de autentificare de șase cifre. Fără parolă.",
     "code": "Cod de acces",
     "email": "Adresa de email",
-    "sendLink": "Trimite-mi un link de autentificare",
-    "linkSent": "Verifică-ți inboxul: ți-am trimis un link de autentificare. Expiră într-o oră.",
     "invalidCode": "Acest cod de acces nu este valid sau a expirat. Verifică-l cu facilitatorul tău.",
     "invalidInput": "Te rugăm să introduci un cod de acces și o adresă de email valide.",
     "rateLimited": "Prea multe încercări de pe acest dispozitiv. Te rugăm să încerci mai târziu.",
@@ -164,6 +162,11 @@
     "deleteConfirm": "Scrie DELETE pentru a confirma",
     "deleteButton": "Șterge-mi contul și toate datele mele",
     "deleted": "Contul și datele tale au fost șterse.",
-    "levelTwo": "În Nivelul II"
+    "levelTwo": "În Nivelul II",
+    "sendCode": "Trimite-mi un cod de autentificare",
+    "codeSent": "Ți-am trimis pe email un cod de șase cifre. Expiră în câteva minute.",
+    "otp": "Cod de autentificare",
+    "verify": "Continuă",
+    "invalidOtp": "Acest cod nu este valid sau a expirat. Cere unul nou."
   }
 }
