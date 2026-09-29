@@ -31,11 +31,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "email_not_configured" }, { status: 503 });
   }
   try {
-    const { responses, form, durationSeconds, locale, email } = parsed.data;
+    const { responses, form, durationSeconds, locale, email, name } = parsed.data;
     const result = score({ responses, form, durationSeconds });
-    const pdf = await renderResultsPdf({ result, locale, mode: "public" });
+    const pdf = await renderResultsPdf({ result, locale, mode: "public", name });
     await sendResultsEmail(
-      { to: email, locale, pdf, patternTitle: PATTERNS[result.pattern.key].title, flooded: result.pattern.key === "FLOODED" },
+      { to: email, name, locale, pdf, patternTitle: PATTERNS[result.pattern.key].title, flooded: result.pattern.key === "FLOODED" },
       env,
     );
     return NextResponse.json({ ok: true, copySentToInstitute: env.copyTo !== null });

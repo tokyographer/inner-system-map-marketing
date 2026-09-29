@@ -11,6 +11,8 @@ import type { Responses } from "@/lib/scoring/types";
 
 export const PROGRESS_KEY = "ism:progress:v2";
 export const ATTEMPT_KEY = "ism:attempt:v2";
+export const CONTACT_KEY = "ism:contact:v2";
+export const SENT_KEY = "ism:sent:v2";
 
 export interface Progress {
   seed: number;
@@ -18,6 +20,13 @@ export interface Progress {
   startedAt: number;
   index: number;
   responses: Responses;
+}
+
+export interface Contact {
+  name: string;
+  email: string;
+  newsletter: boolean;
+  policyVersion: string;
 }
 
 export interface CompletedAttempt {
@@ -78,3 +87,12 @@ export const loadAttempt = () => parse<CompletedAttempt>(getRaw("session", ATTEM
 export const saveAttempt = (a: CompletedAttempt) => write("session", ATTEMPT_KEY, a);
 export const clearAttempt = () => remove("session", ATTEMPT_KEY);
 export const useAttempt = () => useStored<CompletedAttempt>("session", ATTEMPT_KEY);
+
+export const loadContact = () => parse<Contact>(getRaw("session", CONTACT_KEY)) ?? null;
+export const saveContact = (c: Contact) => write("session", CONTACT_KEY, c);
+export const clearContact = () => remove("session", CONTACT_KEY);
+export const useContact = () => useStored<Contact>("session", CONTACT_KEY);
+
+/** Remembers which attempt (by completedAt) has already been emailed, so a refresh does not resend. */
+export const markSent = (completedAt: number) => write("session", SENT_KEY, completedAt);
+export const useSentFor = () => useStored<number>("session", SENT_KEY);

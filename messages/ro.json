@@ -32,7 +32,14 @@
     "resume": "Ai o încercare neterminată. Continui de unde ai rămas?",
     "continue": "Continuă",
     "startOver": "Ia de la capăt",
-    "start": "Începe"
+    "start": "Începe",
+    "contactTitle": "Unde să-ți trimitem rezultatele?",
+    "name": "Numele tău",
+    "email": "Adresa de email",
+    "contactConsent": "Trimite PDF-ul cu rezultatele mele la această adresă când termin, păstrează o copie timp de 6 luni și trimite o copie la Transcendent Institute (info@transcendentinstitute.com), ca școala să poată reveni dacă cer eu. Pot solicita ștergerea oricând.",
+    "newsletter": "Adaugă-mă și la newsletterul Transcendent Institute.",
+    "contactRequired": "Te rugăm să introduci numele și o adresă de email validă și să bifezi căsuța de consimțământ.",
+    "onScreen": "Rezultatele tale vor fi afișate oricum și pe ecran."
   },
   "likert": {
     "1": "Niciodată sau aproape niciodată",
@@ -94,7 +101,11 @@
     "bandVeryActive": "foarte activă",
     "selfHardToReach": "greu de atins chiar acum",
     "selfAvailableAtTimes": "disponibil uneori",
-    "selfOftenAvailable": "disponibil adesea"
+    "selfOftenAvailable": "disponibil adesea",
+    "sendingTo": "Îți trimitem rezultatele la {email}",
+    "sentTo": "Rezultatele tale au fost trimise la {email}.",
+    "sendFailed": "Rezultatele nu au putut fi trimise la {email}. Poți descărca PDF-ul sau poți încerca din nou.",
+    "sendAgain": "Trimite din nou"
   },
   "email": {
     "title": "Trimite-mi rezultatele pe email",

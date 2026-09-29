@@ -9,6 +9,7 @@ import { CARE_NOTE } from "@/content/patterns.en";
 
 export interface SendResultsArgs {
   to: string;
+  name?: string;
   locale: Locale;
   pdf: Buffer;
   patternTitle: string;
@@ -35,12 +36,14 @@ function bodyFor(args: SendResultsArgs, forInstitute: boolean): { subject: strin
   if (forInstitute) {
     return {
       subject: `[${name}] New results (${args.patternTitle})`,
-      text: `A person completed the ${name} and consented to share results with the institute. The PDF is attached.\n\nRecipient: ${args.to}\nPattern: ${args.patternTitle}${args.flooded ? "\nNote: pattern FLOODED. May benefit from extra support." : ""}`,
+      text: `A person completed the ${name} and consented to share results with the institute. The PDF is attached.\n\nName: ${args.name ?? "(not given)"}\nRecipient: ${args.to}\nPattern: ${args.patternTitle}${args.flooded ? "\nNote: pattern FLOODED. May benefit from extra support." : ""}`,
     };
   }
   return {
     subject: `Your ${name} results`,
     text: [
+      args.name ? `Hello ${args.name},` : `Hello,`,
+      ``,
       `Thank you for taking the ${name}.`,
       `Your results are attached as a PDF. This is a map of how your inner system is organised right now, not a label.`,
       ``,

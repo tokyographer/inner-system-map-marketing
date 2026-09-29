@@ -32,7 +32,14 @@
     "resume": "Tienes un intento sin terminar. ¿Continuar donde lo dejaste?",
     "continue": "Continuar",
     "startOver": "Empezar de nuevo",
-    "start": "Empezar"
+    "start": "Empezar",
+    "contactTitle": "¿A dónde enviamos tus resultados?",
+    "name": "Tu nombre",
+    "email": "Dirección de correo",
+    "contactConsent": "Enviar el PDF de mis resultados a esta dirección cuando termine, guardar una copia durante 6 meses y enviar una copia a Transcendent Institute (info@transcendentinstitute.com) para que la escuela pueda hacer seguimiento si lo pido. Puedo solicitar su eliminación en cualquier momento.",
+    "newsletter": "Añadirme también al boletín de Transcendent Institute.",
+    "contactRequired": "Introduce tu nombre y un correo válido, y marca la casilla de consentimiento.",
+    "onScreen": "Tus resultados también se mostrarán en pantalla de todos modos."
   },
   "likert": {
     "1": "Nunca o casi nunca",
@@ -94,7 +101,11 @@
     "bandVeryActive": "muy activa",
     "selfHardToReach": "difícil de alcanzar ahora mismo",
     "selfAvailableAtTimes": "disponible a ratos",
-    "selfOftenAvailable": "disponible a menudo"
+    "selfOftenAvailable": "disponible a menudo",
+    "sendingTo": "Enviando tus resultados a {email}",
+    "sentTo": "Tus resultados se enviaron a {email}.",
+    "sendFailed": "No se pudieron enviar tus resultados a {email}. Puedes descargar el PDF o intentarlo de nuevo.",
+    "sendAgain": "Enviar de nuevo"
   },
   "email": {
     "title": "Enviarme mis resultados por correo",

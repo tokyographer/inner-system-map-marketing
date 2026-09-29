@@ -66,6 +66,7 @@ interface Props {
   locale: Locale;
   mode: "public" | "cohort";
   generatedOn: string;
+  name?: string;
 }
 
 function Bar({ label, mean, display, color, band }: { label: string; mean: number; display: number; color: string; band: string }) {
@@ -96,7 +97,7 @@ function Field({ label, text }: { label: string; text: string }) {
   );
 }
 
-export function ResultsDocument({ result, locale, mode, generatedOn }: Props) {
+export function ResultsDocument({ result, locale, mode, generatedOn, name }: Props) {
   const c = getContent(locale);
   const L = c.pdf;
   const flooded = result.pattern.key === "FLOODED";
@@ -109,7 +110,7 @@ export function ResultsDocument({ result, locale, mode, generatedOn }: Props) {
     <Document title={`${APP_NAME[locale]}`} author="Transcendent Institute" language={locale}>
       <Page size="A4" style={s.page}>
         <Text style={s.h1}>{APP_NAME[locale]}</Text>
-        <Text style={[s.muted, { marginBottom: 12 }]}>{L.generated} {generatedOn} · {L.form[result.form]} · {L.itemBank} {result.itemBankVersion} · {L.mode[mode]}</Text>
+        <Text style={[s.muted, { marginBottom: 12 }]}>{name ? `${name} · ` : ""}{L.generated} {generatedOn} · {L.form[result.form]} · {L.itemBank} {result.itemBankVersion} · {L.mode[mode]}</Text>
 
         {flooded && (
           <View style={s.careBox}><Text>{c.careNote}</Text></View>

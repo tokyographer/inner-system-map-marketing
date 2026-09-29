@@ -7,8 +7,16 @@ test("public mode happy path: landing → start → questionnaire → results �
 
   await expect(page.getByRole("heading", { name: "Before you begin" })).toBeVisible();
   await page.getByRole("button", { name: "Start" }).click();
+  await expect(page.locator("p[role=alert]")).toContainText("consent box");
+  await page.getByLabel("Your name").fill("Test Person");
+  await page.getByLabel("Email address").fill("person@example.com");
+  await page.getByRole("checkbox", { name: /Send my results PDF/ }).check();
+  await page.getByRole("button", { name: "Start" }).click();
   await expect(page.locator("p[role=alert]")).toContainText("18 or older");
   await page.getByRole("checkbox", { name: /18 or older/ }).check();
+  // Results are emailed automatically on completion; intercept so the test never sends real mail.
+  let emailBody: Record<string, unknown> | null = null;
+  await page.route("**/api/public/email-results", async (route) => { emailBody = route.request().postDataJSON(); await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, copySentToInstitute: true }) }); });
   await page.getByRole("button", { name: "Start" }).click();
 
   await expect(page).toHaveURL(/\/en\/questionnaire$/);
@@ -49,14 +57,11 @@ test("public mode happy path: landing → start → questionnaire → results �
   const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "Download PDF" }).click()]);
   expect(download.suggestedFilename()).toBe("inner-system-map-results.pdf");
 
-  // Email form refuses without consent. With consent, intercept the route so the test never sends real mail.
-  await page.route("**/api/public/email-results", (route) => route.fulfill({ status: 503, contentType: "application/json", body: JSON.stringify({ error: "email_not_configured" }) }));
-  await page.getByLabel("Email address").fill("person@example.com");
-  await page.getByRole("button", { name: "Send" }).click();
-  await expect(page.locator("p[role=alert]")).toContainText("consent");
-  await page.getByRole("checkbox", { name: /Send my results PDF/ }).check();
-  await page.getByRole("button", { name: "Send" }).click();
-  await expect(page.locator("p[role=alert]")).toContainText("not available");
+  // Results were emailed automatically to the address given at the start.
+  await expect(page.getByRole("status")).toContainText("sent to person@example.com");
+  expect(emailBody).toMatchObject({ email: "person@example.com", name: "Test Person", consent: { storeResults: true, newsletter: false } });
+  await page.reload();
+  await expect(page.getByRole("status")).toContainText("sent to person@example.com");
 
   // No horizontal scroll at 360px.
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
@@ -65,6 +70,9 @@ test("public mode happy path: landing → start → questionnaire → results �
 
 test("refresh mid-questionnaire keeps answers", async ({ page }) => {
   await page.goto("/en/start");
+  await page.getByLabel("Your name").fill("T");
+  await page.getByLabel("Email address").fill("t@example.com");
+  await page.getByRole("checkbox", { name: /Send my results PDF/ }).check();
   await page.getByRole("checkbox", { name: /18 or older/ }).check();
   await page.getByRole("button", { name: "Start" }).click();
   await page.getByRole("radiogroup").getByRole("radio").nth(2).click();

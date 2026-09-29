@@ -10,6 +10,7 @@ const base = z.object({
   responses: z.record(z.string().regex(/^[A-Z]{4}\d$/), response),
   durationSeconds: z.number().int().min(0).max(24 * 3600).optional(),
   ageConfirmed: z.literal(true),
+  name: z.string().trim().min(1).max(120).optional(),
 });
 
 function completeForForm(data: z.infer<typeof base>, ctx: z.RefinementCtx) {

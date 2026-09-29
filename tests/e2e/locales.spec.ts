@@ -6,7 +6,11 @@ for (const [locale, begin, statement] of [["es", "Comenzar el trabajo", /Afirmac
     await page.goto(`/${locale}`);
     await expect(page.locator("html")).toHaveAttribute("lang", locale);
     await page.getByRole("link", { name: begin }).click();
-    await page.getByRole("checkbox").check();
+    const boxes = page.getByRole("checkbox");
+    await page.getByRole("textbox").nth(0).fill("T");
+    await page.getByRole("textbox").nth(1).fill("t@example.com");
+    await boxes.nth(0).check();
+    await boxes.nth(2).check();
     await page.getByRole("button").filter({ hasText: /Empezar|Începe|Başla/ }).click();
     await expect(page.getByText(statement)).toBeVisible();
     const itemText = await page.locator("fieldset p").first().textContent();

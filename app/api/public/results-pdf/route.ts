@@ -23,7 +23,7 @@ export async function POST(request: Request) {
   }
   try {
     const result = score({ responses: parsed.data.responses, form: parsed.data.form, durationSeconds: parsed.data.durationSeconds });
-    const pdf = await renderResultsPdf({ result, locale: parsed.data.locale, mode: "public" });
+    const pdf = await renderResultsPdf({ result, locale: parsed.data.locale, mode: "public", name: parsed.data.name });
     return new NextResponse(new Uint8Array(pdf), {
       headers: {
         "Content-Type": "application/pdf",

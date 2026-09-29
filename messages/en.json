@@ -31,7 +31,14 @@
     "resume": "You have an unfinished attempt. Continue where you left off?",
     "continue": "Continue",
     "startOver": "Start over",
-    "start": "Start"
+    "start": "Start",
+    "contactTitle": "Where should we send your results?",
+    "name": "Your name",
+    "email": "Email address",
+    "contactConsent": "Send my results PDF to this address when I finish, keep a copy for 6 months, and send a copy to Transcendent Institute (info@transcendentinstitute.com) so the school can follow up if I ask. I can request deletion at any time.",
+    "newsletter": "Also add me to the Transcendent Institute newsletter.",
+    "contactRequired": "Please enter your name and a valid email address, and tick the consent box.",
+    "onScreen": "Your results will also be shown on screen either way."
   },
   "likert": {
     "1": "Never or almost never",
@@ -93,7 +100,11 @@
     "bandVeryActive": "very active",
     "selfHardToReach": "hard to reach right now",
     "selfAvailableAtTimes": "available at times",
-    "selfOftenAvailable": "often available"
+    "selfOftenAvailable": "often available",
+    "sendingTo": "Sending your results to {email}",
+    "sentTo": "Your results were sent to {email}.",
+    "sendFailed": "Your results could not be emailed to {email}. You can download the PDF, or try again.",
+    "sendAgain": "Send again"
   },
   "email": {
     "title": "Email me my results",

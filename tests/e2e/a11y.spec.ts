@@ -11,6 +11,9 @@ test("landing, start, questionnaire and results have no WCAG 2.1 AA violations",
   expect(await audit(page)).toEqual([]);
   await page.goto("/en/start");
   expect(await audit(page)).toEqual([]);
+  await page.getByLabel(/Your name/).fill("T");
+  await page.getByLabel(/Email address/).fill("t@example.com");
+  await page.getByRole("checkbox").first().check();
   await page.getByRole("checkbox", { name: /18 or older/ }).check();
   await page.getByRole("button", { name: "Start" }).click();
   await expect(page.getByText("Statement 1 of 63")).toBeVisible();

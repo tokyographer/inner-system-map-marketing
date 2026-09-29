@@ -32,7 +32,14 @@
     "resume": "Tamamlanmamış bir denemen var. Kaldığın yerden devam edelim mi?",
     "continue": "Devam et",
     "startOver": "Baştan başla",
-    "start": "Başla"
+    "start": "Başla",
+    "contactTitle": "Sonuçlarını nereye gönderelim?",
+    "name": "Adın",
+    "email": "E-posta adresi",
+    "contactConsent": "Bitirdiğimde sonuç PDF'imi bu adrese gönder, 6 ay boyunca bir kopyasını sakla ve istersem okulun bana ulaşabilmesi için bir kopyasını Transcendent Institute'e (info@transcendentinstitute.com) gönder. Silinmesini istediğim zaman talep edebilirim.",
+    "newsletter": "Beni Transcendent Institute bültenine de ekle.",
+    "contactRequired": "Lütfen adını ve geçerli bir e-posta adresini gir ve onay kutusunu işaretle.",
+    "onScreen": "Sonuçların her durumda ekranda da gösterilecek."
   },
   "likert": {
     "1": "Hiç ya da neredeyse hiç",
@@ -94,7 +101,11 @@
     "bandVeryActive": "çok etkin",
     "selfHardToReach": "şu anda ulaşması zor",
     "selfAvailableAtTimes": "zaman zaman erişilebilir",
-    "selfOftenAvailable": "sıklıkla erişilebilir"
+    "selfOftenAvailable": "sıklıkla erişilebilir",
+    "sendingTo": "Sonuçların {email} adresine gönderiliyor",
+    "sentTo": "Sonuçların {email} adresine gönderildi.",
+    "sendFailed": "Sonuçların {email} adresine gönderilemedi. PDF'i indirebilir ya da tekrar deneyebilirsin.",
+    "sendAgain": "Tekrar gönder"
   },
   "email": {
     "title": "Sonuçlarımı e-postayla gönder",

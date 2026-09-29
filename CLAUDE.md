@@ -30,6 +30,7 @@ npm run dev
 - Vitest config is `vitest.config.mts` (ESM). Tests live in `tests/unit/**`.
 - Pattern rules are evaluated in order; a manager/firefighter gap of exactly 0.3 resolves to MANAGED or REACTIVE, not POLARISED.
 - Team-of-protectors rule: top two, plus the third when within 0.4 of the second (assumption, see plan).
+- Public mode collects name and email (plus consent) on the start screen; results are emailed automatically once per attempt from `components/results/AutoEmailStatus.tsx` and always shown on screen. Cohort mode skips the form.
 - Rate limiting is in-memory for now (soft). Replace with Upstash in Phase 7.
 - Data access: `withUser(userId, fn)` for anything a signed-in person does (RLS applies); `asService(fn)` only for access-code lookup before sign-in, public opt-in results and retention. Facilitator reads of attempts are gated in SQL on an active `facilitator_visibility` consent.
 - Migrations are append-only: never edit an applied file, add `db/migrations/000N_*.sql`. Postgres functions are executable by PUBLIC by default; revoke from `public` explicitly (see 0004).

@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
-import { clearAttempt, clearProgress, type CompletedAttempt } from "@/lib/questionnaire/storage";
+import { clearAttempt, clearContact, clearProgress, useContact, type CompletedAttempt } from "@/lib/questionnaire/storage";
+import { AutoEmailStatus } from "./AutoEmailStatus";
 import { EmailResultsForm } from "./EmailResultsForm";
 
 export function ResultsActions({ attempt, mode }: { attempt: CompletedAttempt; mode: "public" | "cohort" }) {
@@ -10,6 +11,7 @@ export function ResultsActions({ attempt, mode }: { attempt: CompletedAttempt; m
   const locale = useLocale();
   const router = useRouter();
   const [pdf, setPdf] = useState<"idle" | "busy" | "error">("idle");
+  const contact = useContact();
 
   async function download() {
     setPdf("busy");
@@ -17,7 +19,7 @@ export function ResultsActions({ attempt, mode }: { attempt: CompletedAttempt; m
       const res = await fetch("/api/public/results-pdf", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ locale, form: attempt.form, responses: attempt.responses, durationSeconds: Math.round((attempt.completedAt - attempt.startedAt) / 1000), ageConfirmed: true }),
+        body: JSON.stringify({ locale, form: attempt.form, responses: attempt.responses, durationSeconds: Math.round((attempt.completedAt - attempt.startedAt) / 1000), ageConfirmed: true, name: contact?.name }),
       });
       if (!res.ok) throw new Error(String(res.status));
       const url = URL.createObjectURL(await res.blob());
@@ -32,7 +34,7 @@ export function ResultsActions({ attempt, mode }: { attempt: CompletedAttempt; m
 
   function retake() {
     if (!window.confirm(t("retakeConfirm"))) return;
-    clearAttempt(); clearProgress();
+    clearAttempt(); clearProgress(); clearContact();
     router.push("/start");
   }
 
@@ -44,7 +46,7 @@ export function ResultsActions({ attempt, mode }: { attempt: CompletedAttempt; m
         <button type="button" onClick={retake} className="btn btn-outline">{t("retake")}</button>
       </div>
       {pdf === "error" && <p role="alert" className="text-sm">{t("downloadError")}</p>}
-      {mode === "public" && <EmailResultsForm attempt={attempt} />}
+      {mode === "public" && (contact ? <AutoEmailStatus attempt={attempt} contact={contact} /> : contact === null ? <EmailResultsForm attempt={attempt} /> : null)}
     </section>
   );
 }
