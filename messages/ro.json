@@ -8,7 +8,8 @@
     "language": "Limba",
     "home": "Pagina principală Transcendent Institute",
     "institute": "Transcendent Institute",
-    "footer": "Transcendent Institute este o școală de psihologie integrativă și self-leadership. Acest instrument este un sprijin pentru reflecție — nu este terapie, nu este o soluție rapidă, nu este o religie. Nu este un instrument psihometric validat."
+    "footer": "Transcendent Institute este o școală de psihologie integrativă și self-leadership. Acest instrument este un sprijin pentru reflecție — nu este terapie, nu este o soluție rapidă, nu este o religie. Nu este un instrument psihometric validat.",
+    "privacy": "Confidențialitate"
   },
   "landing": {
     "eyebrow": "Self-leadership · Nivelul II",
@@ -242,5 +243,10 @@
     "expired": "expirat",
     "invalidInput": "Te rugăm să verifici formularul.",
     "failed": "Ceva n-a mers. Te rugăm să încerci din nou."
+  },
+  "deleted": {
+    "title": "Rezultatele tale stocate au fost șterse",
+    "body": "Dacă o copie a rezultatelor tale era stocată la noi, a fost acum eliminată, inclusiv copia din evidențele institutului. Emailul pe care l-ai primit nu este afectat.",
+    "home": "Înapoi la început"
   }
 }

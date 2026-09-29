@@ -7,7 +7,8 @@
     "language": "Language",
     "footer": "Transcendent Institute is a school of integrative psychology and self-leadership. This tool is a reflection aid — not therapy, not a quick fix, not a religion. It is not a validated psychometric instrument.",
     "home": "Transcendent Institute home",
-    "institute": "Transcendent Institute"
+    "institute": "Transcendent Institute",
+    "privacy": "Privacy"
   },
   "landing": {
     "title": "Who is leading your inner life right now?",
@@ -241,5 +242,10 @@
     "expired": "expired",
     "invalidInput": "Please check the form.",
     "failed": "Something went wrong. Please try again."
+  },
+  "deleted": {
+    "title": "Your stored results were deleted",
+    "body": "If a copy of your results was stored with us, it has now been removed, including the copy sent to the institute's records. The email you received is unaffected.",
+    "home": "Back to the start"
   }
 }

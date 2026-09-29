@@ -1,5 +1,6 @@
 import { Pool, neonConfig } from "@neondatabase/serverless";
 import { readFileSync } from "node:fs";
+import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
 function loadEnv(): Record<string, string> {
@@ -54,6 +55,7 @@ test("cohort mode: join → sign in → consent → full questionnaire → resul
     await expect(page).toHaveURL(/\/en\/cohort\/results\/[0-9a-f-]{36}$/);
     await expect(page.getByRole("heading", { name: "Who is leading?" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "In Level II" })).toBeVisible();
+    expect((await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze()).violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(" | ")}`)).toEqual([]);
     await expect(page.getByRole("heading", { name: "Email me my results" })).toHaveCount(0);
     await page.getByRole("textbox").last().fill("A note for myself.");
     await page.getByRole("button", { name: "Save note" }).click();
@@ -61,6 +63,7 @@ test("cohort mode: join → sign in → consent → full questionnaire → resul
 
     await page.goto("/en/cohort");
     await expect(page.getByRole("link", { name: "View" })).toHaveCount(1);
+    expect((await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze()).violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(" | ")}`)).toEqual([]);
     await page.getByRole("link", { name: "Your data" }).click();
     const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("link", { name: "Download everything as JSON" }).click()]);
     expect(download.suggestedFilename()).toBe("inner-system-map-export.json");

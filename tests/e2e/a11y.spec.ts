@@ -30,6 +30,10 @@ test("landing, start, questionnaire and results have no WCAG 2.1 AA violations",
   await expect(page.getByRole("heading", { name: "Who is leading?" })).toBeVisible();
   expect(await audit(page)).toEqual([]);
   await page.screenshot({ path: "test-results/results-360.png", fullPage: true });
+  for (const path of ["/en/privacy", "/en/cohort/join", "/en/results-deleted"]) {
+    await page.goto(path);
+    expect(await audit(page), path).toEqual([]);
+  }
   await page.goto("/en");
   await page.screenshot({ path: "test-results/landing-360.png", fullPage: true });
   await page.goto("/en/start");

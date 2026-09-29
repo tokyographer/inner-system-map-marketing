@@ -40,7 +40,7 @@ async function lookupCode(code: string): Promise<CohortSummary | null> {
 export async function requestSignInCode(input: unknown): Promise<ActionResult> {
   const parsed = joinRequestSchema.safeParse(input);
   if (!parsed.success) return { ok: false, error: "invalid_input" };
-  const limit = rateLimit(`join:${await clientKey()}`, 5, 15 * 60 * 1000);
+  const limit = await rateLimit(`join:${await clientKey()}`, 5, 15 * 60 * 1000);
   if (!limit.ok) return { ok: false, error: "rate_limited" };
   try {
     if (!(await lookupCode(parsed.data.code))) return { ok: false, error: "invalid_code" };
@@ -59,7 +59,7 @@ export async function requestSignInCode(input: unknown): Promise<ActionResult> {
 export async function verifySignInCode(input: unknown): Promise<ActionResult> {
   const parsed = verifyCodeSchema.safeParse(input);
   if (!parsed.success) return { ok: false, error: "invalid_input" };
-  const limit = rateLimit(`otp:${await clientKey()}`, 10, 15 * 60 * 1000);
+  const limit = await rateLimit(`otp:${await clientKey()}`, 10, 15 * 60 * 1000);
   if (!limit.ok) return { ok: false, error: "rate_limited" };
   try {
     const { error } = await auth().signIn.emailOtp({ email: parsed.data.email, otp: parsed.data.otp });

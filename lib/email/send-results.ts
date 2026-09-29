@@ -14,6 +14,8 @@ export interface SendResultsArgs {
   pdf: Buffer;
   patternTitle: string;
   flooded: boolean;
+  /** One-click deletion link for the stored copy (absent when no database is configured). */
+  deleteUrl?: string;
 }
 
 export interface EmailEnv {
@@ -49,7 +51,9 @@ function bodyFor(args: SendResultsArgs, forInstitute: boolean): { subject: strin
       ``,
       CARE_NOTE,
       ``,
-      `You asked us to keep a copy of these results. You can ask for it to be deleted at any time by replying to this email.`,
+      args.deleteUrl
+        ? `You asked us to keep a copy of these results for 6 months. To delete it now, open this link: ${args.deleteUrl}`
+        : `You asked us to keep a copy of these results. You can ask for it to be deleted at any time by replying to this email.`,
     ].join("\n"),
   };
 }

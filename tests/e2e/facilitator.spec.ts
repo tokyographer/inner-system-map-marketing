@@ -1,5 +1,6 @@
 import { Pool, neonConfig } from "@neondatabase/serverless";
 import { readFileSync } from "node:fs";
+import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
 function loadEnv(): Record<string, string> {
@@ -62,6 +63,7 @@ test("admin creates a cohort and assigns a facilitator; facilitator sees only th
     expect(await fac.title()).not.toContain("Other");
     await fac.goto(`/en/facilitator/cohorts/${createdId}`);
     await expect(fac.getByText("appears once at least 5 participants")).toBeVisible();
+    for (const p of [fac, admin]) expect((await new AxeBuilder({ page: p }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze()).violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(" | ")}`)).toEqual([]);
     await fac.goto("/en/admin/cohorts");
     await expect(fac.getByText("You do not have access")).toBeVisible();
     const csv = await fac.request.get(`/api/facilitator/export/${createdId}`);

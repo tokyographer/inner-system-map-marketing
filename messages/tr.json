@@ -8,7 +8,8 @@
     "language": "Dil",
     "home": "Transcendent Institute ana sayfası",
     "institute": "Transcendent Institute",
-    "footer": "Transcendent Institute bütünleştirici psikoloji ve öz liderlik okuludur. Bu araç bir yansıtma yardımcısıdır — terapi değil, hızlı bir çözüm değil, bir din değil. Geçerliliği kanıtlanmış bir psikometrik araç değildir."
+    "footer": "Transcendent Institute bütünleştirici psikoloji ve öz liderlik okuludur. Bu araç bir yansıtma yardımcısıdır — terapi değil, hızlı bir çözüm değil, bir din değil. Geçerliliği kanıtlanmış bir psikometrik araç değildir.",
+    "privacy": "Gizlilik"
   },
   "landing": {
     "eyebrow": "Öz liderlik · II. Seviye",
@@ -242,5 +243,10 @@
     "expired": "süresi dolmuş",
     "invalidInput": "Lütfen formu kontrol et.",
     "failed": "Bir şeyler ters gitti. Lütfen tekrar dene."
+  },
+  "deleted": {
+    "title": "Saklanan sonuçların silindi",
+    "body": "Sonuçlarının bir kopyası bizde saklanıyorduysa, enstitünün kayıtlarındaki kopya dahil artık kaldırıldı. Aldığın e-posta bundan etkilenmez.",
+    "home": "Başa dön"
   }
 }

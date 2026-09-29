@@ -57,6 +57,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
           <div className="mx-auto w-full max-w-[720px] px-6 py-12 text-sm">
             <p className="eyebrow mb-3">{APP_NAME[locale as Locale]}</p>
             <p className="max-w-[620px] text-[var(--ti-on-dark-2)]">{t("footer")}</p>
+            <p className="mt-4"><Link href="/privacy" className="label !text-[var(--ti-on-dark-2)]">{t("privacy")}</Link></p>
           </div>
         </footer>
         </NextIntlClientProvider>

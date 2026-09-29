@@ -64,16 +64,35 @@ curl -X POST localhost:3000/api/public/results-pdf -H 'content-type: application
 ## What is produced
 - PDF in memory only; nothing is written to disk by the server.
 - Emails via Resend. No response payloads are logged.
+- Public opt-in results are stored for 6 months with a hashed delete token; the email carries a one-click deletion link. A nightly cron removes expired public results and cohort data past its retention date.
+
+## Deploying to production
+1. Push to GitHub and import the repository in Vercel (Framework: Next.js, defaults). `vercel.ts` pins functions to Frankfurt and schedules the nightly retention job.
+2. Marketplace resources on the Vercel project: Neon (Frankfurt, Neon Auth on), Upstash Redis (EU), Resend. Each adds its own variables.
+3. Set the app's variables in all three environments: `NEON_AUTH_COOKIE_SECRET`, `RESEND_FROM`, `RESULTS_COPY_TO`, `CRON_SECRET`, `NEXT_PUBLIC_SITE_URL` (Preview may need to be added in the dashboard).
+4. Run the migrations against the production branch once, then after every migration change:
+   ```
+   npx vercel env pull .env.production.local --environment production --yes
+   npx dotenv -e .env.production.local -- node scripts/migrate.mjs
+   ```
+5. In the Neon console, Auth → add the production domain to trusted origins. In Resend, verify the sending domain in the EU region.
+6. Bootstrap the first admin: sign in once at `/en/cohort/join` with any valid access code (create a cohort row by SQL for that, or set the role directly):
+   ```
+   update public.profiles set role = 'admin' where id = (select id from neon_auth."user" where email = 'you@example.com');
+   ```
+7. Check the deployment: `/api/health` is not needed; open `/en`, take the questionnaire, confirm the email arrives, then create a cohort from `/en/admin/cohorts`.
 
 ## Sub-processors (for the privacy policy)
 - Vercel (hosting, EU region fra1)
 - Resend (transactional email)
 - Neon (Postgres and Neon Auth, Frankfurt eu-central-1, via Vercel Marketplace)
+- Upstash (Redis for rate limiting, EU, via Vercel Marketplace)
 
 ## Troubleshooting
 1. `503 email_not_configured`: set `RESEND_API_KEY` and `RESEND_FROM` in `.env` and restart `npm run dev`.
 2. `400 invalid_request` with "item(s) missing": the form (`short` = 63 items, `full` = 84) does not match the responses sent.
 3. `429 rate_limited`: 3 emails or 10 PDFs per client per window. Wait for `Retry-After` seconds.
+4. Retention job returns 401: `CRON_SECRET` differs between Vercel and the request. Vercel sends it automatically for scheduled runs; for a manual run pass `Authorization: Bearer <secret>`.
 
 ## Git workflow
 ```

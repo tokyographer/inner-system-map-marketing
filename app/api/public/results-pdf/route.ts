@@ -7,7 +7,7 @@ import { pdfRequestSchema } from "@/lib/validation/results-request";
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
-  const limit = rateLimit(`pdf:${clientKey(request)}`, 10, 10 * 60 * 1000);
+  const limit = await rateLimit(`pdf:${clientKey(request)}`, 10, 10 * 60 * 1000);
   if (!limit.ok) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429, headers: { "Retry-After": String(limit.retryAfterSeconds) } });
   }

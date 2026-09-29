@@ -9,7 +9,7 @@ export async function CohortTable({ rows, cohortId, locale }: { rows: Participan
   const t = await getTranslations("dashboard");
   const c = getContent(locale);
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto" tabIndex={0} role="region" aria-label={t("participants")}>
       <table className="w-full min-w-[720px] text-sm">
         <thead>
           <tr className="text-left">

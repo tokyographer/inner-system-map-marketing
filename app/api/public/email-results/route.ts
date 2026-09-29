@@ -5,11 +5,13 @@ import { renderResultsPdf } from "@/lib/pdf/render";
 import { clientKey, rateLimit } from "@/lib/ratelimit";
 import { score } from "@/lib/scoring";
 import { emailRequestSchema } from "@/lib/validation/results-request";
+import { storePublicResult } from "@/lib/public-results/store";
+import { dbConfigured } from "@/lib/db";
 
 export const runtime = "nodejs";
 
 export async function POST(request: Request) {
-  const limit = rateLimit(`email:${clientKey(request)}`, 3, 60 * 60 * 1000);
+  const limit = await rateLimit(`email:${clientKey(request)}`, 3, 60 * 60 * 1000);
   if (!limit.ok) {
     return NextResponse.json({ error: "rate_limited" }, { status: 429, headers: { "Retry-After": String(limit.retryAfterSeconds) } });
   }
@@ -31,11 +33,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "email_not_configured" }, { status: 503 });
   }
   try {
-    const { responses, form, durationSeconds, locale, email, name } = parsed.data;
+    const { responses, form, durationSeconds, locale, email, name, consent } = parsed.data;
     const result = score({ responses, form, durationSeconds });
     const pdf = await renderResultsPdf({ result, locale, mode: "public", name });
+    let deleteUrl: string | undefined;
+    if (dbConfigured()) {
+      const stored = await storePublicResult({ email, locale, form, responses, result, newsletter: consent.newsletter, policyVersion: consent.policyVersion });
+      deleteUrl = `${new URL(request.url).origin}/api/public/delete-result?token=${stored.deleteToken}&locale=${locale}`;
+    }
     await sendResultsEmail(
-      { to: email, name, locale, pdf, patternTitle: PATTERNS[result.pattern.key].title, flooded: result.pattern.key === "FLOODED" },
+      { to: email, name, locale, pdf, patternTitle: PATTERNS[result.pattern.key].title, flooded: result.pattern.key === "FLOODED", deleteUrl },
       env,
     );
     return NextResponse.json({ ok: true, copySentToInstitute: env.copyTo !== null });

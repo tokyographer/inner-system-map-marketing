@@ -8,7 +8,8 @@
     "language": "Idioma",
     "home": "Inicio de Transcendent Institute",
     "institute": "Transcendent Institute",
-    "footer": "Transcendent Institute es una escuela de psicología integrativa y autoliderazgo. Esta herramienta es una ayuda para la reflexión — no es terapia, no es una solución rápida, no es una religión. No es un instrumento psicométrico validado."
+    "footer": "Transcendent Institute es una escuela de psicología integrativa y autoliderazgo. Esta herramienta es una ayuda para la reflexión — no es terapia, no es una solución rápida, no es una religión. No es un instrumento psicométrico validado.",
+    "privacy": "Privacidad"
   },
   "landing": {
     "eyebrow": "Autoliderazgo · Nivel II",
@@ -242,5 +243,10 @@
     "expired": "caducado",
     "invalidInput": "Revisa el formulario.",
     "failed": "Algo salió mal. Inténtalo de nuevo."
+  },
+  "deleted": {
+    "title": "Tus resultados guardados se han eliminado",
+    "body": "Si teníamos guardada una copia de tus resultados, ya se ha eliminado, incluida la copia de los registros del instituto. El correo que recibiste no se ve afectado.",
+    "home": "Volver al inicio"
   }
 }
