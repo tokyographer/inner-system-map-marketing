@@ -1,5 +1,6 @@
 /**
- * DRAFT, pending human review.
+ * Item bank v2, Turkish. Native-speaker review applied 2026-09-29 (items CRIT2, PLEA3, INTL2, AVOI4);
+ * remaining items unchanged by the reviewer. Still marked DRAFT, pending human review until the school signs off.
  * Item bank v2, Turkish, natural spoken register ("sen"). Keyed by stable item ID.
  * Exile items kept soft, first person, non-clinical.
  */
@@ -19,13 +20,13 @@ export const ITEM_TEXT_TR: Record<string, string> = {
   PERF4: "Bir sonucun tadını çıkarmak zor geliyor, çünkü daha iyi olabilecek yanını görüyorum.",
 
   CRIT1: "Başkası fırsat bulamadan önce kendimi eleştiriyorum.",
-  CRIT2: "Geri bildirim aldığımda, kendime karşı karşımdakinden daha sert oluyorum.",
+  CRIT2: "Geri bildirim aldığımda, kendime karşı eleştirenden daha sert oluyorum.",
   CRIT3: "Kendimi açıkta ya da incinmiş hissettiğimde sertleşiyorum; kendime ya da karşımdakine karşı.",
   CRIT4: "Başkalarının kusurlarını hemen fark ediyorum ve bunları bırakmak zor geliyor.",
 
   PLEA1: "Hayır demek istediğimde evet diyorum.",
   PLEA2: "Anlaşmazlıktan kaçınmak için fikrimi yumuşatıyor ya da değiştiriyorum.",
-  PLEA3: "Biri benden memnun olmadığında, aramız düzelene kadar rahat edemiyorum.",
+  PLEA3: "Biri benden memnun olmadığında, bunu düzeltene kadar rahat edemiyorum.",
   PLEA4: "Otorite figürlerinin yanında olduğumdan daha uyumlu davranıyorum.",
 
   CTRL1: "Son dakika plan değişiklikleri beni başkalarından daha çok sarsıyor.",
@@ -34,14 +35,14 @@ export const ITEM_TEXT_TR: Record<string, string> = {
   CTRL4: "Rahatlayabilmek için net bir düzene ve kurallara ihtiyaç duyuyorum.",
 
   INTL1: "Bir konuşma duygusallaştığında açıklamaya ya da analiz etmeye başlıyorum.",
-  INTL2: "Ne hissettiğimi anlatmak, gerçekten hissetmekten çok daha kolay geliyor.",
+  INTL2: "Ne hissettiğimi açıklamak, gerçekten hissetmekten çok daha kolay geliyor.",
   INTL3: "Bir şeyi hissetmeme izin vermeden önce neden hissettiğimi anlamam gerekiyor.",
   INTL4: "Yakınlarım kafamın içinde yaşadığımı söylüyor.",
 
   AVOI1: "Benim için en önemli olan işlere başlamaktan kaçınıyorum, çünkü iyi gitmeyebilir.",
   AVOI2: "Önemli bir karar beni beklerken, onun yerine kendimi başka işlerle meşgul ediyorum.",
   AVOI3: "Performansımın değerlendirileceği durumlardan uzak duruyorum.",
-  AVOI4: "Ancak son teslim tarihi başka seçenek bırakmadığında başlıyorum.",
+  AVOI4: "Ancak son teslim tarihi başka seçenek bırakmadığında bir şeye başlıyorum.",
 
   CARE1: "Başkalarının ihtiyaçlarını kendiminkilerden önce fark ediyorum.",
   CARE2: "Kendimi öne koyduğumda suçlu ya da bencil hissediyorum.",
