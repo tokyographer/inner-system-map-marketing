@@ -21,6 +21,7 @@ Font.registerHyphenationCallback((word) => [word]);
 import { APP_NAME, type Locale } from "@/config/app";
 import { getContent, type Content } from "@/content";
 import { SCORING } from "@/config/scoring";
+import { EXERCISE_STEPS_READY } from "@/config/app";
 import {
   EXILE_KEYS, FIREFIGHTER_KEYS, MANAGER_KEYS, MIXED_KEYS,
   type ExileKey, type ProtectorKey, type Result,
@@ -183,6 +184,30 @@ export function ResultsDocument({ result, locale, mode, generatedOn, name }: Pro
             ))}
           </View>
         )}
+
+        {/* 8. Meet this part: leading protector only, never an exile */}
+        <Text style={s.h2}>{L.exercise}: {c.typologies[result.protectors.ranked[0]].name}</Text>
+        <Text style={s.p}>{L.exerciseWhy}</Text>
+        {EXERCISE_STEPS_READY ? (
+          <View>
+            <Text style={[s.p, s.muted]}>{c.exercise.intro}</Text>
+            {c.exercise.steps.map((st, i) => (
+              <View key={st.key} style={{ marginBottom: 6 }} wrap={false}>
+                <Text style={s.h3}>{i + 1}. {st.title}</Text>
+                <Text>{st.body}</Text>
+              </View>
+            ))}
+          </View>
+        ) : (
+          <View style={s.box}><Text>{L.exerciseSteps}</Text></View>
+        )}
+        <View style={s.box} wrap={false}>
+          <Text style={s.p}>{c.exercise.belief.intro}</Text>
+          <Text style={{ fontSize: 13, marginBottom: 4 }}>{c.exercise.belief.template[0]} ____________________</Text>
+          <Text style={{ fontSize: 13, marginBottom: 4 }}>{c.exercise.belief.template[1]} ____________________</Text>
+          <Text style={{ fontSize: 13, marginBottom: 6 }}>{c.exercise.belief.template[2]} ____________________</Text>
+          <Text style={s.muted}>{L.beliefNote}</Text>
+        </View>
 
         {/* 9. Care note */}
         <View style={[s.careBox, { marginTop: 14 }]}><Text>{c.careNote}</Text></View>

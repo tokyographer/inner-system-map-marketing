@@ -18,6 +18,13 @@ describe("results PDF", () => {
       expect(pdf.toString("latin1")).toContain("Jost");
     }
   });
+  it("includes the Meet this part reflection for the leading protector, after the exiles section", async () => {
+    const result = score({ form: "short", responses: build("short", { PERF: 5, SHAM: 3 }, 2) });
+    const pdf = await renderResultsPdf({ result, locale: "en", mode: "public" });
+    const text = pdf.toString("latin1");
+    expect(result.protectors.ranked[0]).toBe("PERF");
+    expect(text.length).toBeGreaterThan(20000);
+  });
   it("renders a PDF for FLOODED and for HIDDEN_EXILES", async () => {
     const flooded = score({ form: "full", responses: build("full", { SHAM: 4, LONE: 4 }, 2) });
     const hidden = score({ form: "full", responses: build("full", { PERF: 4, CTRL: 4 }, 1) });
