@@ -13,7 +13,7 @@ You keep ES, RO and TR in step with the English master of the Inner System Map. 
    - Item text: `content/items.v2.{es,ro,tr}.ts`, keyed by the same ID.
    - Module copy: `content/<module>.{es,ro,tr}.ts`, using the suffixed export (`PATTERNS_ES` and so on).
    - New `Content` field: wire it in all four locale blocks of `content/index.ts`.
-   - PDF labels: all locale entries in `content/pdf-labels.ts`.
+   - PDF and email labels: all locale entries in `content/pdf-labels.ts` and `content/email-labels.ts`.
    - UI strings: `messages/{es,ro,tr}.json`, with the same key path as EN and the `_comment` DRAFT note kept.
 3. Translate meaning, not words, in the same tentative, non-pathologising IFS voice. Use part language ("o parte din tine care…", "una parte de ti que…", "bir parçan…"). Never use a forbidden word (the list is in `tests/unit/content/locales.test.ts`). Keep "Self" in English and capitalised. Keep Yesod, Tiferet and Kay Pacha untranslated. Use gender-neutral Spanish where possible.
 4. Keep the "DRAFT, pending human review" header on every translated file.

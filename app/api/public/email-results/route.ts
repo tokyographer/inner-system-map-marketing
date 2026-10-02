@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { PATTERNS } from "@/content/patterns.en";
+import { getContent } from "@/content";
 import { readEmailEnv, sendResultsEmail } from "@/lib/email/send-results";
 import { renderResultsPdf } from "@/lib/pdf/render";
 import { clientKey, rateLimit } from "@/lib/ratelimit";
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
       deleteUrl = `${new URL(request.url).origin}/api/public/delete-result?token=${stored.deleteToken}&locale=${locale}`;
     }
     await sendResultsEmail(
-      { to: email, name, locale, pdf, patternTitle: PATTERNS[result.pattern.key].title, flooded: result.pattern.key === "FLOODED", deleteUrl },
+      { to: email, name, locale, pdf, patternTitle: getContent("en").patterns[result.pattern.key].title, flooded: result.pattern.key === "FLOODED", deleteUrl },
       env,
     );
     return NextResponse.json({ ok: true, copySentToInstitute: env.copyTo !== null });

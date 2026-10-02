@@ -1,17 +1,20 @@
 /**
- * Sends the results PDF to the person and a copy to the institute inbox.
- * Two separate sends so neither recipient sees the other in headers.
+ * Sends the results PDF to the person, in their locale, and a copy to the
+ * institute inbox, in English. Two separate sends so neither recipient sees
+ * the other in headers.
  * Never logs the payload, the email address or the responses.
  */
 import { Resend } from "resend";
-import { APP_NAME, type Locale } from "@/config/app";
-import { CARE_NOTE } from "@/content/patterns.en";
+import { APP_NAME, PUBLIC_RESULTS_RETENTION_MONTHS, type Locale } from "@/config/app";
+import { getContent } from "@/content";
+import { fillTemplate } from "@/content/email-labels";
 
 export interface SendResultsArgs {
   to: string;
   name?: string;
   locale: Locale;
   pdf: Buffer;
+  /** English pattern title, used only in the institute copy. */
   patternTitle: string;
   flooded: boolean;
   /** One-click deletion link for the stored copy (absent when no database is configured). */
@@ -36,24 +39,27 @@ export function readEmailEnv(env: NodeJS.ProcessEnv = process.env): EmailEnv {
 function bodyFor(args: SendResultsArgs, forInstitute: boolean): { subject: string; text: string } {
   const name = APP_NAME[args.locale];
   if (forInstitute) {
+    const name = APP_NAME.en;
     return {
       subject: `[${name}] New results (${args.patternTitle})`,
-      text: `A person completed the ${name} and consented to share results with the institute. The PDF is attached.\n\nName: ${args.name ?? "(not given)"}\nRecipient: ${args.to}\nPattern: ${args.patternTitle}${args.flooded ? "\nNote: pattern FLOODED. May benefit from extra support." : ""}`,
+      text: `A person completed the ${name} and consented to share results with the institute. The PDF is attached.\n\nName: ${args.name ?? "(not given)"}\nRecipient: ${args.to}\nLanguage: ${args.locale}\nPattern: ${args.patternTitle}${args.flooded ? "\nNote: pattern FLOODED. May benefit from extra support." : ""}`,
     };
   }
+  const c = getContent(args.locale);
+  const t = c.email;
   return {
-    subject: `Your ${name} results`,
+    subject: fillTemplate(t.subject, { app: name }),
     text: [
-      args.name ? `Hello ${args.name},` : `Hello,`,
+      args.name ? fillTemplate(t.greetingNamed, { name: args.name }) : t.greeting,
       ``,
-      `Thank you for taking the ${name}.`,
-      `Your results are attached as a PDF. This is a map of how your inner system is organised right now, not a label.`,
+      fillTemplate(t.thanks, { app: name }),
+      t.attached,
       ``,
-      CARE_NOTE,
+      c.careNote,
       ``,
       args.deleteUrl
-        ? `You asked us to keep a copy of these results for 6 months. To delete it now, open this link: ${args.deleteUrl}`
-        : `You asked us to keep a copy of these results. You can ask for it to be deleted at any time by replying to this email.`,
+        ? fillTemplate(t.keptWithLink, { months: PUBLIC_RESULTS_RETENTION_MONTHS, url: args.deleteUrl })
+        : t.keptReplyToDelete,
     ].join("\n"),
   };
 }

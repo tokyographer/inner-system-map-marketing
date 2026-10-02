@@ -5,7 +5,7 @@ English is the master. ES, RO and TR are drafts: every translated file starts wi
 ## Layout
 - `items.v2.ts`: 84 items `{ id, scale, block, short, text }`, with 63 marked `short`. IDs are permanent, because stored attempts and the review spreadsheets reference them. `items.v2.<l>.ts` maps every ID to translated text, with no extras.
 - Per-locale modules with suffixed exports (`TYPOLOGIES_ES`, `PATTERNS_RO`, ...): `typologies`, `exiles`, `patterns` (patterns, modifiers, band labels, framing, care note, disclaimer), `exercise` (intro, S.W.C.I.R. steps, belief frame), `support-resources`, `level-two`.
-- Shared files: `pairings.ts` (protector → exile), `pdf-labels.ts` (all locales in one map), `legal/privacy.ts`.
+- Shared files: `pairings.ts` (protector → exile), `pdf-labels.ts` and `email-labels.ts` (all locales in one map; email templates use `{app}`/`{name}`/`{months}`/`{url}` placeholders filled by `fillTemplate`), `legal/privacy.ts`.
 - `index.ts` maps everything into one `Content` per locale. A new piece of copy needs a field on `Content` and an entry in all four locale blocks.
 - UI chrome strings live in `messages/<l>.json`, not here. All four files must have the EN key set.
 

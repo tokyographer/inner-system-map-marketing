@@ -1,5 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import type { Resend } from "resend";
+import { LOCALES, PUBLIC_RESULTS_RETENTION_MONTHS } from "@/config/app";
+import { getContent } from "@/content";
 import { readEmailEnv, sendResultsEmail } from "@/lib/email/send-results";
 
 function fakeResend(fail?: "first" | "second") {
@@ -46,6 +48,30 @@ describe("sendResultsEmail", () => {
     await sendResultsEmail({ ...base, flooded: true }, env, client);
     expect(send.mock.calls[0][0].text).not.toContain("FLOODED");
     expect(send.mock.calls[1][0].text).toContain("FLOODED");
+  });
+  it("writes the person's email in their locale and keeps the institute copy in English", async () => {
+    const { client, send } = fakeResend();
+    await sendResultsEmail({ ...base, locale: "es", name: "Ana", deleteUrl: "https://example.com/del?token=t" }, env, client);
+    const [person, institute] = send.mock.calls.map((c) => c[0]);
+    expect(person.subject).toBe("Tus resultados del Mapa del Sistema Interno");
+    expect(person.text).toContain("Hola, Ana:");
+    expect(person.text).toContain(getContent("es").careNote);
+    expect(person.text).toContain(`durante ${PUBLIC_RESULTS_RETENTION_MONTHS} meses`);
+    expect(person.text).toContain("https://example.com/del?token=t");
+    expect(person.text).not.toMatch(/\{\w+\}/);
+    expect(institute.subject).toBe("[Inner System Map] New results (Managers are leading)");
+    expect(institute.text).toContain("Language: es");
+  });
+  it("has no leftover placeholders in any locale, with or without a name and delete link", async () => {
+    for (const locale of LOCALES) {
+      for (const extra of [{}, { name: "Ana", deleteUrl: "https://example.com/d" }]) {
+        const { client, send } = fakeResend();
+        await sendResultsEmail({ ...base, locale, ...extra }, { ...env, copyTo: null }, client);
+        const { subject, text } = send.mock.calls[0][0];
+        expect(`${subject}\n${text}`).not.toMatch(/\{\w+\}/);
+        expect(text).toContain(getContent(locale).careNote);
+      }
+    }
   });
   it("surfaces provider errors", async () => {
     await expect(sendResultsEmail(base, env, fakeResend("first").client)).rejects.toThrow(/participant failed/);

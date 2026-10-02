@@ -23,6 +23,7 @@ import * as en from "./patterns.en";
 import * as es from "./patterns.es";
 import * as ro from "./patterns.ro";
 import * as tr from "./patterns.tr";
+import { EMAIL_LABELS, type EmailLabels } from "./email-labels";
 import { PDF_LABELS, type PdfLabels } from "./pdf-labels";
 import { SUPPORT_RESOURCES, type SupportResource } from "./support-resources.en";
 import { SUPPORT_RESOURCES_ES } from "./support-resources.es";
@@ -54,6 +55,7 @@ export interface Content {
   support: SupportResource[];
   levelTwo: { title: string; body: string };
   pdf: PdfLabels;
+  email: EmailLabels;
 }
 
 const CONTENT: Record<Locale, Content> = {
@@ -61,25 +63,25 @@ const CONTENT: Record<Locale, Content> = {
     locale: "en", typologies: TYPOLOGIES, microQuestion: MICRO_QUESTION, exiles: EXILES, exileSection: EXILE_SECTION_COPY,
     patterns: en.PATTERNS, modifiers: en.MODIFIERS, bandLabels: en.BAND_LABELS, selfBandLabels: en.SELF_BAND_LABELS, groupLabels: en.GROUP_LABELS,
     framing: en.FRAMING, selfNote: en.SELF_NOTE, careNote: en.CARE_NOTE, disclaimer: en.DISCLAIMER, pairingSentence: en.PAIRING_SENTENCE,
-    exercise: { intro: EXERCISE_INTRO, steps: EXERCISE_STEPS, belief: BELIEF_FRAME }, support: SUPPORT_RESOURCES, levelTwo: LEVEL_TWO, pdf: PDF_LABELS.en,
+    exercise: { intro: EXERCISE_INTRO, steps: EXERCISE_STEPS, belief: BELIEF_FRAME }, support: SUPPORT_RESOURCES, levelTwo: LEVEL_TWO, pdf: PDF_LABELS.en, email: EMAIL_LABELS.en,
   },
   es: {
     locale: "es", typologies: TYPOLOGIES_ES, microQuestion: MICRO_QUESTION_ES, exiles: EXILES_ES, exileSection: EXILE_SECTION_COPY_ES,
     patterns: es.PATTERNS_ES, modifiers: es.MODIFIERS_ES, bandLabels: es.BAND_LABELS_ES, selfBandLabels: es.SELF_BAND_LABELS_ES, groupLabels: es.GROUP_LABELS_ES,
     framing: es.FRAMING_ES, selfNote: es.SELF_NOTE_ES, careNote: es.CARE_NOTE_ES, disclaimer: es.DISCLAIMER_ES, pairingSentence: es.PAIRING_SENTENCE_ES,
-    exercise: { intro: EXERCISE_INTRO_ES, steps: EXERCISE_STEPS_ES, belief: BELIEF_FRAME_ES }, support: SUPPORT_RESOURCES_ES, levelTwo: LEVEL_TWO_ES, pdf: PDF_LABELS.es,
+    exercise: { intro: EXERCISE_INTRO_ES, steps: EXERCISE_STEPS_ES, belief: BELIEF_FRAME_ES }, support: SUPPORT_RESOURCES_ES, levelTwo: LEVEL_TWO_ES, pdf: PDF_LABELS.es, email: EMAIL_LABELS.es,
   },
   ro: {
     locale: "ro", typologies: TYPOLOGIES_RO, microQuestion: MICRO_QUESTION_RO, exiles: EXILES_RO, exileSection: EXILE_SECTION_COPY_RO,
     patterns: ro.PATTERNS_RO, modifiers: ro.MODIFIERS_RO, bandLabels: ro.BAND_LABELS_RO, selfBandLabels: ro.SELF_BAND_LABELS_RO, groupLabels: ro.GROUP_LABELS_RO,
     framing: ro.FRAMING_RO, selfNote: ro.SELF_NOTE_RO, careNote: ro.CARE_NOTE_RO, disclaimer: ro.DISCLAIMER_RO, pairingSentence: ro.PAIRING_SENTENCE_RO,
-    exercise: { intro: EXERCISE_INTRO_RO, steps: EXERCISE_STEPS_RO, belief: BELIEF_FRAME_RO }, support: SUPPORT_RESOURCES_RO, levelTwo: LEVEL_TWO_RO, pdf: PDF_LABELS.ro,
+    exercise: { intro: EXERCISE_INTRO_RO, steps: EXERCISE_STEPS_RO, belief: BELIEF_FRAME_RO }, support: SUPPORT_RESOURCES_RO, levelTwo: LEVEL_TWO_RO, pdf: PDF_LABELS.ro, email: EMAIL_LABELS.ro,
   },
   tr: {
     locale: "tr", typologies: TYPOLOGIES_TR, microQuestion: MICRO_QUESTION_TR, exiles: EXILES_TR, exileSection: EXILE_SECTION_COPY_TR,
     patterns: tr.PATTERNS_TR, modifiers: tr.MODIFIERS_TR, bandLabels: tr.BAND_LABELS_TR, selfBandLabels: tr.SELF_BAND_LABELS_TR, groupLabels: tr.GROUP_LABELS_TR,
     framing: tr.FRAMING_TR, selfNote: tr.SELF_NOTE_TR, careNote: tr.CARE_NOTE_TR, disclaimer: tr.DISCLAIMER_TR, pairingSentence: tr.PAIRING_SENTENCE_TR,
-    exercise: { intro: EXERCISE_INTRO_TR, steps: EXERCISE_STEPS_TR, belief: BELIEF_FRAME_TR }, support: SUPPORT_RESOURCES_TR, levelTwo: LEVEL_TWO_TR, pdf: PDF_LABELS.tr,
+    exercise: { intro: EXERCISE_INTRO_TR, steps: EXERCISE_STEPS_TR, belief: BELIEF_FRAME_TR }, support: SUPPORT_RESOURCES_TR, levelTwo: LEVEL_TWO_TR, pdf: PDF_LABELS.tr, email: EMAIL_LABELS.tr,
   },
 };
 

@@ -20,7 +20,7 @@ If you were given files or a diff, review those. Otherwise run `git diff HEAD --
 5. **Tone.** Every part treated as well-intentioned ("no bad parts"), wounds phrased tentatively, no alarm and no red-flag framing. The FLOODED pattern points to support without catastrophising.
 6. **Self-harm/suicidality.** Any item or copy that screens for it is a blocker.
 7. **Locale parity.** Each translation says the same thing as EN, with nothing dropped or added. "Self" stays capitalised; Yesod, Tiferet and Kay Pacha stay untranslated; Spanish stays gender-neutral where possible; the "DRAFT, pending human review" header is present.
-8. **Hard-coded English** in components, the PDF or email instead of `getContent()`/next-intl. (Known gap: `lib/email/send-results.ts` and the email route import `patterns.en`. Mention it only if the diff touches them.)
+8. **Hard-coded English** in components, the PDF or email instead of `getContent()`/next-intl.
 9. **Design-adjacent copy rules.** No text styled gold (readable text never uses gold); no red.
 
 You may run `npx vitest run tests/unit/content` to confirm the automated checks.
