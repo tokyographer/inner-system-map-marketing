@@ -1,79 +1,117 @@
 # Inner System Map
 
 ## Purpose
-Self-report screener that maps a person's inner system in Internal Family Systems (IFS) terms for Transcendent Institute: how much Self-leadership is available, which group of parts leads (Managers, Firefighters, Exiles) and which parts are most active. Public mode (website lead tool) and cohort mode (program participants with facilitator dashboard). Not a diagnostic or validated instrument; copy must say so.
+A self-report screener for Transcendent Institute that maps a person's inner system in Internal Family Systems (IFS) terms: how much Self-leadership is available, which group of parts leads (Managers, Firefighters or Exiles) and which parts are most active. It runs in two modes. Public mode is the website lead tool: the browser scores the answers and the results are emailed as a PDF. Cohort mode is for program participants and has a facilitator dashboard. The tool is not a diagnostic or validated instrument, and the copy must say so.
+
+The domain reference (theory, scales, rules and copy, generated from the live code) is `docs/KNOWLEDGE-BASE.md`. Read it before you change copy or scoring.
 
 ## Architecture
-- `content/items.v2.ts` → item bank (84 items, stable IDs, short-form flags). ES/RO item text keyed by ID in `items.v2.{es,ro}.ts`. All other copy in `content/*.{en,es,ro}.ts`, resolved through `getContent(locale)` / `itemText(item, locale)` in `content/index.ts`. Never import a `.en.ts` file directly from a component.
-- `config/scoring.ts` → every threshold (heuristic, never norms). `config/app.ts` → names, forms, retention.
-- `lib/scoring/` → pure scoring engine: `score(input) → Result` (scales, leads, pattern, modifiers, ranking, pairings, flags). No I/O.
-- `lib/pdf/` → results PDF (@react-pdf/renderer), same static content as the results page, section 8 order.
-- `lib/email/send-results.ts` → Resend: one email to the person, a separate copy to `RESULTS_COPY_TO`.
-- `app/api/public/results-pdf` (POST → PDF) and `app/api/public/email-results` (POST → sends). Both zod-validated and rate limited.
-- `db/migrations/` → SQL schema, functions and RLS for Neon; `lib/db/` → connection and per-user transaction; `lib/auth/` → Neon Auth. Phases 6–7 (dashboard, retention, e2e in CI) are planned in `docs/PHASE-1-PLAN.md` (which still describes the original Supabase design; Neon replaced it).
+```
+content/items.v2.ts ──► lib/scoring (pure) ──► Result JSON
+       │                      ▲                    │
+content/*.{en,es,ro,tr}.ts    config/scoring.ts    ├─► components/results (results page, section 8 order)
+  via content/index.ts                             ├─► lib/pdf (same content, same order)
+                                                   ├─► lib/email (Resend: person + institute copy)
+                                                   └─► Neon: attempts / public_results (cohort / opt-in)
+```
+- `content/items.v2.ts` holds the item bank: 84 items with stable IDs, 63 flagged for the short form. ES/RO/TR item text is keyed by ID in `items.v2.{es,ro,tr}.ts`. All other copy is in `content/*.{en,es,ro,tr}.ts` and resolves through `getContent(locale)` and `itemText(item, locale)` in `content/index.ts`. UI strings are in `messages/<locale>.json` (next-intl).
+- `config/scoring.ts` holds every threshold. They are heuristics, never norms, and `SCORING_VERSION` is stored with each attempt. `config/app.ts` holds names, locales, forms, retention and feature flags.
+- `lib/scoring/` is the pure engine `score(input) → Result`: scales, leads, pattern and modifiers, ranking, pairings, quality and care flags. It does no I/O and has 100% test coverage.
+- `lib/questionnaire/`: a seeded constrained order (no two items from the same scale in a row, at most 2 exile items in any 5) and localStorage autosave through `useSyncExternalStore`.
+- `lib/pdf/`: the results PDF (@react-pdf/renderer, Jost embedded), rendered in the request locale.
+- `lib/email/send-results.ts`: Resend sends two separate emails, one to the person and one copy to `RESULTS_COPY_TO`.
+- `app/api/public/{results-pdf,email-results,delete-result}`: zod-validated and rate limited. `app/api/cron/retention` runs nightly and checks `CRON_SECRET`. `app/api/{cohort,facilitator,admin}/export` produce the CSV and JSON exports.
+- `db/migrations/` holds the Neon schema, SQL functions and RLS. `lib/db/` provides `withUser()` and `asService()`, `lib/auth/` wraps Neon Auth, `lib/actions/` holds the server actions, `lib/dashboard/` holds the queries, role guard, access codes, CSV export and aggregates, and `lib/validation/` holds the zod schemas.
+- Routes live under `app/[locale]/`: `/` landing, `/start`, `/questionnaire`, `/results`, `/cohort/*`, `/facilitator/*`, `/admin/*`, `/privacy`, `/results-deleted`.
+
+Folder-level rules are in `content/CLAUDE.md`, `lib/scoring/CLAUDE.md`, `db/CLAUDE.md` and `tests/CLAUDE.md`. They load when you work in those folders.
 
 ## Run Order
 ```
 npm install
-cp .env.example .env        # fill RESEND_* to send email
-npm run typecheck
-npm test                    # vitest, scoring engine must stay at 100% coverage
-npm run build && npm run e2e   # Playwright (starts next start on 3111 if not running)
+cp .env.example .env                  # RESEND_* to send email
+npx vercel env pull .env.local --yes  # Neon + Auth vars; add NEON_AUTH_COOKIE_SECRET
+npm run db:migrate                    # applies new db/migrations/*.sql (Neon dev branch)
+npm run lint && npm run typecheck
+npm test                              # vitest; RLS integration tests skip without DATABASE_URL
+npx vitest run --coverage             # lib/scoring must stay at 100%
+npm run build && npm run e2e          # Playwright at 360px, starts next start on 3111
+npm run docs:kb                       # regenerate docs/KNOWLEDGE-BASE.md after content/scoring changes
 npm run dev
 ```
 
+## Definition of done
+1. Lint, typecheck and `npm test` are green, with scoring coverage at 100%.
+2. If the change touches routes, components or copy: `npm run build && npm run e2e` (includes axe, 0 WCAG 2.1 AA violations).
+3. If the change touches content, items, scoring or `config/app.ts`: run `npm run docs:kb` and commit the regenerated KB.
+4. If EN copy changed, the ES/RO/TR files changed with it (drafts are fine) and keep the "DRAFT, pending human review" header.
+5. Update "Current Status" below when a feature lands or a gap closes.
+
 ## Hardware & Environment
-- Node 24+, npm. Deploy target: Vercel, region fra1 (EU). Neon Postgres + Neon Auth in eu-central-1 via the Vercel Marketplace.
+- Node 24+, npm 11+. Deploys to Vercel, region fra1 (EU), through `vercel.ts`. Neon Postgres and Neon Auth (eu-central-1), Upstash Redis and Resend are all provisioned through the Vercel Marketplace. There is no local database; development uses the Neon dev branch.
 
 ## Key Dependencies & Gotchas
-- Next 16 App Router. `@react-pdf/renderer` is in `serverExternalPackages`; PDF routes set `runtime = "nodejs"`.
-- Vitest config is `vitest.config.mts` (ESM). Tests live in `tests/unit/**`.
-- Pattern rules are evaluated in order; a manager/firefighter gap of exactly 0.3 resolves to MANAGED or REACTIVE, not POLARISED.
-- Team-of-protectors rule: top two, plus the third when within 0.4 of the second (assumption, see plan).
-- Public mode collects name and email (plus consent) on the start screen; results are emailed automatically once per attempt from `components/results/AutoEmailStatus.tsx` and always shown on screen. Cohort mode skips the form.
-- Rate limiting uses Upstash when `UPSTASH_REDIS_REST_URL`/`TOKEN` are set; otherwise an in-memory window per instance (soft). `rateLimit()` is async.
-- Data access: `withUser(userId, fn)` for anything a signed-in person does (RLS applies); `asService(fn)` only for access-code lookup before sign-in, public opt-in results and retention. Facilitator reads of attempts are gated in SQL on an active `facilitator_visibility` consent.
-- Migrations are append-only: never edit an applied file, add `db/migrations/000N_*.sql`. Postgres functions are executable by PUBLIC by default; revoke from `public` explicitly (see 0004).
-- Neon Auth ids are uuid; `profiles.id` references `neon_auth."user"(id)`. The emailed OTP is stored hashed, so tests sign in through `/api/auth/sign-up/email` instead.
+- Next 16 App Router. It uses `proxy.ts` (not middleware.ts) for next-intl routing. `@react-pdf/renderer` is in `serverExternalPackages`, and the PDF and email routes set `runtime = "nodejs"`.
 - Server Components that read the session export `dynamic = "force-dynamic"`.
-- Roles: `requireRole()` in `lib/dashboard/guard.ts` gates dashboard pages; RLS still decides the rows. The role-change trigger only applies when `app.user_id` is set, so the first admin is bootstrapped with plain SQL on the service connection.
-- Access codes are generated in TS (`lib/dashboard/access-code.ts`) and hashed with the same sha256(lower(trim)) formula as `app.hash_access_code`; the plain code is shown once.
-- `.env.local` comes from `npx vercel env pull` plus `NEON_AUTH_COOKIE_SECRET`; gitignored. `.env.example` lists every variable.
-- Storage hydration uses `useSyncExternalStore` (lib/questionnaire/storage.ts); do not read localStorage in effects with setState (lint rule).
-- Completing the questionnaire clears progress, which notifies the store; the redirect-to-start effect is guarded by a `finished` ref.
-- Next 16 uses `proxy.ts` (not middleware.ts) for next-intl routing.
-- macOS `sips` does not rasterise the PDF's standard Helvetica; the text is there. Use Preview or pdftoppm to check visually.
+- The Vitest config is `vitest.config.mts` (ESM). Unit tests are in `tests/unit/**`, integration tests in `tests/integration/**`, and e2e tests in `tests/e2e/**`.
+- Pattern rules are evaluated in order. A manager/firefighter gap of exactly 0.3 resolves to MANAGED or REACTIVE, not POLARISED.
+- Team-of-protectors rule: the top two, plus the third when it is within 0.4 of the second.
+- Public mode collects name, email and consent on the start screen. `components/results/AutoEmailStatus.tsx` emails the results once per attempt, and the results are always shown on screen. Cohort mode skips the form.
+- Rate limiting goes through Upstash when `UPSTASH_REDIS_REST_URL`/`TOKEN` are set; otherwise it falls back to an in-memory window per instance (soft). `rateLimit()` is async.
+- Data access: use `withUser(userId, fn)` for anything a signed-in person does (RLS applies). Use `asService(fn)` only for access-code lookup before sign-in, public opt-in results and retention.
+- Roles: `requireRole()` in `lib/dashboard/guard.ts` gates the dashboard pages, and RLS still decides which rows are returned. Every profile view and export calls `app.log_access`.
+- Access codes are generated in TypeScript (`lib/dashboard/access-code.ts`) and hashed with sha256(lower(trim)), matching `app.hash_access_code`. The plain code is shown once.
+- Neon Auth ids are uuids. The emailed OTP is stored hashed, so tests sign in through `/api/auth/sign-up/email`.
+- Storage hydration uses `useSyncExternalStore`. Do not read localStorage in effects with setState (the lint rule blocks it). Completing the questionnaire clears progress, so the redirect-to-start effect is guarded by a `finished` ref.
+- The PDF embeds Jost from `lib/pdf/fonts/` because Helvetica lacks Turkish and Romanian glyphs. macOS `sips` cannot rasterise the PDF, so use Preview or pdftoppm to check it visually.
+- `EXERCISE_STEPS_READY` in `config/app.ts` hides the five S.W.C.I.R. steps in both the page and the PDF. Flip it only after all four locales have real steps.
 
 ## Design system
-- Source of truth: Transcendent Institute Design System, claude.ai/artifact/Y6TqWTS3vbH8p9UC1SLoAK (tokens.json, colors_and_type.css, README brand book).
-- Tokens live in `app/globals.css` (`--ti-*` raw stops, app roles below them). Fonts: Newsreader (next/font/google) for headings, Jost (self-hosted in `app/fonts/`) for body and UI. Body weight 300.
+- Source of truth: the Transcendent Institute Design System, claude.ai/artifact/Y6TqWTS3vbH8p9UC1SLoAK.
+- Tokens live in `app/globals.css` (`--ti-*` raw stops, with app roles below them). Headings use Newsreader (next/font/google); body and UI use Jost (self-hosted in `app/fonts/`) at weight 300.
 - Brand classes: `.btn .btn-primary|.btn-gold|.btn-outline` (2px radius, uppercase tracked), `.card`/`.card-warm` (1px hairline, 4px radius), `.eyebrow`, `.label`, `.on-dark`.
-- Gold is the single primary CTA (landing "Begin the work") and thin decorative fills only; readable text never uses gold (fails AA on platinum, per the brand book). Eyebrows use lead (#324A6D) for that reason.
+- Gold is used only for the single primary CTA and thin decorative fills. Readable text is never gold (it fails AA on platinum), so eyebrows use lead (#324A6D).
 - Score colours: Self gold, Managers nigredo, Firefighters copper, Exiles slate. No red anywhere.
-- Never use #FFFFFF as a surface; platinum is the base. No gradients, no shadows on dark, no left-border card accents.
+- Never use #FFFFFF as a surface (platinum is the base). No gradients, no shadows on dark, no left-border card accents.
 
 ## Configuration
-- `.env` from `.env.example`. `RESULTS_COPY_TO` empty disables the institute copy.
+- `.env` comes from `.env.example`. `.env.local` comes from `npx vercel env pull` plus `NEON_AUTH_COOKIE_SECRET`. Both are gitignored. Leaving `RESULTS_COPY_TO` empty disables the institute copy.
 
 ## Never Do
-- Never type people ("you are a ..."). Part language only.
-- Never use "diagnosis", "disorder", "clinical", "scientifically validated" in user-facing copy (test enforces).
+- Never type people ("you are a ..."). Use part language only ("a part of you that ...").
+- Never use "diagnosis", "disorder", "clinical" or "scientifically validated" in user-facing copy, in any locale (`tests/unit/content/locales.test.ts` enforces this).
 - Never add self-harm or suicidality items.
-- Never show exile content before protector content; never write an exercise addressed to an exile.
-- Adding a locale: `config/app.ts` LOCALES and APP_NAME, `messages/<l>.json` (same key set as en), `content/*.<l>.ts` for items, typologies, exiles, patterns, exercise, support, level-two, `content/pdf-labels.ts`, `content/index.ts`, `LocaleSwitcher` NAMES, a migration widening the locale checks, and the forbidden-word list in the locales test.
-- Never log responses, emails or scores. Log job outcome and reason only.
+- Never show exile content before protector content. Never write an exercise addressed to an exile.
 - Never present thresholds as norms.
-- Never commit `.env`.
+- Never log responses, emails, names or scores. Log the job outcome and reason only.
+- Never use `asService()` for a request a signed-in person makes.
+- Never edit an applied migration.
+- Never import a `content/*.en.ts` file directly from a component. Go through `getContent()`.
+- Never commit `.env` or `.env.local`.
+- Adding a locale requires: `config/app.ts` LOCALES and APP_NAME, `messages/<l>.json` (same key set as en), `content/*.<l>.ts` for items, typologies, exiles, patterns, exercise, support and level-two, `content/pdf-labels.ts`, `content/index.ts`, `LocaleSwitcher` NAMES, a migration widening the locale checks, and the forbidden-word list in the locales test.
+
+## Agents
+Project subagents are in `.claude/agents/`:
+- `ifs-copy-reviewer` (read-only): checks copy in every locale against the IFS guardrails, forbidden words and section order.
+- `locale-sync`: carries an EN copy or key change into ES/RO/TR as drafts and keeps the locale tests green.
+- `scoring-engineer`: changes thresholds, rules or items in the engine. Bumps the versions, keeps coverage at 100% and regenerates the KB.
+- `data-privacy-auditor` (read-only): reviews diffs for PII logging, `withUser`/`asService` misuse, RLS gaps, missing zod validation or rate limits, and migration hygiene.
+- `verify-gate`: runs the full definition-of-done gate and reports exact failures.
 
 ## Current Status
-- Done: Phase 1 plan. Phase 2 scoring engine + item bank + EN content (100% coverage), results PDF, Resend email flow with institute copy, request validation, interim rate limiting. Phase 3 public mode in EN: landing, start (age gate), questionnaire (seeded constrained order, localStorage autosave, keyboard Likert), results page in section 8 order, PDF download, email opt-in form, retake. next-intl routing /en /es /ro (ES/RO fall back to EN messages until Phase 4). Playwright happy path + axe audit (0 WCAG 2.1 AA violations) at 360px.
-- Phase 4 done: ES and RO drafts for items (`content/items.v2.{es,ro}.ts`, keyed by ID), typologies, exiles, patterns, exercise, support resources, Level II, PDF labels and `messages/{es,ro}.json`. All marked "DRAFT, pending human review". `content/index.ts` resolves content and item text by locale; the PDF renders in the request locale. Locale completeness and forbidden-word tests in `tests/unit/content/locales.test.ts`. Turkish (`tr`) added on 2026-09-29 with the same file set; the PDF embeds Jost from `lib/pdf/fonts/` because the built-in Helvetica lacks Turkish and Romanian glyphs.
-- Phase 5 done on Neon (Vercel Marketplace, Frankfurt) with Neon Auth: migrations in `db/migrations/*.sql` applied by `scripts/migrate.mjs`, per-user RLS via `withUser()` in `lib/db/index.ts` (transaction as role `app_user` with `app.user_id` set), Neon Auth sign-in by emailed six-digit code, cohort join with hashed access codes, consent logging, cohort questionnaire scored server-side in `lib/actions/cohort.ts`, attempt history, notes, JSON export, real deletion (`app.delete_my_data()` + Neon Auth `deleteUser`).
-- Phase 6 done: facilitator dashboard under `/[locale]/facilitator` (cohort list, participant table with pattern, Self, top protectors, top exile, quality and care flags; aggregates hidden under 5 completed; pseudonymised CSV) and `/[locale]/admin` (create cohorts with one-time access codes, assign facilitators by email, identified CSV, audit log). Queries in `lib/dashboard/queries.ts` all run through `withUser()`; every profile view and export calls `app.log_access`. Email lookups are SQL functions guarded by role (migrations 0006–0008).
-- Phase 7 done: nightly retention cron (`app/api/cron/retention`, scheduled in `vercel.ts`, protected by `CRON_SECRET`); rate limiting through Upstash Redis when its env vars exist, in-memory fallback otherwise (`lib/ratelimit.ts`); public opt-in results stored in `public_results` with a hashed one-click delete token and a `/api/public/delete-result` link in the email; privacy placeholder pages per locale (`content/legal/privacy.ts`); axe audits on cohort and dashboard pages; Lighthouse accessibility 100 on landing, start and privacy; GitHub Actions CI (`.github/workflows/ci.yml`); deployment guide in README.
-- "Meet this part": framing copy is final; the five S.W.C.I.R. steps stay hidden behind `EXERCISE_STEPS_READY` in `config/app.ts` until the school supplies them in `content/exercise.*.ts`. Flip the flag after filling all four languages.
-- Open: Upstash Marketplace terms must be accepted in the browser before the Redis limiter is live; Preview environment variables need the dashboard; legal texts need a lawyer; exercise steps and support resources are placeholders.
-- Item bank and content are DRAFT pending Anthony's clinical review.
+- Done: phases 1–7 (see `docs/PHASE-1-PLAN.md` for the original plan, which still describes Supabase; Neon replaced it).
+  - Phase 2: scoring engine, item bank v2 and EN content.
+  - Phase 3: public mode, the results PDF, the Resend flow and rate limiting.
+  - Phase 4: ES, RO and TR drafts.
+  - Phase 5: cohort mode on Neon with RLS, consent, history, notes, export and deletion.
+  - Phase 6: facilitator and admin dashboards, CSV export and the audit log.
+  - Phase 7: retention cron, Upstash, opt-in public result storage with a delete link, privacy placeholders, axe and Lighthouse checks, and CI.
+- Since then: OG image; the "Meet this part" framing on the results page and in the PDF (reflection plus belief frame; steps behind `EXERCISE_STEPS_READY`); `docs/KNOWLEDGE-BASE.md` generated by `scripts/build-knowledge-base.ts`; translation review spreadsheets in `docs/translations/`.
+- Known gaps:
+  - The participant email body and the institute copy are English-only. `lib/email/send-results.ts` and `app/api/public/email-results/route.ts` import `content/patterns.en` directly.
+  - The lint warning in `scripts/build-knowledge-base.ts` (unused `ProtectorKey`) is still open.
+- Open (outside code): the Upstash Marketplace terms must be accepted in the browser; Preview env vars need setting in the dashboard; the legal texts need a lawyer; the exercise steps and support resources are placeholders.
+- The item bank and all content are DRAFT pending Anthony's clinical review. Translations are DRAFT pending native review.
 
 ## Future Integration
-- Input: item responses `{ itemId: 1..5 }` + form + locale. Output: `Result` JSON, PDF, email. Cohort data in Neon Postgres.
+- Input: item responses `{ itemId: 1..5 }` + form + locale. Output: `Result` JSON, PDF, email. Cohort data lives in Neon Postgres.
