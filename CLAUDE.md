@@ -53,6 +53,7 @@ npm run dev
 ## Key Dependencies & Gotchas
 - Next 16 App Router. It uses `proxy.ts` (not middleware.ts) for next-intl routing. `@react-pdf/renderer` is in `serverExternalPackages`, and the PDF and email routes set `runtime = "nodejs"`.
 - Server Components that read the session export `dynamic = "force-dynamic"`.
+- Never read env or create clients (`auth()`, DB pool, Resend) at module top level in routes or pages. `next build` evaluates them, and CI builds with no Neon or Resend vars. Create them lazily on first request.
 - The Vitest config is `vitest.config.mts` (ESM). Unit tests are in `tests/unit/**`, integration tests in `tests/integration/**`, and e2e tests in `tests/e2e/**`.
 - Pattern rules are evaluated in order. A manager/firefighter gap of exactly 0.3 resolves to MANAGED or REACTIVE, not POLARISED.
 - Team-of-protectors rule: the top two, plus the third when it is within 0.4 of the second.
