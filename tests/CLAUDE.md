@@ -8,5 +8,6 @@
 - `content/locales.test.ts`: every locale has every item, typology, exile, pattern, modifier and exercise step; message key sets are equal; no forbidden words; DRAFT headers are present; specialised terms stay untranslated.
 - `content/results-order.test.ts`: exile sections come after protector sections, and the exercise targets a protector.
 - `scoring/*`: threshold boundaries and pattern precedence.
+- `scoring/golden.test.ts` with `fixtures/core-golden.json`: exact `score()` output for 13 fixed inputs covering every pattern, modifier and quality flag. It is shared with the marketing repo, and a failure means the scoring core has drifted. Regenerate it only for a deliberate upstream change (`npm run core:golden:update`).
 
 Tests never print responses, emails or scores, even on failure paths you add.
