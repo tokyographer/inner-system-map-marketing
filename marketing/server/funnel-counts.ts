@@ -4,6 +4,8 @@
  * anonymous and the row holds no personal data. Unregistered codes are counted
  * under '-', so visitors cannot add rows or store their own strings. Admin
  * reads and partner registration go through withUser so RLS applies.
+ * Known race, accepted because counts are untrusted aggregates: an increment that read the partner just before
+ * deletePartner committed can still land one count on the removed code.
  */
 import { asService, withUser } from "@/lib/db";
 import type { CountedEvent } from "../validation";
@@ -46,5 +48,29 @@ export async function listRefCounts(userId: string): Promise<RefCounts[]> {
         order by c.ord, starts desc, c.ref_code
         limit 500`);
     return rows.map((r) => ({ ref: r.ref_code, label: r.label, starts: Number(r.starts), completions: Number(r.completions), starts30: Number(r.starts30), completions30: Number(r.completions30) }));
+  });
+}
+
+/** As the signed-in user (RLS: admins only). Throws on a duplicate code (23505) or when RLS refuses. */
+export async function insertPartner(userId: string, code: string, label: string): Promise<void> {
+  await withUser(userId, (db) => db.query("insert into public.marketing_partners (code, label, created_by) values ($1, $2, $3)", [code, label, userId]));
+}
+
+/**
+ * As the signed-in user (RLS: admins only). Removes the partner and its label (which may name a person) and folds
+ * the code's past counts into the unregistered row, so totals still add up and a later partner registered with the
+ * same code starts from zero. Returns false when there was no such partner (or RLS hid it).
+ */
+export async function deletePartner(userId: string, code: string): Promise<boolean> {
+  return withUser(userId, async (db) => {
+    const { rowCount } = await db.query("delete from public.marketing_partners where code = $1", [code]);
+    if (!rowCount) return false;
+    await db.query(
+      `insert into public.marketing_funnel_counts (day, ref_code, event, count)
+       select day, '${UNREGISTERED}', event, count from public.marketing_funnel_counts where ref_code = $1
+       on conflict (day, ref_code, event) do update set count = public.marketing_funnel_counts.count + excluded.count`,
+      [code]);
+    await db.query("delete from public.marketing_funnel_counts where ref_code = $1", [code]);
+    return true;
   });
 }

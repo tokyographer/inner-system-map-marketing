@@ -8,9 +8,9 @@ export const runtime = "nodejs";
 
 /** Anonymous start/completion counter per partner code (marketing). Stores aggregates only. */
 export async function POST(request: Request) {
-  const limit = await rateLimit(`mkt-funnel:${clientKey(request)}`, 10, 60 * 60 * 1000);
-  if (!limit.ok) {
-    return NextResponse.json({ error: "rate_limited" }, { status: 429, headers: { "Retry-After": String(limit.retryAfterSeconds) } });
+  const coarse = await rateLimit(`mkt-funnel:${clientKey(request)}`, 300, 60 * 60 * 1000);
+  if (!coarse.ok) {
+    return NextResponse.json({ error: "rate_limited" }, { status: 429, headers: { "Retry-After": String(coarse.retryAfterSeconds) } });
   }
   let json: unknown;
   try {
@@ -20,6 +20,11 @@ export async function POST(request: Request) {
   }
   const parsed = funnelCountSchema.safeParse(json);
   if (!parsed.success) return NextResponse.json({ error: "invalid_request" }, { status: 400 });
+  // Per event and client: a group taking the map on one network (a studio's Wi-Fi) must still be counted.
+  const limit = await rateLimit(`mkt-funnel:${parsed.data.event}:${clientKey(request)}`, 60, 60 * 60 * 1000);
+  if (!limit.ok) {
+    return NextResponse.json({ error: "rate_limited" }, { status: 429, headers: { "Retry-After": String(limit.retryAfterSeconds) } });
+  }
   if (!dbConfigured()) return new NextResponse(null, { status: 204 });
   try {
     await incrementFunnel(parsed.data.event, parsed.data.ref);

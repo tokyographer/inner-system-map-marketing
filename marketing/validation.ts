@@ -21,14 +21,16 @@ export const attributionSchema = z.object({
 
 export type Attribution = z.infer<typeof attributionSchema>;
 
-/** Marketing-only fields of POST /api/public/email-results. */
-export const emailMarketingFieldsSchema = z.object({ attribution: attributionSchema.optional() });
-
-/** Reads the marketing fields from an already-parsed request body. Never throws. */
+/** Reads the marketing fields of POST /api/public/email-results from the parsed body, field by field: an invalid field is dropped, the rest kept. Never throws. */
 export function parseEmailMarketingFields(json: unknown): { attribution: Attribution | null } {
-  const parsed = emailMarketingFieldsSchema.safeParse(json);
-  const attribution = parsed.success ? parsed.data.attribution : undefined;
-  return { attribution: attribution && Object.keys(attribution).length > 0 ? attribution : null };
+  const raw = json && typeof json === "object" ? (json as { attribution?: unknown }).attribution : undefined;
+  if (!raw || typeof raw !== "object") return { attribution: null };
+  const attribution: Attribution = {};
+  for (const field of Object.keys(attributionSchema.shape) as (keyof Attribution)[]) {
+    const parsed = attributionSchema.shape[field].safeParse((raw as Record<string, unknown>)[field]);
+    if (parsed.success && parsed.data) attribution[field] = parsed.data;
+  }
+  return { attribution: Object.keys(attribution).length > 0 ? attribution : null };
 }
 
 export const FUNNEL_COUNTED = ["start", "complete"] as const;

@@ -76,6 +76,8 @@ describe("parseEmailMarketingFields", () => {
   it("returns valid attribution and drops invalid or empty attribution without failing", () => {
     expect(parseEmailMarketingFields({ email: "x", attribution: { ref: "studio-om" } })).toEqual({ attribution: { ref: "studio-om" } });
     expect(parseEmailMarketingFields({ attribution: { ref: "NOT OK" } })).toEqual({ attribution: null });
+    expect(parseEmailMarketingFields({ attribution: { utmSource: "Newsletter", utmMedium: "email", ref: "studio-om", extra: "x" } })).toEqual({ attribution: { utmMedium: "email", ref: "studio-om" } });
+    expect(parseEmailMarketingFields({ attribution: "nope" })).toEqual({ attribution: null });
     expect(parseEmailMarketingFields({ attribution: {} })).toEqual({ attribution: null });
     expect(parseEmailMarketingFields(null)).toEqual({ attribution: null });
   });

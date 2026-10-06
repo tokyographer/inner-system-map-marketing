@@ -27,6 +27,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000")),
     title,
     description,
+    // Marketing: referrers carry the origin only, so a ?ref= or ?utm_ landing URL never reaches analytics or other sites as a referrer.
+    referrer: "strict-origin",
     openGraph: { title, description, siteName: "Transcendent Institute", type: "website", locale: safeLocale, images: [image] },
     twitter: { card: "summary_large_image", title, description, images: [image.url] },
   };

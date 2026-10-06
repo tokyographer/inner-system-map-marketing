@@ -115,7 +115,7 @@ npm run core:fingerprint      # hash of the core shared with upstream (see CORE.
 - `/{locale}/admin/cohorts`: create cohorts (the access code is shown once), assign facilitators, identified CSV, audit log at `/{locale}/admin/audit`.
 
 ## API (public mode)
-`POST /api/marketing/funnel` (this repo only) with `{ event: "start" | "complete", ref? }` bumps the anonymous daily count for that partner code. 204 on success (also when no database is configured), 400 on anything else, 429 after 10 per client per hour. Only codes an admin registered at `/{locale}/admin/partners` get their own count; others are counted together as unregistered. The counts are client-reported and untrusted.
+`POST /api/marketing/funnel` (this repo only) with `{ event: "start" | "complete", ref? }` bumps the anonymous daily count for that partner code. 204 on success (also when no database is configured), 400 on anything else, 429 after 300 requests per client per hour, or 60 of the same event. Only codes an admin registered at `/{locale}/admin/partners` get their own count; others are counted together as unregistered. The counts are client-reported and untrusted.
 
 `POST /api/public/results-pdf` with JSON `{ locale, form, responses, durationSeconds?, ageConfirmed: true, name? }` returns `application/pdf`, named `<app-name>-results-<name>.pdf`.
 

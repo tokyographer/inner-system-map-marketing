@@ -38,10 +38,18 @@ describe("POST /api/marketing/funnel", () => {
     expect(console.error).toHaveBeenCalledWith("funnel count failed", { reason: "connection lost" });
   });
 
-  it("rate limits each client to 10 counts an hour", async () => {
+  it("rate limits each client to 60 counts of each event an hour, so a group on one network is still counted", async () => {
     const statuses = [];
-    for (let i = 0; i < 11; i++) statuses.push((await POST(req({ event: "start" }, "10.9.9.9"))).status);
-    expect(statuses.slice(0, 10).every((s) => s === 204)).toBe(true);
-    expect(statuses[10]).toBe(429);
+    for (let i = 0; i < 61; i++) statuses.push((await POST(req({ event: "start" }, "10.9.9.9"))).status);
+    expect(statuses.slice(0, 60).every((s) => s === 204)).toBe(true);
+    expect(statuses[60]).toBe(429);
+    expect((await POST(req({ event: "complete" }, "10.9.9.9"))).status).toBe(204);
+  });
+
+  it("caps any client at 300 requests an hour, valid or not", async () => {
+    const statuses = [];
+    for (let i = 0; i < 301; i++) statuses.push((await POST(req("not json", "10.8.8.8"))).status);
+    expect(statuses.slice(0, 300).every((s) => s === 400)).toBe(true);
+    expect(statuses[300]).toBe(429);
   });
 });

@@ -118,3 +118,9 @@ test("Share the map falls back to copying the link, and is hidden for FLOODED re
   await expect(page.getByRole("heading", { name: "Support near you" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Share the map" })).toHaveCount(0);
 });
+
+test("every page sends Referrer-Policy: strict-origin, so ?ref= and record ids never travel as a referrer", async ({ request }) => {
+  for (const path of ["/en?ref=studio-om", "/en/results", "/en/admin/partners"]) {
+    expect((await request.get(path)).headers()["referrer-policy"], path).toBe("strict-origin");
+  }
+});

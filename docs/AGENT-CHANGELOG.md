@@ -22,6 +22,10 @@ Entry format:
 
 ---
 
+## 2026-10-06 [marketing]: fixes from a whole-branch review
+- Changed: the funnel counter allows 60 of each event per client per hour, after a coarse 300-per-hour limit, so a group taking the map on one network is counted. Removing a partner folds its counts into `'-'` (new `m0003_funnel_admin_writes.sql` gives admins write policies on the counts for this; m0002 is unchanged), so a later partner with the same code does not inherit them. `parseEmailMarketingFields` drops invalid attribution fields one by one instead of all of them. `next.config.ts` sends `Referrer-Policy: strict-origin` on every route (the layout also sets the meta tag), so a `?ref=` landing URL or a dashboard URL is never sent on as a referrer. The Neon integration tests now create real admin and participant users and test the admin path; the attribution test cleans up its partner.
+- Agents: run `npm run db:migrate` on `marketing-dev` for m0003. Never edit a committed migration; add the next `m0NNN` file.
+
 ## 2026-10-06 [marketing]: partner code kept out of analytics
 - Changed: funnel events no longer carry `ref`, and page-view URLs keep only validated utm parameters. Visitors can type any code into a URL, and only registered codes are counted, in `marketing_funnel_counts` (follow-up from data-privacy-auditor). The privacy section says so in all four locales.
 - Agents: never send the partner code to Vercel Analytics. Per-partner numbers come from `/admin/partners`.
