@@ -122,7 +122,7 @@ Project subagents are in `.claude/agents/`:
 - `core-sync`: ports core-path commits from upstream into this repo and checks that the fingerprints match.
 
 ## Current Status
-- Marketing (this repo): cookieless funnel analytics (Vercel Web Analytics; custom events need a Pro plan and Web Analytics enabled on the project). Source attribution on opt-in public results. Not yet in the institute copy (upstream request 1 in `marketing/UPSTREAM-REQUESTS.md`). Public consent records `PUBLIC_POLICY_VERSION` (`2026-09-draft+m2026-10-draft`); the marketing privacy section is DRAFT pending the lawyer.
+- Marketing (this repo): localised program invite with UTM tags and an optional live-session link (`marketing/config.ts`; the program URLs are placeholders until the institute supplies them, and no live session is configured). Cookieless funnel analytics (Vercel Web Analytics; custom events need a Pro plan and Web Analytics enabled on the project). Source attribution on opt-in public results. Not yet in the institute copy (upstream request 1 in `marketing/UPSTREAM-REQUESTS.md`). Public consent records `PUBLIC_POLICY_VERSION` (`2026-09-draft+m2026-10-draft`); the marketing privacy section is DRAFT pending the lawyer.
 - Done: phases 1–7 (see `docs/PHASE-1-PLAN.md` for the original plan, which still describes Supabase; Neon replaced it).
   - Phase 2: scoring engine, item bank v2 and EN content.
   - Phase 3: public mode, the results PDF, the Resend flow and rate limiting.

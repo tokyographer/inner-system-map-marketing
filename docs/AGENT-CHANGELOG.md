@@ -22,6 +22,10 @@ Entry format:
 
 ---
 
+## 2026-10-06 [marketing]: localised program invite and live-session link
+- Changed: `components/results/ProgramInvite.tsx` links to `PROGRAM_URL[locale]` with UTM tags (`marketing/links.ts`) and, when `LIVE_SESSION_URL[locale]` is set, to the next "Reading your map" live session (strings under `marketing.invite`, all four locales). Both URLs live in `marketing/config.ts`; the program URLs are placeholders (the homepage) and no live session is set yet. Each link click sends `invite_click` with `target`. `ResultsView` still hides the invite for FLOODED and cohort results; an e2e test now checks the FLOODED case.
+- Agents: change the URLs only in `marketing/config.ts`. `ProgramInvite.tsx` differs from upstream now: if upstream changes it, merge by hand and keep the links from `links.ts`.
+
 ## 2026-10-06 [marketing]: database plan: marketing-dev branch, production takeover
 - Changed: development uses the Neon branch `marketing-dev`, created from the dev branch of the original Neon project (not a new Neon project, and no Neon from the Vercel Marketplace on this repo's project). `README.md` has the console and terminal steps and a "Going live" checklist: this repo replaces the original as the live app on the production database, and the original's production deployment is retired so only one app runs (each runs its own retention cron and rate limits). Root, `marketing/` and `db/` CLAUDE.md files carry the rules. `m0001_attribution.sql` was checked against the additive-only rule: it adds four nullable columns, each with a check on the new column only, and changes nothing existing.
 - Agents: `m0NNN` migrations are additive only (new nullable columns or new tables). Never copy the original's `.env.local`, never link the original's Vercel project, never run `npm run db:migrate` against anything but `marketing-dev`. `RESULTS_COPY_TO` is a test inbox outside Production.

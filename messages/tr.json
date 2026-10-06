@@ -256,6 +256,10 @@
       "attribution": "Bir kampanyayı veya iş ortağını belirten bir bağlantıyla gelirsen (örneğin içinde ?utm_source= ya da ?ref= bulunan bir bağlantı), haritaya başladığında kampanya kaynağını, ortamını, kampanya adını ve iş ortağı kodunu en fazla 30 gün boyunca tarayıcında saklarız; sonuçlarının e-postayla gönderilmesini istersen bunları sonuçlarınla birlikte kaydederiz. Bunları yalnızca hangi kanalların ve iş ortaklarının insanları haritaya getirdiğini saymak için kullanırız. Sonuçlarınla birlikte kaydedilen kopya onlarla birlikte silinir ve hiçbir zaman yanıtlarını ya da sonuçlarını içermez.",
       "draft": "TASLAK, hukuki inceleme bekliyor.",
       "analytics": "Haritanın herkese açık sayfalarına yapılan ziyaretleri (ana sayfa, başlangıç, sorular, sonuçlar ve gizlilik sayfaları) ve haritanın birkaç adımını (ana sayfa görüntülendi, harita başlatıldı, harita tamamlandı, sonuçlar e-postayla gönderildi, program veya canlı oturum bağlantısına tıklandı) çerez kullanmayan Vercel Web Analytics ile sayarız. Bir ziyaret, bağlantının yalnızca kampanya ve iş ortağı parametreleri korunarak sayfa adresini, ayrıca yönlendiren siteyi ve ülke, tarayıcı, işletim sistemi ve cihaz türü gibi genel bilgileri kaydeder. Aynı gün içindeki ziyaretleri ayırt etmek için Vercel istekten 24 saat sonra silinen bir tanımlayıcı türetir. Her adım sayfanın dilini ve varsa iş ortağı kodunu kaydeder; bir bağlantı tıklaması hangi bağlantı olduğunu da kaydeder. Bunların hiçbiri adını, e-posta adresini, yanıtlarını ya da sonuçlarını kaydetmez. Program katılımcıları, kolaylaştırıcılar ve yöneticiler için olan sayfalar sayılmaz."
+    },
+    "invite": {
+      "liveSessionBody": "Ayrıca bir kolaylaştırıcının küçük bir gruba haritayı adım adım anlattığı ücretsiz canlı oturuma, \"Haritanı okuma\", katılabilirsin.",
+      "liveSessionLink": "Sonraki canlı oturum"
     }
   }
 }

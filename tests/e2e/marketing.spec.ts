@@ -57,3 +57,25 @@ test("funnel events carry locale and partner code only, never contact details or
   const all = JSON.stringify(await page.evaluate(() => (window as unknown as { vaq?: unknown }).vaq ?? []));
   for (const forbidden of ["person@example.com", "Test Person", "MANAGED", "FLOODED", "REACTIVE", "POLARISED", "responses"]) expect(all).not.toContain(forbidden);
 });
+
+const EXILE_SCALES = ["SHAM", "ABAN", "FEAR", "POWL", "LONE"];
+
+test("program invite links to the locale's program page with UTM tags; no live-session link while none is configured", async ({ page }) => {
+  await page.goto("/es");
+  await seedAttempt(page, (_, i) => 1 + (i % 5));
+  await page.goto("/es/results");
+  const link = page.locator("[data-section=invite] a").first();
+  await expect(link).toBeVisible();
+  const href = new URL((await link.getAttribute("href"))!);
+  expect(Object.fromEntries(href.searchParams)).toEqual({ utm_source: "inner-system-map", utm_medium: "results", utm_campaign: "program-invite", utm_content: "es" });
+  await expect(page.locator("[data-section=invite] a")).toHaveCount(1);
+});
+
+test("no program invite when the pattern is FLOODED", async ({ page }) => {
+  await page.goto("/en");
+  await seedAttempt(page, (id) => (EXILE_SCALES.some((s) => id.startsWith(s)) ? 5 : id.startsWith("SELF") ? 1 : 3));
+  await page.goto("/en/results");
+  await expect(page.getByRole("heading", { name: "Support near you" })).toBeVisible();
+  await expect(page.locator("[data-section=invite] a")).toHaveCount(0);
+  await expect(page.getByRole("heading", { name: "If you want to go further" })).toHaveCount(0);
+});
