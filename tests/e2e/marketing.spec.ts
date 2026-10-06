@@ -124,3 +124,32 @@ test("every page sends Referrer-Policy: strict-origin, so ?ref= and record ids n
     expect((await request.get(path)).headers()["referrer-policy"], path).toBe("strict-origin");
   }
 });
+
+test("public questionnaire shows milestone messages and sends one halfway event", async ({ page }) => {
+  await page.goto("/en/start");
+  await startWithContact(page);
+  // Jump close to each milestone by editing the saved progress, then answer one statement to move forward.
+  const jumpTo = async (index: number) => {
+    await page.evaluate((i) => { const p = JSON.parse(localStorage.getItem("ism:progress:v2")!); localStorage.setItem("ism:progress:v2", JSON.stringify({ ...p, index: i })); }, index);
+    await page.reload();
+    await expect(page.getByText(`Statement ${index + 1} of 63`)).toBeVisible();
+  };
+  const answer = async (next: number) => {
+    await page.getByRole("radiogroup").getByRole("radio").nth(2).click();
+    await expect(page.getByText(`Statement ${next} of 63`)).toBeVisible();
+  };
+
+  await jumpTo(20);
+  await expect(page.getByRole("status").filter({ hasText: "A third of the way" })).toHaveCount(0);
+  await answer(22);
+  await expect(page.getByRole("status").filter({ hasText: "A third of the way through." })).toBeVisible();
+
+  await jumpTo(30);
+  expect(await queuedEvents(page)).not.toContainEqual({ name: "halfway", data: { locale: "en" } }); // a reload is not a crossing
+  await answer(32);
+  await expect.poll(() => queuedEvents(page)).toContainEqual({ name: "halfway", data: { locale: "en" } });
+
+  await jumpTo(41);
+  await answer(43);
+  await expect(page.getByRole("status").filter({ hasText: "Two thirds of the way through." })).toBeVisible();
+});

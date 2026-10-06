@@ -6,7 +6,7 @@
 import { track } from "@vercel/analytics";
 import { attributionFromSearch } from "./attribution";
 
-export const FUNNEL_EVENTS = ["landing_view", "start", "completion", "email_sent", "invite_click"] as const;
+export const FUNNEL_EVENTS = ["landing_view", "start", "halfway", "completion", "email_sent", "invite_click"] as const;
 export type FunnelEvent = (typeof FUNNEL_EVENTS)[number];
 
 export interface FunnelProps {

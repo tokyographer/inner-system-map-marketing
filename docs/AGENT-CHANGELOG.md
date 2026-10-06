@@ -22,6 +22,10 @@ Entry format:
 
 ---
 
+## 2026-10-06 [marketing]: milestone messages and a halfway event in the public questionnaire
+- Changed: `marketing/components/QuestionnaireMilestones.tsx`, rendered by `components/questionnaire/Questionnaire.tsx` in public mode only, shows a short encouragement for 3 statements from about a third and two thirds of the form (`marketing.milestones.*`, all four locales) and sends one `halfway` funnel event when the person moves forward into the middle statement. `FUNNEL_EVENTS` and the privacy section list it. The questionnaire length (63, core) is unchanged.
+- Agents: the decision to keep 63 statements and measure is recorded in `marketing/CLAUDE.md` ("Length of the questionnaire"). A shorter form is an upstream core change with clinical review, never a marketing change.
+
 ## 2026-10-06 [marketing]: attribution in the institute copy, live-session line in the email
 - Changed: the email route passes `instituteDetails` (Source, Medium, Campaign; Partner only when `saveResultAttribution` confirms the code is registered, so never without a database) and `personFooter` (`marketing.email.liveSession` with the tagged URL, only when `LIVE_SESSION_URL[locale]` is set and `consent.newsletter` is true, built before anything is stored) to the core `sendResultsEmail` from upstream `f2021d9`. Helpers in `marketing/email.ts`. `saveResultAttribution` now returns `{ saved, registeredRef }`. The privacy section now says the source goes into the institute copy and that the delete link does not remove that inbox copy. `marketing/UPSTREAM-REQUESTS.md` has one new request (3: do not log Resend's error text).
 - Agents: the core drops `personFooter` for FLOODED; keep it that way, and never add a promotional line to the person's email any other way. Institute details stay English.

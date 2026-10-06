@@ -11,8 +11,8 @@ beforeEach(() => { vi.stubGlobal("window", {}); });
 afterEach(() => { track.mockReset(); vi.unstubAllGlobals(); resetPendingAttribution(); });
 
 describe("funnel analytics", () => {
-  it("has exactly the five funnel events", () => {
-    expect(FUNNEL_EVENTS).toEqual(["landing_view", "start", "completion", "email_sent", "invite_click"]);
+  it("has exactly the six funnel events", () => {
+    expect(FUNNEL_EVENTS).toEqual(["landing_view", "start", "halfway", "completion", "email_sent", "invite_click"]);
   });
 
   it("sends only locale and target, whatever the caller passes (no partner code)", () => {

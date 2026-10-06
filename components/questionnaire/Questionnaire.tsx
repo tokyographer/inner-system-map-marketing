@@ -10,6 +10,7 @@ import type { Response } from "@/lib/scoring/types";
 import { LikertItem } from "./LikertItem";
 import { ProgressBar } from "./ProgressBar";
 import { funnel } from "@/marketing/funnel";
+import { QuestionnaireMilestones } from "@/marketing/components/QuestionnaireMilestones";
 
 const ADVANCE_DELAY_MS = 350;
 
@@ -91,6 +92,7 @@ export function Questionnaire({ onComplete }: Props = {}) {
   return (
     <div className="space-y-8 py-10">
       <ProgressBar current={index + 1} total={items.length} />
+      {!onComplete && <QuestionnaireMilestones index={index} total={items.length} />}
       <div key={item.id}>
         <LikertItem itemId={item.id} text={itemText(item, locale)} value={value} onChange={answer} />
       </div>
