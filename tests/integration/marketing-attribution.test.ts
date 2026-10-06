@@ -18,13 +18,13 @@ describe.skipIf(!env.DATABASE_URL)("marketing attribution on public results (Neo
     await asService((db) => db.query("insert into public.marketing_partners (code, label) values ($1, 'Test partner')", [code]));
     const responses = build("short", {}, 3);
     const stored = await storePublicResult({ email: `mkt-${Date.now().toString(36)}@example.test`, locale: "en", form: "short", responses, result: score({ form: "short", responses }), newsletter: false, policyVersion: "t" });
-    expect(await saveResultAttribution(stored.id, { utmSource: "newsletter", utmCampaign: "level-ii", ref: code })).toBe(true);
+    expect(await saveResultAttribution(stored.id, { utmSource: "newsletter", utmCampaign: "level-ii", ref: code })).toEqual({ saved: true, registeredRef: code });
     const row = await asService(async (db) => (await db.query("select utm_source, utm_medium, utm_campaign, ref_code from public.public_results where id = $1", [stored.id])).rows[0]);
     expect(row).toEqual({ utm_source: "newsletter", utm_medium: null, utm_campaign: "level-ii", ref_code: code });
-    expect(await saveResultAttribution(stored.id, { utmSource: "newsletter", ref: "nobody-registered" })).toBe(true);
+    expect(await saveResultAttribution(stored.id, { utmSource: "newsletter", ref: "nobody-registered" })).toEqual({ saved: true, registeredRef: null });
     expect((await asService(async (db) => (await db.query("select ref_code from public.public_results where id = $1", [stored.id])).rows[0])).ref_code).toBeNull();
     expect(await deletePublicResult(stored.deleteToken)).toBe(true);
-    expect(await saveResultAttribution(stored.id, { ref: code })).toBe(false);
+    expect(await saveResultAttribution(stored.id, { ref: code })).toEqual({ saved: false, registeredRef: null });
     await asService((db) => db.query("delete from public.marketing_partners where code = $1", [code]));
   });
 });

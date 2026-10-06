@@ -119,7 +119,7 @@ npm run core:fingerprint      # hash of the core shared with upstream (see CORE.
 
 `POST /api/public/results-pdf` with JSON `{ locale, form, responses, durationSeconds?, ageConfirmed: true, name? }` returns `application/pdf`, named `<app-name>-results-<name>.pdf`.
 
-`POST /api/public/email-results` with the same body plus `{ name, email, consent: { storeResults: true, newsletter, policyVersion } }` sends the PDF to `email` in the request locale, and a separate copy to `RESULTS_COPY_TO` in English (English email and English PDF, whatever the person's language). Returns `{ ok: true, copySentToInstitute }`. In this repo the body may also carry `attribution: { utmSource?, utmMedium?, utmCampaign?, ref? }` (parsed by `marketing/validation.ts`; invalid values are dropped, never rejected), stored on the opt-in `public_results` row.
+`POST /api/public/email-results` with the same body plus `{ name, email, consent: { storeResults: true, newsletter, policyVersion } }` sends the PDF to `email` in the request locale, and a separate copy to `RESULTS_COPY_TO` in English (English email and English PDF, whatever the person's language). Returns `{ ok: true, copySentToInstitute }`. In this repo the body may also carry `attribution: { utmSource?, utmMedium?, utmCampaign?, ref? }` (parsed by `marketing/validation.ts`; invalid values are dropped, never rejected), stored on the opt-in `public_results` row and listed in the institute copy (Source, Medium, Campaign, and Partner when the code is registered). When a live session is configured for the locale and the person ticked the newsletter box, their email ends with an invitation to it, except for FLOODED results.
 
 Example:
 ```

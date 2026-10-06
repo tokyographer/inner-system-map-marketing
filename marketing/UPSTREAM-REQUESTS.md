@@ -2,19 +2,14 @@
 
 Core changes the marketing features need. Each one is made in `../inner-system-ifs-test` (the source of truth for the core) and ported here with the `core-sync` agent. Remove an entry here once it has been ported.
 
-## 1. Extra lines in the institute copy (for source attribution)
-- **Why:** marketing wants the institute copy of the results email to show where the person came from (utm_source, utm_medium, utm_campaign, partner ref). The institute copy is built in `lib/email/send-results.ts`, which is core.
-- **Files:** `lib/email/send-results.ts`, `tests/unit/email/send-results.test.ts`.
-- **Behaviour:** add an optional, repo-neutral field to `SendResultsArgs`: `instituteDetails?: { label: string; value: string }[]`. When present, each entry is appended to the institute copy's text body as `Label: value`, after the `Pattern:` line (and after the FLOODED note). It is never added to the person's email. Labels and values are single-line: strip `\r` and `\n` and trim; drop entries whose label or value is empty after that; cap each at 120 characters. Upstream callers pass nothing, so upstream output is unchanged. The field must stay English-only like the rest of the copy (the caller is responsible; document it in the JSDoc).
-- **Tests:** (a) with `instituteDetails: [{ label: "Source", value: "newsletter" }, { label: "Partner", value: "studio-om" }]` the institute text contains `Source: newsletter` and `Partner: studio-om` and the person's text contains neither; (b) a value with `\n` comes out on one line; (c) empty entries are dropped; (d) without the field the institute text is byte-identical to today's.
-- **Marketing follow-up after the port:** the email route passes `instituteDetails` built from `attribution` (labels "Source", "Medium", "Campaign", "Partner").
+Requests 1 (`instituteDetails`) and 2 (`personFooter`) were made upstream in `inner-system-ifs-test@f2021d9`, ported here as `f14acf5` and wired in `marketing/email.ts`.
 
-## 2. Optional invite line in the person's results email
-- **Why:** the marketing plan's Day 0 email carries one localised sentence inviting the person to the next "Reading your map" live session, left out when the pattern is FLOODED. The person's email body is built in `lib/email/send-results.ts` (core) from `content/email-labels.ts` (core).
-- **Files:** `lib/email/send-results.ts`, `tests/unit/email/send-results.test.ts`. No copy change in `content/`: the sentence stays marketing copy (the marketing repo passes it in from its `"marketing"` messages key), so upstream output is unchanged.
-- **Behaviour:** add an optional, repo-neutral field to `SendResultsArgs`: `personFooter?: string`, one plain-text paragraph in the person's locale. `bodyFor(args, false)` appends it after the retention/delete line, separated by a blank line. The core enforces the care rule: when `args.flooded` is true the footer is dropped, whatever the caller passes. It never appears in the institute copy. Strip `\r`, cap at 500 characters, trim; empty after trimming means no footer.
-- **Tests:** (a) with `personFooter` and `flooded: false` the person's text ends with the footer and the institute text does not contain it; (b) with `flooded: true` the footer is absent from both; (c) a footer with `\r\n` comes out with `\n` only and over-long input is cut to 500; (d) without the field both bodies are byte-identical to today's.
-- **Marketing follow-up after the port:** the email route passes `personFooter` built from `marketing.email.liveSession` (with the live-session URL from `marketing/config.ts`) only when `LIVE_SESSION_URL[locale]` is set.
+## 3. Do not log Resend's error text
+- **Why:** found by data-privacy-auditor. `lib/email/send-results.ts` wraps Resend's `error.message` in the thrown error ("Copy to institute failed: …" and the person's send), and `app/api/public/email-results/route.ts` logs `err.message` as `reason`. If Resend's message ever echoes the recipient address, an email lands in the logs, which breaks "never log emails".
+- **Files:** `lib/email/send-results.ts`, `tests/unit/email/send-results.test.ts`.
+- **Behaviour:** throw errors with a fixed message plus Resend's error `name` or code only (for example `Results email failed (validation_error)`), never Resend's `message`. Keep the existing distinction between the person's send and the institute copy.
+- **Tests:** a mocked Resend error whose `message` contains `person@example.test` produces a thrown error whose message does not contain it and does contain the error name.
+- **Marketing follow-up after the port:** none (the route already logs `err.message` only).
 
 ## Not core: assessed and left to the marketing repo
 The brief listed these as core work; on inspection they need no core change, so they are not requests here. They were postponed as instructed and wait for your go-ahead.

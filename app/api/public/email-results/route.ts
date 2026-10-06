@@ -9,6 +9,8 @@ import { storePublicResult } from "@/lib/public-results/store";
 import { dbConfigured } from "@/lib/db";
 import { parseEmailMarketingFields } from "@/marketing/validation";
 import { saveResultAttribution } from "@/marketing/server/attribution";
+import { instituteDetails, liveSessionFooter } from "@/marketing/email";
+import { getTranslations } from "next-intl/server";
 
 export const runtime = "nodejs";
 
@@ -42,14 +44,20 @@ export async function POST(request: Request) {
       renderResultsPdf({ result, locale, mode: "public", name }),
       env.copyTo && locale !== "en" ? renderResultsPdf({ result, locale: "en", mode: "public", name }) : undefined,
     ]);
+    // Marketing: the live-session line only for people who opted in to hear from the institute (the core also drops it
+    // for FLOODED). Built before anything is stored, so a failure here cannot leave a stored row without an email.
+    const tm = await getTranslations({ locale, namespace: "marketing.email" });
+    const personFooter = consent.newsletter ? liveSessionFooter(locale, (url) => tm("liveSession", { url })) : undefined;
     let deleteUrl: string | undefined;
+    let registeredRef: string | null = null;
     if (dbConfigured()) {
       const stored = await storePublicResult({ email, locale, form, responses, result, newsletter: consent.newsletter, policyVersion: consent.policyVersion });
       deleteUrl = `${new URL(request.url).origin}/api/public/delete-result?token=${stored.deleteToken}&locale=${locale}`;
-      if (attribution) await saveResultAttribution(stored.id, attribution);
+      if (attribution) registeredRef = (await saveResultAttribution(stored.id, attribution)).registeredRef;
     }
     await sendResultsEmail(
-      { to: email, name, locale, pdf, institutePdf, patternTitle: getContent("en").patterns[result.pattern.key].title, flooded: result.pattern.key === "FLOODED", deleteUrl },
+      { to: email, name, locale, pdf, institutePdf, patternTitle: getContent("en").patterns[result.pattern.key].title, flooded: result.pattern.key === "FLOODED", deleteUrl,
+        instituteDetails: instituteDetails(attribution, registeredRef), personFooter },
       env,
     );
     return NextResponse.json({ ok: true, copySentToInstitute: env.copyTo !== null });

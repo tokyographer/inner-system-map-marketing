@@ -253,7 +253,7 @@
   "marketing": {
     "privacy": {
       "heading": "Origen de campaña y enlaces de colaboración",
-      "attribution": "Si llegas a través de un enlace que nombra una campaña o una colaboración (por ejemplo, un enlace con ?utm_source= o ?ref=), guardamos su origen de campaña, medio, nombre de campaña y código de colaboración en tu navegador hasta 30 días cuando empiezas el mapa, y los almacenamos con tus resultados si nos pides que te los enviemos por correo electrónico. Los usamos solo para contar qué canales y colaboraciones traen personas al mapa. La copia almacenada con tus resultados se elimina junto con ellos y nunca contiene tus respuestas ni tus resultados.",
+      "attribution": "Si llegas a través de un enlace que nombra una campaña o una colaboración (por ejemplo, un enlace con ?utm_source= o ?ref=), guardamos su origen de campaña, medio, nombre de campaña y código de colaboración en tu navegador hasta 30 días cuando empiezas el mapa, y los almacenamos con tus resultados si nos pides que te los enviemos por correo electrónico. También se incluyen en la copia de tus resultados que se envía a Transcendent Institute, para que la escuela sepa de dónde llegó tu solicitud; un código de colaboración solo se incluye si pertenece a una colaboración registrada. Los usamos solo para contar qué canales y colaboraciones traen personas al mapa y para saber de dónde llegó una solicitud. La copia almacenada con tus resultados se elimina junto con ellos; la copia en el buzón del instituto no se elimina con el enlace de eliminación, pero puedes pedir al instituto que la borre. Nunca contienen tus respuestas ni tus resultados.",
       "draft": "BORRADOR, pendiente de revisión legal.",
       "analytics": "Contamos las visitas a las páginas públicas del mapa (página de inicio, inicio del mapa, preguntas, resultados y privacidad) y algunos pasos del mapa (página de inicio vista, mapa empezado, mapa completado, resultados enviados por correo electrónico, enlace al programa o a la sesión en vivo pulsado) con Vercel Web Analytics, que no usa cookies. Una visita registra la dirección de la página, conservando solo los parámetros de campaña del enlace, además del sitio de procedencia e información general como el país, el navegador, el sistema operativo y el tipo de dispositivo. Para distinguir las visitas dentro de un mismo día, Vercel obtiene un identificador a partir de la solicitud que se descarta a las 24 horas. Cada paso registra el idioma de la página; un clic en un enlace también registra de cuál se trata. Los códigos de colaboración no se envían a Vercel; solo se cuentan en nuestra propia base de datos (ver más abajo). Nada de ello registra tu nombre, tu dirección de correo electrónico, tus respuestas ni tus resultados. Las páginas para participantes del programa, facilitadores y administración no se cuentan.",
       "partnerCounts": "También guardamos, en nuestra propia base de datos, un recuento diario de cuántos mapas se empezaron y se completaron con cada código de colaboración; los mapas empezados sin código de colaboración se cuentan juntos. Estos recuentos no contienen información sobre ninguna persona."
@@ -296,6 +296,9 @@
       "text": "Un mapa de 10 minutos de tu sistema interno, en el lenguaje de IFS.",
       "copied": "Enlace al mapa copiado.",
       "manual": "Copia este enlace al mapa:"
+    },
+    "email": {
+      "liveSession": "Si quieres recorrer tu mapa con otras personas, te esperamos en una sesión en vivo gratuita, «Lectura de tu mapa», en la que una persona facilitadora lo recorre con un grupo pequeño: {url}"
     }
   }
 }
