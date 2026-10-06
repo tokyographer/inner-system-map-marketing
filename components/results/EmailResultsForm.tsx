@@ -1,8 +1,9 @@
 "use client";
 import { useState, type FormEvent } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { CONSENT_POLICY_VERSION } from "@/config/app";
+import { PUBLIC_POLICY_VERSION } from "@/marketing/config";
 import type { CompletedAttempt } from "@/lib/questionnaire/storage";
+import { attributionRequestFields } from "@/marketing/attribution";
 
 type Status = "idle" | "sending" | "sent" | "invalid" | "rate" | "unavailable" | "error";
 
@@ -28,7 +29,8 @@ export function EmailResultsForm({ attempt }: { attempt: CompletedAttempt }) {
           name: name.trim(), email, locale, form: attempt.form, responses: attempt.responses,
           durationSeconds: Math.round((attempt.completedAt - attempt.startedAt) / 1000),
           ageConfirmed: true,
-          consent: { storeResults: true, newsletter, policyVersion: CONSENT_POLICY_VERSION },
+          consent: { storeResults: true, newsletter, policyVersion: PUBLIC_POLICY_VERSION },
+          ...attributionRequestFields(),
         }),
       });
       if (res.ok) setStatus("sent");

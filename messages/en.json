@@ -248,5 +248,12 @@
     "title": "Your stored results were deleted",
     "body": "If a copy of your results was stored with us, it has now been removed, including the copy sent to the institute's records. The email you received is unaffected.",
     "home": "Back to the start"
+  },
+  "marketing": {
+    "privacy": {
+      "heading": "Campaign source and partner links",
+      "attribution": "If you arrive through a link that names a campaign or a partner (for example a link with ?utm_source= or ?ref= in it), we keep its campaign source, medium, campaign name and partner code in your browser for up to 30 days once you start the map, and store them with your results if you ask us to email them. We use them only to count which channels and partners bring people to the map. The copy stored with your results is deleted together with them, and it never contains your answers or your results.",
+      "draft": "DRAFT, pending legal review."
+    }
   }
 }

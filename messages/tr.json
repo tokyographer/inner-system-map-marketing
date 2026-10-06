@@ -249,5 +249,12 @@
     "title": "Saklanan sonuçların silindi",
     "body": "Sonuçlarının bir kopyası bizde saklanıyorduysa, enstitünün kayıtlarındaki kopya dahil artık kaldırıldı. Aldığın e-posta bundan etkilenmez.",
     "home": "Başa dön"
+  },
+  "marketing": {
+    "privacy": {
+      "heading": "Kampanya kaynağı ve iş ortağı bağlantıları",
+      "attribution": "Bir kampanyayı veya iş ortağını belirten bir bağlantıyla gelirsen (örneğin içinde ?utm_source= ya da ?ref= bulunan bir bağlantı), haritaya başladığında kampanya kaynağını, ortamını, kampanya adını ve iş ortağı kodunu en fazla 30 gün boyunca tarayıcında saklarız; sonuçlarının e-postayla gönderilmesini istersen bunları sonuçlarınla birlikte kaydederiz. Bunları yalnızca hangi kanalların ve iş ortaklarının insanları haritaya getirdiğini saymak için kullanırız. Sonuçlarınla birlikte kaydedilen kopya onlarla birlikte silinir ve hiçbir zaman yanıtlarını ya da sonuçlarını içermez.",
+      "draft": "TASLAK, hukuki inceleme bekliyor."
+    }
   }
 }

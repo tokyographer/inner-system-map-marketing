@@ -1,6 +1,7 @@
 import { setRequestLocale } from "next-intl/server";
 import type { Locale } from "@/config/app";
 import { PRIVACY } from "@/content/legal/privacy";
+import { MarketingPrivacy } from "@/marketing/components/MarketingPrivacy";
 
 export default async function PrivacyPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -17,6 +18,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
           {s.paragraphs.map((p, i) => <p key={i}>{p}</p>)}
         </section>
       ))}
+      <MarketingPrivacy />
     </article>
   );
 }

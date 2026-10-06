@@ -249,5 +249,12 @@
     "title": "Rezultatele tale stocate au fost șterse",
     "body": "Dacă o copie a rezultatelor tale era stocată la noi, a fost acum eliminată, inclusiv copia din evidențele institutului. Emailul pe care l-ai primit nu este afectat.",
     "home": "Înapoi la început"
+  },
+  "marketing": {
+    "privacy": {
+      "heading": "Sursa campaniei și linkurile partenerilor",
+      "attribution": "Dacă ajungi printr-un link care numește o campanie sau un partener (de exemplu, un link care conține ?utm_source= sau ?ref=), păstrăm sursa campaniei, mediul, numele campaniei și codul partenerului în browserul tău timp de până la 30 de zile după ce începi harta și le stocăm împreună cu rezultatele tale dacă ne ceri să ți le trimitem pe e-mail. Le folosim doar pentru a număra ce canale și parteneri aduc oameni la hartă. Copia stocată împreună cu rezultatele tale se șterge odată cu ele și nu conține niciodată răspunsurile sau rezultatele tale.",
+      "draft": "CIORNĂ, în așteptarea revizuirii juridice."
+    }
   }
 }

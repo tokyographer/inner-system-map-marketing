@@ -3,6 +3,7 @@
 Migrations in `migrations/` are applied in filename order by `scripts/migrate.mjs` (`npm run db:migrate`, which loads `.env.local`). Each file runs once in its own transaction and is tracked in `public.schema_migrations`.
 
 ## Rules
+- Marketing-only (this repo): `m0001_attribution.sql` adds nullable `utm_source`, `utm_medium`, `utm_campaign`, `ref_code` to `public_results`. They are deleted with the row, so retention and the delete link need no change.
 - Core migrations (`0NNN_*.sql`) are numbered only in the upstream repo and are part of the core shared with the marketing repo (see `CORE.md`). Marketing-only migrations in the marketing repo use `m0NNN_*.sql`.
 - Append-only. Never edit an applied file; add `000N_<topic>.sql` with the next number.
 - Every table holding personal data gets `enable row level security` plus explicit policies `to app_user`. Policies use the helpers `app.current_user_id()`, `app.is_admin()`, `app.is_member_of(cohort)` and `app.is_facilitator_of(cohort)`.

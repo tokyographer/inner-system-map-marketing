@@ -249,5 +249,12 @@
     "title": "Tus resultados guardados se han eliminado",
     "body": "Si teníamos guardada una copia de tus resultados, ya se ha eliminado, incluida la copia de los registros del instituto. El correo que recibiste no se ve afectado.",
     "home": "Volver al inicio"
+  },
+  "marketing": {
+    "privacy": {
+      "heading": "Origen de campaña y enlaces de colaboración",
+      "attribution": "Si llegas a través de un enlace que nombra una campaña o una colaboración (por ejemplo, un enlace con ?utm_source= o ?ref=), guardamos su origen de campaña, medio, nombre de campaña y código de colaboración en tu navegador hasta 30 días cuando empiezas el mapa, y los almacenamos con tus resultados si nos pides que te los enviemos por correo electrónico. Los usamos solo para contar qué canales y colaboraciones traen personas al mapa. La copia almacenada con tus resultados se elimina junto con ellos y nunca contiene tus respuestas ni tus resultados.",
+      "draft": "BORRADOR, pendiente de revisión legal."
+    }
   }
 }

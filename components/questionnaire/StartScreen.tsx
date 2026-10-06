@@ -1,10 +1,12 @@
 "use client";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { CONSENT_POLICY_VERSION, DEFAULT_FORM, type Form } from "@/config/app";
+import { DEFAULT_FORM, type Form } from "@/config/app";
 import { useRouter } from "@/i18n/navigation";
 import { newSeed } from "@/lib/questionnaire/order";
 import { clearProgress, saveContact, saveProgress, useProgress } from "@/lib/questionnaire/storage";
+import { commitAttribution } from "@/marketing/attribution";
+import { PUBLIC_POLICY_VERSION } from "@/marketing/config";
 
 interface Props {
   form?: Form;
@@ -30,7 +32,7 @@ export function StartScreen({ form = DEFAULT_FORM.public, questionnairePath = "/
   function begin() {
     if (collectContact && (!name.trim() || !EMAIL.test(email) || !consent)) { setError(t("contactRequired")); return; }
     if (!age) { setError(t("ageRequired")); return; }
-    if (collectContact) saveContact({ name: name.trim(), email: email.trim(), newsletter, policyVersion: CONSENT_POLICY_VERSION });
+    if (collectContact) { saveContact({ name: name.trim(), email: email.trim(), newsletter, policyVersion: PUBLIC_POLICY_VERSION }); commitAttribution(); }
     clearProgress();
     saveProgress({ seed: newSeed(), form, startedAt: Date.now(), index: 0, responses: {} });
     router.push(questionnairePath);

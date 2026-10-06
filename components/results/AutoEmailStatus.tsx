@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import type { CompletedAttempt, Contact } from "@/lib/questionnaire/storage";
 import { markSent, useSentFor } from "@/lib/questionnaire/storage";
+import { attributionRequestFields } from "@/marketing/attribution";
 
 /** Public mode: sends the results to the address given at the start, once per attempt. */
 export function AutoEmailStatus({ attempt, contact }: { attempt: CompletedAttempt; contact: Contact }) {
@@ -22,6 +23,7 @@ export function AutoEmailStatus({ attempt, contact }: { attempt: CompletedAttemp
           email: contact.email, name: contact.name, locale, form: attempt.form, responses: attempt.responses,
           durationSeconds: Math.round((attempt.completedAt - attempt.startedAt) / 1000), ageConfirmed: true,
           consent: { storeResults: true, newsletter: contact.newsletter, policyVersion: contact.policyVersion },
+          ...attributionRequestFields(),
         }),
       });
       if (!res.ok) throw new Error(String(res.status));

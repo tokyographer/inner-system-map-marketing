@@ -9,6 +9,7 @@ import { routing } from "@/i18n/routing";
 import { Link } from "@/i18n/navigation";
 import { LocaleSwitcher } from "@/components/shared/LocaleSwitcher";
 import { jost, newsreader } from "@/app/fonts";
+import { AttributionCapture } from "@/marketing/components/AttributionCapture";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -40,6 +41,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
     <html lang={locale} className={`${newsreader.variable} ${jost.variable}`}>
       <body className="flex min-h-screen flex-col bg-paper text-ink">
         <NextIntlClientProvider>
+        <AttributionCapture />
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:bg-paper focus:px-3 focus:py-2">{t("skip")}</a>
         <header className="border-b border-line">
           <div className="mx-auto flex w-full max-w-[720px] items-center justify-between gap-4 px-6 py-5">

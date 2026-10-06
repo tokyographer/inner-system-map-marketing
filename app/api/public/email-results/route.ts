@@ -7,6 +7,8 @@ import { score } from "@/lib/scoring";
 import { emailRequestSchema } from "@/lib/validation/results-request";
 import { storePublicResult } from "@/lib/public-results/store";
 import { dbConfigured } from "@/lib/db";
+import { parseEmailMarketingFields } from "@/marketing/validation";
+import { saveResultAttribution } from "@/marketing/server/attribution";
 
 export const runtime = "nodejs";
 
@@ -34,6 +36,7 @@ export async function POST(request: Request) {
   }
   try {
     const { responses, form, durationSeconds, locale, email, name, consent } = parsed.data;
+    const { attribution } = parseEmailMarketingFields(json);
     const result = score({ responses, form, durationSeconds });
     const [pdf, institutePdf] = await Promise.all([
       renderResultsPdf({ result, locale, mode: "public", name }),
@@ -43,6 +46,7 @@ export async function POST(request: Request) {
     if (dbConfigured()) {
       const stored = await storePublicResult({ email, locale, form, responses, result, newsletter: consent.newsletter, policyVersion: consent.policyVersion });
       deleteUrl = `${new URL(request.url).origin}/api/public/delete-result?token=${stored.deleteToken}&locale=${locale}`;
+      if (attribution) await saveResultAttribution(stored.id, attribution);
     }
     await sendResultsEmail(
       { to: email, name, locale, pdf, institutePdf, patternTitle: getContent("en").patterns[result.pattern.key].title, flooded: result.pattern.key === "FLOODED", deleteUrl },
