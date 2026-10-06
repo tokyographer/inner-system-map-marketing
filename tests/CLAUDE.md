@@ -10,4 +10,6 @@
 - `scoring/*`: threshold boundaries and pattern precedence.
 - `scoring/golden.test.ts` with `fixtures/core-golden.json`: exact `score()` output for 13 fixed inputs covering every pattern, modifier and quality flag. It is shared with the marketing repo, and a failure means the scoring core has drifted. Regenerate it only for a deliberate upstream change (`npm run core:golden:update`).
 
+E2E walks that answer by position pin the questionnaire seed (see the happy path): with a random seed the pattern varies, and FLOODED shows placeholder support resources.
+
 Tests never print responses, emails or scores, even on failure paths you add.
