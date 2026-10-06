@@ -44,9 +44,9 @@ async function queuedEvents(page: Page) {
     .filter(([kind]) => kind === "event").map(([, e]) => ({ name: e?.name, data: e?.data })));
 }
 
-test("funnel events carry locale and partner code only, never contact details or results", async ({ page }) => {
+test("funnel events carry the locale only, never the partner code, contact details or results", async ({ page }) => {
   await page.goto("/en?ref=studio-om&utm_source=newsletter");
-  await expect.poll(() => queuedEvents(page)).toContainEqual({ name: "landing_view", data: { locale: "en", ref: "studio-om" } });
+  await expect.poll(() => queuedEvents(page)).toContainEqual({ name: "landing_view", data: { locale: "en" } });
   // The URL sanitiser is queued before any event, so the script never sends an unsanitised URL.
   expect(await page.evaluate(() => ((window as unknown as { vaq: unknown[][] }).vaq)[0][0])).toBe("beforeSend");
 
@@ -56,10 +56,10 @@ test("funnel events carry locale and partner code only, never contact details or
   await seedAttempt(page, (_, i) => 1 + (i % 5));
   await page.goto("/en/results");
   await expect(page.getByRole("status")).toContainText("sent to person@example.com");
-  await expect.poll(() => queuedEvents(page)).toContainEqual({ name: "email_sent", data: { locale: "en", ref: "studio-om" } });
+  await expect.poll(() => queuedEvents(page)).toContainEqual({ name: "email_sent", data: { locale: "en" } });
 
   const all = JSON.stringify(await page.evaluate(() => (window as unknown as { vaq?: unknown }).vaq ?? []));
-  for (const forbidden of ["person@example.com", "Test Person", "MANAGED", "FLOODED", "REACTIVE", "POLARISED", "responses"]) expect(all).not.toContain(forbidden);
+  for (const forbidden of ["person@example.com", "Test Person", "MANAGED", "FLOODED", "REACTIVE", "POLARISED", "responses", "studio-om"]) expect(all).not.toContain(forbidden);
 });
 
 const EXILE_SCALES = ["SHAM", "ABAN", "FEAR", "POWL", "LONE"];

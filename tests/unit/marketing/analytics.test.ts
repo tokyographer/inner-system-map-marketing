@@ -15,11 +15,11 @@ describe("funnel analytics", () => {
     expect(FUNNEL_EVENTS).toEqual(["landing_view", "start", "completion", "email_sent", "invite_click"]);
   });
 
-  it("sends only locale, ref and target, whatever the caller passes", () => {
+  it("sends only locale and target, whatever the caller passes (no partner code)", () => {
     const sneaky = { locale: "en", ref: "studio-om", target: "program", email: "a@b.c", pattern: "FLOODED", score: 4.2 } as never;
-    expect(eventProps(sneaky)).toEqual({ locale: "en", ref: "studio-om", target: "program" });
+    expect(eventProps(sneaky)).toEqual({ locale: "en", target: "program" });
     trackFunnel("start", sneaky);
-    expect(track).toHaveBeenCalledWith("start", { locale: "en", ref: "studio-om", target: "program" });
+    expect(track).toHaveBeenCalledWith("start", { locale: "en", target: "program" });
   });
 
   it("creates the analytics queue before <Analytics> hydrates, with the URL sanitiser first", () => {
@@ -34,7 +34,7 @@ describe("funnel analytics", () => {
     expect(() => trackFunnel("completion", { locale: "en" })).not.toThrow();
   });
 
-  it("funnel() adds the page locale and the partner code, and does nothing on the server", () => {
+  it("funnel() adds the page locale, never the partner code, and does nothing on the server", () => {
     funnel("start");
     expect(track).not.toHaveBeenCalled();
     vi.stubGlobal("document", { documentElement: { lang: "ro" } });
@@ -42,13 +42,13 @@ describe("funnel analytics", () => {
     expect(track).toHaveBeenLastCalledWith("landing_view", { locale: "ro" });
     captureAttribution("?ref=studio-om&utm_source=newsletter");
     funnel("invite_click", { target: "live_session" });
-    expect(track).toHaveBeenLastCalledWith("invite_click", { locale: "ro", ref: "studio-om", target: "live_session" });
+    expect(track).toHaveBeenLastCalledWith("invite_click", { locale: "ro", target: "live_session" });
   });
 });
 
 describe("sanitizeUrl", () => {
-  it("keeps the path and the validated attribution parameters only", () => {
-    expect(sanitizeUrl("https://x.test/en?ref=Studio-Om&token=secret&utm_source=nl&mc_eid=abc#frag")).toBe("https://x.test/en?utm_source=nl&ref=studio-om");
+  it("keeps the path and the validated utm parameters only (no partner code, no other parameter)", () => {
+    expect(sanitizeUrl("https://x.test/en?ref=Studio-Om&token=secret&utm_source=nl&mc_eid=abc#frag")).toBe("https://x.test/en?utm_source=nl");
     expect(sanitizeUrl("https://x.test/en/results")).toBe("https://x.test/en/results");
     expect(sanitizeUrl("https://x.test/tr/start/")).toBe("https://x.test/tr/start/");
   });

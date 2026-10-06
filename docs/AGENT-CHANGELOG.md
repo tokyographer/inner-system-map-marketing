@@ -22,6 +22,10 @@ Entry format:
 
 ---
 
+## 2026-10-06 [marketing]: partner code kept out of analytics
+- Changed: funnel events no longer carry `ref`, and page-view URLs keep only validated utm parameters. Visitors can type any code into a URL, and only registered codes are counted, in `marketing_funnel_counts` (follow-up from data-privacy-auditor). The privacy section says so in all four locales.
+- Agents: never send the partner code to Vercel Analytics. Per-partner numbers come from `/admin/partners`.
+
 ## 2026-10-06 [marketing]: upstream requests and postponed items
 - Changed: `marketing/UPSTREAM-REQUESTS.md` holds two core requests for upstream: (1) `instituteDetails` lines in the institute copy, for attribution; (2) an optional `personFooter` in the person's results email, dropped by the core when FLOODED, for the live-session invite line. It also records that the nurture-consent checkbox and the opt-in sync, postponed by the owner, need no core change.
 - Agents: when upstream ships a request, port it with `core-sync`, wire the marketing side (named in each request), and remove the entry. Do not build the nurture consent or the opt-in sync until the owner says so and the lawyer has approved the consent wording.

@@ -11,13 +11,12 @@ export type FunnelEvent = (typeof FUNNEL_EVENTS)[number];
 
 export interface FunnelProps {
   locale: string;
-  /** Partner code, when the visit came through a partner link. */
-  ref?: string;
   /** invite_click only: which link was clicked. */
   target?: "program" | "live_session";
 }
 
-const ALLOWED_KEYS: readonly (keyof FunnelProps)[] = ["locale", "ref", "target"];
+/** No partner code: a visitor can type any code, and only registered codes are counted, in our own database. */
+const ALLOWED_KEYS: readonly (keyof FunnelProps)[] = ["locale", "target"];
 
 /** Copies only the allowed keys, so a caller can never widen what is sent. */
 export function eventProps(props: FunnelProps): Record<string, string> {
@@ -29,7 +28,7 @@ export function eventProps(props: FunnelProps): Record<string, string> {
   return out;
 }
 
-const PARAM_OF = { utmSource: "utm_source", utmMedium: "utm_medium", utmCampaign: "utm_campaign", ref: "ref" } as const;
+const PARAM_OF = { utmSource: "utm_source", utmMedium: "utm_medium", utmCampaign: "utm_campaign" } as const;
 
 /** Public pages only: cohort, facilitator and admin URLs carry record ids and are never sent. */
 const PUBLIC_PATH = /^\/(en|es|ro|tr)(\/(start|questionnaire|results|privacy|results-deleted))?\/?$/;

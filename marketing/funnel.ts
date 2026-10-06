@@ -1,7 +1,8 @@
 /**
- * One call per funnel step from the app's hooks: adds the page locale and the
- * partner code from the attribution, sends the analytics event and, for starts
- * and completions, bumps the anonymous per-partner counter. Never throws.
+ * One call per funnel step from the app's hooks: sends the analytics event with
+ * the page locale and, for starts and completions, bumps the anonymous
+ * per-partner counter with the partner code (which never goes to analytics).
+ * Never throws.
  */
 import { loadAttribution } from "./attribution";
 import { trackFunnel, type FunnelEvent, type FunnelProps } from "./analytics";
@@ -12,7 +13,7 @@ const COUNTED: Partial<Record<FunnelEvent, CountedEvent>> = { start: "start", co
 export function funnel(event: FunnelEvent, extra: Pick<FunnelProps, "target"> = {}): void {
   if (typeof document === "undefined") return;
   const ref = loadAttribution()?.ref;
-  trackFunnel(event, { locale: document.documentElement.lang, ...(ref ? { ref } : {}), ...extra });
+  trackFunnel(event, { locale: document.documentElement.lang, ...extra });
   const counted = COUNTED[event];
   if (counted) {
     try {
