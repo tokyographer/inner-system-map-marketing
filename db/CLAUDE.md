@@ -3,6 +3,7 @@
 Migrations in `migrations/` are applied in filename order by `scripts/migrate.mjs` (`npm run db:migrate`, which loads `.env.local`). Each file runs once in its own transaction and is tracked in `public.schema_migrations`.
 
 ## Rules
+- Marketing migrations (`m0NNN_*.sql`) are **additive only**: new nullable columns or new tables, with their own RLS. Never drop, rename or change core columns, constraints, policies or functions: this repo will run against the production database, possibly while the original still does. Apply them only to the `marketing-dev` branch from a developer machine; production only through "Going live" in `README.md`.
 - Marketing-only (this repo): `m0001_attribution.sql` adds nullable `utm_source`, `utm_medium`, `utm_campaign`, `ref_code` to `public_results`. They are deleted with the row, so retention and the delete link need no change.
 - Core migrations (`0NNN_*.sql`) are numbered only in the upstream repo and are part of the core shared with the marketing repo (see `CORE.md`). Marketing-only migrations in the marketing repo use `m0NNN_*.sql`.
 - Append-only. Never edit an applied file; add `000N_<topic>.sql` with the next number.

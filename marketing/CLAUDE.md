@@ -26,7 +26,8 @@ Hooks into non-core app files (keep them one line each): `app/[locale]/layout.ts
 ## Rules for code here
 - Marketing request fields (utm_*, ref, marketing consent) are parsed by `validation.ts` inside the routes, next to the core schema. Never extend `lib/validation/`. Invalid marketing fields are dropped; they never fail the core request.
 - Marketing UI strings live under the top-level `"marketing"` key in `messages/{en,es,ro,tr}.json`, in all four locales (ES/RO/TR are drafts). The locales test checks key parity and forbidden words for them too.
-- Marketing tables and columns come from `db/migrations/m0NNN_*.sql`. They may add columns to core tables but never change core columns, constraints or functions.
+- Marketing tables and columns come from `db/migrations/m0NNN_*.sql`, and they are **additive only**: new nullable columns or new tables. Never drop, rename or change core columns, constraints, policies or functions. This repo is expected to take over the production database while the original may still be running on it.
+- Database: develop against the `marketing-dev` Neon branch only (from the original project's dev branch). Never copy the original's `.env.local`, never connect this repo to the original's Vercel project, never run `npm run db:migrate` against anything but `marketing-dev`. Only one live app may run against a database.
 - Browser storage is wrapped in try/catch; a blocked storage never breaks the page. Nothing marketing-related is written to the device before the start-form consent.
 - Every new data use is described in the marketing privacy section, with a `MARKETING_POLICY_VERSION` bump. The wording is DRAFT until the lawyer reviews it.
 - A new analytics event goes into `FUNNEL_EVENTS` and the privacy section's analytics paragraph. Never add an event property beyond locale, ref and target.

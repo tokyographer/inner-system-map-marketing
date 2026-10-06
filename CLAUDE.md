@@ -90,7 +90,7 @@ npm run dev
 - Never use #FFFFFF as a surface (platinum is the base). No gradients, no shadows on dark, no left-border card accents.
 
 ## Configuration
-- `.env` comes from `.env.example`. `.env.local` comes from `npx vercel env pull` plus `NEON_AUTH_COOKIE_SECRET`. Both are gitignored. Leaving `RESULTS_COPY_TO` empty disables the institute copy.
+- `.env` comes from `.env.example`. `.env.local` holds the `marketing-dev` branch's connection strings and Neon Auth URL plus a new `NEON_AUTH_COOKIE_SECRET` (README step 3); `npx vercel env pull` is safe only once those are set in this repo's Vercel Development environment. Both are gitignored. Leaving `RESULTS_COPY_TO` empty disables the institute copy.
 
 ## Never Do
 The core safety rules are in `CORE.md`, which both repositories share (imported below). Repo-specific rules:
@@ -106,6 +106,8 @@ This repo was cloned from the original app, `inner-system-ifs-test`, which is th
 - Non-core app files (`app/`, `components/` except `components/results/sections.ts`, `lib/public-results/`, `lib/dashboard/`) may be edited here, but keep those edits to thin hooks that call into `marketing/`. Each such edit is a likely merge conflict when upstream changes the same file.
 - All copy, ads and emails follow the safety rules in `CORE.md`: part language, no typing, no forbidden words, nothing promotional to people whose pattern is FLOODED, and no results or scores sent to ad platforms or email tools.
 - Already true in the core, do not change: the person gets the email and PDF in their language; the institute copy is all English with its own English PDF; every PDF filename and header carries the person's name (`lib/pdf/filename.ts`).
+- Database: development uses the Neon branch `marketing-dev`, created from the dev branch of the original Neon project (same schema, migration history, cohorts and admin). Never copy the original's `.env.local`, never link this repo to the original's Vercel project, and never run `npm run db:migrate` against any database except `marketing-dev`. `RESULTS_COPY_TO` is a test inbox in development and preview; Vercel Preview vars and the `CI_*` secrets point at `marketing-dev` or a CI branch made from it.
+- Production plan: this repo is expected to replace the original as the live app on the production database. So `m0NNN` migrations are additive only: new nullable columns or new tables; never drop, rename or change core columns, constraints or policies. Only one live app may run against a database (each runs its own retention cron and rate limits); see "Going live" in `README.md`.
 - If upstream is not checked out next to this repo, set `SIBLING_REPO` to its path, or write `Synced: pending` in the changelog entry with the reason.
 
 @CORE.md

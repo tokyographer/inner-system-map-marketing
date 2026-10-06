@@ -7,7 +7,7 @@ A self-report reflection tool that maps a person's inner system in Internal Fami
 This is the marketing version of the app: the same core (kept identical to the original app, see `CORE.md`) plus lead-generation features in `marketing/`.
 
 ## Setting up this repo (marketing)
-This repo is the marketing version of the Inner System Map. It is a clone of the original app, which is the git remote `upstream` (`../inner-system-ifs-test`). It needs its own Vercel project, its own database and a test inbox, so marketing work never touches the original app's data or emails.
+This repo is the marketing version of the Inner System Map. It is a clone of the original app, which is the git remote `upstream` (`../inner-system-ifs-test`). It has its own Vercel project, its own Neon branch (`marketing-dev`) and a test inbox, so marketing work never touches the original app's live data or emails. The plan is for this repo to replace the original as the live app (see "Going live").
 
 1. **Upstream remote and core check.** Clone the original app next to this one, then confirm both cores match:
    ```
@@ -20,18 +20,56 @@ This repo is the marketing version of the Inner System Map. It is a clone of the
    ```
    npx vercel link --project inner-system-map-marketing   # answer "no" to linking an existing project if it offers the original one
    ```
-3. **Its own Neon database.** In the new Vercel project, add Neon from the Marketplace (Frankfurt, Neon Auth on), either as a new Neon project or as a branch of the original one. A branch is cheaper but starts with a copy of the original's data; for real leads use a separate Neon project. Then:
+3. **Database: the `marketing-dev` Neon branch.** Development uses a branch named `marketing-dev`, created from the **dev branch of the original Neon project**. It starts with the same schema, migration history, cohorts and admin. It is not a new Neon project, so do **not** add Neon from the Vercel Marketplace to this repo's Vercel project (that would create a new Neon project).
+   - **Never** copy the original's `.env.local`, never link this repo to the original's Vercel project, and never run `npm run db:migrate` against any database except `marketing-dev`.
+
+   Neon console:
+   1. Open the original Neon project (Frankfurt) → **Branches** → **Create branch**.
+   2. Name `marketing-dev`; parent: the original's dev branch (the one the original's `.env.local` points at, not production); include data up to **Current point in time**. Create.
+   3. **Connect** (top right) with branch `marketing-dev`, database `neondb`, the owner role: copy the **pooled** string (`DATABASE_URL`), then switch off "Connection pooling" and copy the direct string (`DATABASE_URL_UNPOOLED`).
+   4. **Auth** (Neon Auth) with branch `marketing-dev` selected: if it shows a URL for this branch, use it as `NEON_AUTH_BASE_URL`; otherwise use the project's Auth URL. Add `http://localhost:3000` and `http://localhost:3111` to its trusted origins if they are not there.
+
+   Or from the terminal (the project id is in the Neon console under Settings):
    ```
-   npx vercel env pull .env.local --yes
-   openssl rand -base64 32          # → NEON_AUTH_COOKIE_SECRET in .env.local and in the Vercel project (all environments)
-   npm run db:migrate               # applies the core 0NNN_*.sql files, then the marketing m0NNN_*.sql files
+   npx neonctl auth                                            # once
+   npx neonctl branches create --project-id <original-project-id> --name marketing-dev --parent <original-dev-branch>
+   npx neonctl connection-string marketing-dev --project-id <original-project-id> --pooled   # → DATABASE_URL
+   npx neonctl connection-string marketing-dev --project-id <original-project-id>            # → DATABASE_URL_UNPOOLED
    ```
+   Then write this repo's `.env.local` by hand (it is gitignored):
+   ```
+   DATABASE_URL=<pooled marketing-dev string>
+   DATABASE_URL_UNPOOLED=<direct marketing-dev string>
+   NEON_AUTH_BASE_URL=<marketing-dev or project Auth URL>
+   NEON_AUTH_COOKIE_SECRET=<output of: openssl rand -base64 32>   # new; never reuse the original's
+   ```
+   Check the host before migrating, then apply the marketing migrations (the core `0NNN` files are already recorded in `schema_migrations` on the branch, so they are skipped):
+   ```
+   grep -o '@[^/]*' .env.local          # must be the marketing-dev endpoint (ep-...), not the original's dev or production endpoint
+   npm run db:migrate                   # skip 0001…0008, apply m0001…
+   ```
+   In this repo's Vercel project, set the same four variables for **Preview** and **Development** (Settings → Environment Variables, or `npx vercel env add DATABASE_URL preview` and so on). After that, `npx vercel env pull .env.local --yes` is safe; before it, it would overwrite your hand-written file.
 4. **Upstash and Resend.** Add Upstash Redis (EU) and Resend from the Marketplace on the new project, or set `RESEND_API_KEY`/`RESEND_FROM` yourself.
-5. **Test inbox for the institute copy.** Until launch, point `RESULTS_COPY_TO` at a test inbox you own (for example a `+marketing-test` alias), not the institute's real inbox, in `.env` and in the Vercel Preview and Development environments. Set the real address in Production only when you go live.
+5. **Test inbox for the institute copy.** In development and preview, `RESULTS_COPY_TO` is a test inbox you own (for example a `+marketing-test` alias), never the institute's real inbox: in `.env` and in the Vercel Preview and Development environments. The real address goes in Production only when you go live.
 6. **Vercel Web Analytics.** Enable Web Analytics in the new project's dashboard (Analytics tab). Custom events (the funnel events) need a Pro or Enterprise plan; on Hobby only page views are recorded. The funnel events are `landing_view`, `start`, `completion`, `email_sent` and `invite_click`, with the properties `locale`, `ref` (partner code) and `target` (invite link) only. Read them under Analytics → Events.
-7. **CI secrets.** The GitHub Actions workflow (`.github/workflows/ci.yml`) runs without secrets; the RLS integration tests and the cohort/facilitator walks then skip. To run them, add these repository secrets in GitHub (Settings → Secrets and variables → Actions), pointing at a **dedicated CI branch** of this repo's Neon project, never production:
+7. **CI secrets.** The GitHub Actions workflow (`.github/workflows/ci.yml`) runs without secrets; the RLS integration tests and the cohort/facilitator walks then skip. To run them, add these repository secrets in GitHub (Settings → Secrets and variables → Actions), pointing at `marketing-dev` or a CI branch created from it (Neon console → Branches → Create branch, parent `marketing-dev`), never production and never the original's branches:
    - `CI_DATABASE_URL`, `CI_DATABASE_URL_UNPOOLED`
    - `CI_NEON_AUTH_BASE_URL`, `CI_NEON_AUTH_COOKIE_SECRET`
+
+## Going live (this repo replaces the original)
+Only one live app may run against a database: each app runs its own nightly retention cron and its own rate limits. Until go-live, leave this project's Production database variables unset, so its cron (Vercel runs crons in Production only) cannot touch any database. Do these in order, in one session:
+1. **Production database.** In this repo's Vercel project, set the Production variables `DATABASE_URL`, `DATABASE_URL_UNPOOLED` and `NEON_AUTH_BASE_URL` to the original's **production** branch, plus a new `NEON_AUTH_COOKIE_SECRET`, `CRON_SECRET`, `RESEND_*` and `NEXT_PUBLIC_SITE_URL`.
+2. **Marketing migrations on production.** The `m0NNN` files are additive only (new nullable columns or new tables), so the original keeps working on the same schema until it is retired:
+   ```
+   npx vercel env pull .env.production.local --environment production --yes
+   grep -o '@[^/]*' .env.production.local        # the production endpoint
+   npx dotenv -e .env.production.local -- node scripts/migrate.mjs   # skips 0NNN, applies m0NNN
+   rm .env.production.local
+   ```
+3. **Institute copy.** Set `RESULTS_COPY_TO` in Production to the institute's real inbox.
+4. **Neon Auth trusted origins.** Neon console → Auth (production branch) → add the live domain.
+5. **Domain.** Move the live domain from the original's Vercel project to this one (Settings → Domains), and set `NEXT_PUBLIC_SITE_URL` to it.
+6. **Retire the original.** In the original's Vercel project, remove its production domain and pause the project (Settings → General → Pause), or delete its cron in `vercel.ts` and redeploy, so its retention cron no longer runs. Then check `/en` on the live domain, take the questionnaire once and confirm both emails arrive.
 
 ## Prerequisites
 - macOS (Apple Silicon fine), Node 24+, npm 11+
@@ -47,16 +85,9 @@ cp .env.example .env
 ```
 
 ## Neon Postgres and Neon Auth (cohort mode)
-The database and sign-in service are provisioned through the Vercel Marketplace (Neon, region Frankfurt, with Neon Auth enabled). There is no local database: development uses the Neon development branch.
-```
-npx vercel link --project inner-system-map-marketing   # once; this repo's own project (see above)
-npx vercel env pull .env.local --yes  # DATABASE_URL, NEON_AUTH_BASE_URL, ...
-openssl rand -base64 32               # → NEON_AUTH_COOKIE_SECRET in .env.local and in Vercel (all environments)
-npm run db:migrate                    # applies db/migrations/*.sql once each (tracked in schema_migrations)
-```
-Run `npm run db:migrate` against production once before the first production deploy (pull the production env into a separate file and pass it to dotenv).
+The database and sign-in service are the original app's Neon project (Frankfurt, Neon Auth on). This repo develops on its `marketing-dev` branch; see step 3 of "Setting up this repo". There is no local database. `npm run db:migrate` applies `db/migrations/*.sql` once each (tracked in `schema_migrations`), and only ever against `marketing-dev` from a developer machine.
 
-Create the first admin after that person has signed in once:
+The cohorts and admin copied from the original's dev branch are already there. To make someone an admin on `marketing-dev` after they have signed in once:
 ```
 update public.profiles set role = 'admin' where id = '<neon_auth user id>';
 ```
@@ -100,9 +131,9 @@ curl -X POST localhost:3000/api/public/results-pdf -H 'content-type: application
 
 ## Deploying to production
 1. Push to GitHub and import the repository in Vercel (Framework: Next.js, defaults). `vercel.ts` pins functions to Frankfurt and schedules the nightly retention job.
-2. Marketplace resources on the Vercel project: Neon (Frankfurt, Neon Auth on), Upstash Redis (EU), Resend. Each adds its own variables.
+2. Marketplace resources on the Vercel project: Upstash Redis (EU) and Resend. Neon is not added from the Marketplace: the database variables point at `marketing-dev` (Preview, Development) and, when going live, at the original's production branch (see "Going live").
 3. Set the app's variables in all three environments: `NEON_AUTH_COOKIE_SECRET`, `RESEND_FROM`, `RESULTS_COPY_TO`, `CRON_SECRET`, `NEXT_PUBLIC_SITE_URL` (Preview may need to be added in the dashboard).
-4. Run the migrations against the production branch once, then after every migration change:
+4. Production migrations happen only as part of "Going live" and, after that, after every new `m0NNN` file:
    ```
    npx vercel env pull .env.production.local --environment production --yes
    npx dotenv -e .env.production.local -- node scripts/migrate.mjs
