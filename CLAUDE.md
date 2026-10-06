@@ -1,7 +1,11 @@
-# Inner System Map
+# Inner System Map: marketing
 
 ## Purpose
 A self-report screener for Transcendent Institute that maps a person's inner system in Internal Family Systems (IFS) terms: how much Self-leadership is available, which group of parts leads (Managers, Firefighters or Exiles) and which parts are most active. It runs in two modes. Public mode is the website lead tool: the browser scores the answers and the results are emailed as a PDF. Cohort mode is for program participants and has a facilitator dashboard. The tool is not a diagnostic or validated instrument, and the copy must say so.
+
+This repository is the marketing version: the same app plus lead-generation features (attribution, funnel analytics, the localised program invite, partner links, sharing). It is a clone of the original app, which is the git remote `upstream` (`../inner-system-ifs-test`). Read "Relationship to upstream" below before you change anything.
+
+The marketing plan (funnel, channels, nurture sequence, guardrails) is https://claude.ai/artifact/TE43jqJa9kYRe37fMBsANn. The guardrails that bind code are copied into `marketing/CLAUDE.md`.
 
 The domain reference (theory, scales, rules and copy, generated from the live code) is `docs/KNOWLEDGE-BASE.md`. Read it before you change copy or scoring.
 
@@ -37,8 +41,8 @@ npm test                              # vitest; RLS integration tests skip witho
 npx vitest run --coverage             # lib/scoring must stay at 100%
 npm run build && npm run e2e          # Playwright at 360px, starts next start on 3111
 npm run docs:kb                       # regenerate docs/KNOWLEDGE-BASE.md after content/scoring changes
-npm run core:fingerprint              # hash of the core shared with the marketing repo (add -- --list per file)
-npm run core:golden:update            # only for a deliberate scoring/item-bank change; regenerates tests/fixtures/core-golden.json
+npm run core:fingerprint              # hash of the core shared with upstream; must equal ../inner-system-ifs-test (add -- --list per file)
+# npm run core:golden:update          # upstream only: never run it in this repo
 npm run dev
 ```
 
@@ -52,7 +56,7 @@ npm run dev
    - Update the folder-level CLAUDE.md for the folders you touched.
    - Update `README.md` when setup, commands, env vars or the API change.
    - Update any `.claude/agents/*.md` whose instructions the change made stale.
-6. If a path listed in `CORE.md` changed, run the `core-sync` agent so the marketing repo gets the change and both `npm run core:fingerprint` hashes match. Otherwise mark the changelog entry `Synced: pending (<reason>)`.
+6. `npm run -s core:fingerprint` still prints the same hash as in `../inner-system-ifs-test`. Core paths change here only by porting from upstream with the `core-sync` agent.
 7. Significant changes get an entry in `docs/AGENT-CHANGELOG.md` (newest first; the criteria are at the top of that file). Record what changed and what the next agent must do differently.
 
 ## Hardware & Environment
@@ -88,14 +92,19 @@ npm run dev
 
 ## Never Do
 The core safety rules are in `CORE.md`, which both repositories share (imported below). Repo-specific rules:
-- Never change a core path (listed in `CORE.md`) without porting the change to the marketing repo (see "Sibling repository").
+- Never edit a core path (listed in `CORE.md`) in this repo. Write an upstream request instead (see "Relationship to upstream").
 - Adding a locale requires: `config/app.ts` LOCALES and APP_NAME, `messages/<l>.json` (same key set as en), `content/*.<l>.ts` for items, typologies, exiles, patterns, exercise, support and level-two, `content/pdf-labels.ts`, `content/email-labels.ts`, `content/index.ts`, `LocaleSwitcher` NAMES, a migration widening the locale checks, and the forbidden-word list in the locales test.
 
-## Sibling repository
-The marketing version lives in `../inner-system-map-marketing`, a separate GitHub repo cloned from this one. Its git remote `upstream` points here. This repo is the source of truth for the core.
-- `CORE.md` lists the core paths: scoring, content, PDF, email, validation, db access, core migrations, core message keys and their tests. They must stay identical in both repos. Marketing features (attribution, analytics, nurture consent, partner links, live sessions) live only in the marketing repo, under `marketing/`, `m0NNN_*.sql` migrations and the `"marketing"` messages key.
-- After any change to a core path, run the `core-sync` agent (or Prompt: "Use the core-sync agent to port my core changes to the marketing repo"). It cherry-picks the commits, runs the checks there, and compares `npm run core:fingerprint` in both repos.
-- If the marketing repo is not checked out next to this one, set `SIBLING_REPO` to its path, or write `Synced: pending` in the changelog entry with the reason.
+## Relationship to upstream
+This repo was cloned from the original app, `inner-system-ifs-test`, which is the git remote `upstream` and is checked out at `../inner-system-ifs-test`. Upstream is the source of truth for the core. `CORE.md` (imported below) is the contract; in short:
+- The core paths listed in `CORE.md` (scoring, content, PDF, email, validation, db access, core migrations, core message keys and their tests) must stay byte-identical to upstream. Check with `npm run -s core:fingerprint` here and in `../inner-system-ifs-test`; both must print the same hash.
+- Never edit a core path in this repo. If a feature needs a core change, stop and write it down as an upstream request (files, behaviour, tests). The change is made upstream and ported here with the `core-sync` agent.
+- Marketing code and copy go in `marketing/`. Marketing UI strings go under the top-level `"marketing"` key in `messages/{en,es,ro,tr}.json`, in all four locales (ES/RO/TR as drafts). Marketing migrations are `db/migrations/m0NNN_*.sql`, which never touch core tables except to add marketing-only columns.
+- Request fields only marketing needs (utm_*, ref, marketing consent) are parsed by a separate zod schema in `marketing/validation.ts` inside the routes. Never extend the core schemas in `lib/validation/`.
+- Non-core app files (`app/`, `components/` except `components/results/sections.ts`, `lib/public-results/`, `lib/dashboard/`) may be edited here, but keep those edits to thin hooks that call into `marketing/`. Each such edit is a likely merge conflict when upstream changes the same file.
+- All copy, ads and emails follow the safety rules in `CORE.md`: part language, no typing, no forbidden words, nothing promotional to people whose pattern is FLOODED, and no results or scores sent to ad platforms or email tools.
+- Already true in the core, do not change: the person gets the email and PDF in their language; the institute copy is all English with its own English PDF; every PDF filename and header carries the person's name (`lib/pdf/filename.ts`).
+- If upstream is not checked out next to this repo, set `SIBLING_REPO` to its path, or write `Synced: pending` in the changelog entry with the reason.
 
 @CORE.md
 
@@ -103,10 +112,10 @@ The marketing version lives in `../inner-system-map-marketing`, a separate GitHu
 Project subagents are in `.claude/agents/`:
 - `ifs-copy-reviewer` (read-only): checks copy in every locale against the IFS guardrails, forbidden words and section order.
 - `locale-sync`: carries an EN copy or key change into ES/RO/TR as drafts and keeps the locale tests green.
-- `scoring-engineer`: changes thresholds, rules or items in the engine. Bumps the versions, keeps coverage at 100% and regenerates the KB.
+- `scoring-engineer`: changes thresholds, rules or items in the engine. Bumps the versions, keeps coverage at 100% and regenerates the KB. Scoring is core: in this repo use it only in `../inner-system-ifs-test`, never here.
 - `data-privacy-auditor` (read-only): reviews diffs for PII logging, `withUser`/`asService` misuse, RLS gaps, missing zod validation or rate limits, and migration hygiene.
 - `verify-gate`: runs the full definition-of-done gate and reports exact failures.
-- `core-sync`: ports core-path commits between this repo and the marketing repo and checks that the fingerprints match.
+- `core-sync`: ports core-path commits from upstream into this repo and checks that the fingerprints match.
 
 ## Current Status
 - Done: phases 1–7 (see `docs/PHASE-1-PLAN.md` for the original plan, which still describes Supabase; Neon replaced it).
@@ -116,7 +125,7 @@ Project subagents are in `.claude/agents/`:
   - Phase 5: cohort mode on Neon with RLS, consent, history, notes, export and deletion.
   - Phase 6: facilitator and admin dashboards, CSV export and the audit log.
   - Phase 7: retention cron, Upstash, opt-in public result storage with a delete link, privacy placeholders, axe and Lighthouse checks, and CI.
-- Since then: OG image; the "Meet this part" framing on the results page and in the PDF (reflection plus belief frame; steps behind `EXERCISE_STEPS_READY`); `docs/KNOWLEDGE-BASE.md` generated by `scripts/build-knowledge-base.ts`; translation review spreadsheets in `docs/translations/`; `docs/AGENT-CHANGELOG.md` records significant changes for agents; `CORE.md`, the core fingerprint and golden scoring fixtures keep this repo and the marketing repo consistent.
+- Since then: OG image; the "Meet this part" framing on the results page and in the PDF (reflection plus belief frame; steps behind `EXERCISE_STEPS_READY`); `docs/KNOWLEDGE-BASE.md` generated by `scripts/build-knowledge-base.ts`; translation review spreadsheets in `docs/translations/`; `docs/AGENT-CHANGELOG.md` records significant changes for agents; `CORE.md`, the core fingerprint and golden scoring fixtures keep this repo and upstream consistent.
 - The results email goes to the person in their locale (`content/email-labels.ts`, via `getContent()`), with the PDF in that locale. The institute copy is entirely in English (body, subject and its own English PDF) and states the person's language.
 - Known gaps:
   - Locally, `tests/e2e/cohort.spec.ts` fails at the sign-in code step: the Neon Auth OTP request does not answer within 5 s, so the button stays disabled. This also happens on code from before 2026-10-06 and is not yet investigated. CI skips this spec.

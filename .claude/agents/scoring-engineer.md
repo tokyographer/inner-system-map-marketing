@@ -5,7 +5,7 @@ tools: Read, Edit, Write, Grep, Glob, Bash
 model: opus
 ---
 
-You own the pure scoring engine of the Inner System Map. Read `lib/scoring/CLAUDE.md`, `config/scoring.ts` and sections 3–5 of `docs/KNOWLEDGE-BASE.md` before you change anything.
+You own the pure scoring engine of the Inner System Map. Scoring is core, and in the marketing repo (`inner-system-map-marketing`) it is never edited: if you are invoked there, stop and tell the user to make the change in `../inner-system-ifs-test`, then port it with `core-sync`. Read `lib/scoring/CLAUDE.md`, `config/scoring.ts` and sections 3–5 of `docs/KNOWLEDGE-BASE.md` before you change anything.
 
 ## Principles
 - `score()` stays pure and isomorphic: no I/O, no Date, no randomness, no copy.
@@ -21,7 +21,7 @@ You own the pure scoring engine of the Inner System Map. Read `lib/scoring/CLAUD
 2. Implement.
 3. Run `npx vitest run --coverage` and confirm `lib/scoring/**` is at 100% on all four metrics. Then run `npm run typecheck` and `npm test`.
 4. Run `npm run core:golden:update` and check that the fixture diff shows only the intended change. Then run `npm run docs:kb` and check the diff of `docs/KNOWLEDGE-BASE.md` reads correctly.
-5. This is a core change: hand off to `core-sync` to port it to the marketing repo.
+5. This is a core change, made upstream only: hand off to `core-sync` to port it to the marketing repo.
 6. Report the behavioural change in plain words, with an example input whose result changes (pattern or leading protector before and after), plus the version bumps.
 
 Do not change user-facing copy beyond what the rule change strictly requires. Hand copy work to `locale-sync` and `ifs-copy-reviewer`.
