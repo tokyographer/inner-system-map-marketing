@@ -288,6 +288,14 @@
       "untrusted": "Los recuentos proceden de los navegadores de quienes visitan el sitio y cualquiera puede inflarlos. Úsalos para comparar canales, no para pagar a colaboraciones. Las filas de más de 400 días se eliminan.",
       "remove": "Eliminar",
       "removeConfirm": "¿Eliminar {code} y el nombre de la colaboración? Las visitas posteriores con este código contarán como no registradas."
+    },
+    "share": {
+      "title": "Comparte el mapa, no tus resultados",
+      "body": "Si alguien que conoces podría encontrar útil este mapa, puedes enviarle el enlace a su página de inicio. Tus resultados se quedan contigo: no se comparte nada de ellos.",
+      "button": "Compartir el mapa",
+      "text": "Un mapa de 10 minutos de tu sistema interno, en el lenguaje de IFS.",
+      "copied": "Enlace al mapa copiado.",
+      "manual": "Copia este enlace al mapa:"
     }
   }
 }

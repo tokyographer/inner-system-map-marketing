@@ -287,6 +287,14 @@
       "untrusted": "The counts come from visitors' browsers and can be inflated by anyone. Use them to compare channels, not to pay partners. Rows older than 400 days are deleted.",
       "remove": "Remove",
       "removeConfirm": "Remove {code} and its partner name? Later visits with this code will count as unregistered."
+    },
+    "share": {
+      "title": "Share the map, not your results",
+      "body": "If someone you know might find this map useful, you can send them the link to its start page. Your results stay with you: nothing from them is shared.",
+      "button": "Share the map",
+      "text": "A 10-minute map of your inner system, in the language of IFS.",
+      "copied": "Link to the map copied.",
+      "manual": "Copy this link to the map:"
     }
   }
 }

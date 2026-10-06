@@ -31,3 +31,10 @@ export function partnerLink(origin: string, locale: Locale, code: string): strin
   u.searchParams.set("ref", code);
   return u.toString();
 }
+
+/** The landing page for the "Share the map" button: no results, only a slug marking where the visit came from. */
+export function shareUrl(origin: string, locale: Locale): string {
+  const u = new URL(`/${locale}`, origin);
+  u.searchParams.set("utm_source", "share");
+  return u.toString();
+}

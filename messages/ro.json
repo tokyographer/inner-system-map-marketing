@@ -288,6 +288,14 @@
       "untrusted": "Numărătorile vin din browserele vizitatorilor și pot fi umflate de oricine. Folosește-le pentru a compara canale, nu pentru a plăti parteneri. Rândurile mai vechi de 400 de zile sunt șterse.",
       "remove": "Elimină",
       "removeConfirm": "Elimini codul {code} și numele partenerului? Vizitele ulterioare cu acest cod vor fi numărate ca neînregistrate."
+    },
+    "share": {
+      "title": "Distribuie harta, nu rezultatele tale",
+      "body": "Dacă te gândești la cineva căruia i-ar putea fi utilă această hartă, îi poți trimite linkul către pagina de start a hărții. Rezultatele tale rămân la tine: nimic din ele nu este distribuit.",
+      "button": "Distribuie harta",
+      "text": "O hartă în 10 minute a sistemului tău interior, în limbajul IFS.",
+      "copied": "Linkul către hartă a fost copiat.",
+      "manual": "Copiază acest link către hartă:"
     }
   }
 }

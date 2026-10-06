@@ -14,6 +14,7 @@ import { ResultsActions } from "./ResultsActions";
 import { RESULTS_SECTIONS, type ResultsSection } from "./sections";
 import { SelfPanel } from "./SelfPanel";
 import { WhoIsLeading } from "./WhoIsLeading";
+import { ShareTheMap } from "@/marketing/components/ShareTheMap";
 
 interface Props { result: Result; attempt: CompletedAttempt; mode: "public" | "cohort"; readOnly?: boolean }
 
@@ -33,7 +34,8 @@ export function ResultsView({ result, attempt, mode, readOnly = false }: Props) 
     exiles: () => <ExilesSection result={result} content={content} />,
     exercise: () => (readOnly ? null : <MeetThisPart protectorKey={topProtector} content={content} />),
     careNote: () => (flooded ? null : <CareNote content={content} withResources={false} />),
-    actions: () => (readOnly ? null : <ResultsActions attempt={attempt} mode={mode} />),
+    // Marketing: "Share the map" shares the landing URL only; public mode, not when FLOODED.
+    actions: () => (readOnly ? null : <><ResultsActions attempt={attempt} mode={mode} />{mode === "public" && !flooded && <div className="mt-10"><ShareTheMap /></div>}</>),
     levelTwo: () => (mode === "cohort" ? (
       <section aria-labelledby="lvl2" className="space-y-2 border-t border-line pt-6"><h2 id="lvl2" className="text-xl">{content.levelTwo.title}</h2><p>{content.levelTwo.body}</p></section>
     ) : null),

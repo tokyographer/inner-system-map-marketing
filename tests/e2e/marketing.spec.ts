@@ -89,3 +89,32 @@ test("partner counts page is for admins only", async ({ page }) => {
   await expect(page.getByText("You do not have access to this page.")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Partner links" })).toHaveCount(0);
 });
+
+test("Share the map shares the landing URL only, never results", async ({ page }) => {
+  await page.addInitScript(() => {
+    (window as unknown as { shared: unknown[] }).shared = [];
+    Object.defineProperty(navigator, "share", { configurable: true, value: async (data: unknown) => { (window as unknown as { shared: unknown[] }).shared.push(data); } });
+  });
+  await page.goto("/en");
+  await seedAttempt(page, (_, i) => 1 + (i % 5));
+  await page.goto("/en/results");
+  await page.getByRole("button", { name: "Share the map" }).click();
+  const shared = await page.evaluate(() => (window as unknown as { shared: { title: string; text: string; url: string }[] }).shared);
+  expect(shared).toEqual([{ title: "Inner System Map", text: "A 10-minute map of your inner system, in the language of IFS.", url: `${new URL(page.url()).origin}/en?utm_source=share` }]);
+});
+
+test("Share the map falls back to copying the link, and is hidden for FLOODED results", async ({ page, context }) => {
+  await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+  await page.addInitScript(() => { Object.defineProperty(navigator, "share", { configurable: true, value: undefined }); });
+  await page.goto("/en");
+  await seedAttempt(page, (_, i) => 1 + (i % 5));
+  await page.goto("/en/results");
+  await page.getByRole("button", { name: "Share the map" }).click();
+  await expect(page.getByRole("status").filter({ hasText: "Link to the map copied." })).toBeVisible();
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(`${new URL(page.url()).origin}/en?utm_source=share`);
+
+  await seedAttempt(page, (id) => (EXILE_SCALES.some((s) => id.startsWith(s)) ? 5 : id.startsWith("SELF") ? 1 : 3));
+  await page.goto("/en/results");
+  await expect(page.getByRole("heading", { name: "Support near you" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Share the map" })).toHaveCount(0);
+});

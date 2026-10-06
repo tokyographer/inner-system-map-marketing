@@ -288,6 +288,14 @@
       "untrusted": "Sayımlar ziyaretçilerin tarayıcılarından gelir ve herkes tarafından şişirilebilir. Kanalları karşılaştırmak için kullan, iş ortaklarına ödeme yapmak için değil. 400 günden eski satırlar silinir.",
       "remove": "Kaldır",
       "removeConfirm": "{code} ve iş ortağının adı kaldırılsın mı? Bu kodla yapılan sonraki ziyaretler kayıtsız sayılır."
+    },
+    "share": {
+      "title": "Sonuçlarını değil, haritayı paylaş",
+      "body": "Tanıdığın biri bu haritayı faydalı bulabilirse, ona haritanın ana sayfasının bağlantısını gönderebilirsin. Sonuçların sende kalır: onlardan hiçbir şey paylaşılmaz.",
+      "button": "Haritayı paylaş",
+      "text": "İç sisteminin 10 dakikalık bir haritası, IFS dilinde.",
+      "copied": "Haritanın bağlantısı kopyalandı.",
+      "manual": "Haritanın bu bağlantısını kopyala:"
     }
   }
 }

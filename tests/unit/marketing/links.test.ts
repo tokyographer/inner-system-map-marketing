@@ -29,3 +29,10 @@ describe("partner links", () => {
     expect(() => partnerLink("https://map.example.org", "en", "Studio Om")).toThrow(/Invalid partner code/);
   });
 });
+
+describe("shareUrl", async () => {
+  const { shareUrl } = await import("@/marketing/links");
+  it("is the landing page with a share tag, nothing else", () => {
+    expect(shareUrl("https://map.example.org", "ro")).toBe("https://map.example.org/ro?utm_source=share");
+  });
+});

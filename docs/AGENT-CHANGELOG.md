@@ -22,6 +22,10 @@ Entry format:
 
 ---
 
+## 2026-10-06 [marketing]: Share the map
+- Changed: `marketing/components/ShareTheMap.tsx` on the public results page shares `/{locale}?utm_source=share` through the Web Share API, or copies it to the clipboard, or shows it to copy by hand. It is rendered by `ResultsView` inside the `actions` render, for public mode and not when FLOODED. Strings under `marketing.share` in all four locales.
+- Agents: sharing never carries anything from the attempt (no pattern, score, name or result), and results themselves are never shareable. Do not add a results section for marketing: `components/results/sections.ts` is core, so new marketing UI goes inside an existing section's render in `ResultsView.tsx`.
+
 ## 2026-10-06 [marketing]: partner links and per-code counts
 - Changed: admins register partner codes at `/{locale}/admin/partners` (`requireRole(["admin"])`, linked from `/admin/cohorts`), which lists each partner's `/{locale}?ref=CODE` links and the starts and completions per code for the last 30 days and all time. Public starts and completions POST to `app/api/marketing/funnel/route.ts` (zod, 10 per client per hour), which increments `marketing_funnel_counts`. `db/migrations/m0002_funnel_counts.sql` adds that table and `marketing_partners`, both with admin-only RLS. Unregistered codes are counted under `'-'`, and `public_results.ref_code` keeps only registered codes (found by data-privacy-auditor: an open counter let anyone add rows and store strings such as names). Admins can remove a partner and its name. The retention cron prunes count rows older than 400 days, in its own error handler. The privacy section says these counts exist.
 - Agents: the counter holds aggregates only: never add a user id, email, IP, pattern or score to it, and never count an unregistered code on its own row. The counts are untrusted (any browser can post them). Run `npm run db:migrate` on `marketing-dev` for m0002. The admin read path was checked on a local Postgres (admin sees rows, participant sees none, only admins can register); the Neon integration test covers writes, pruning and non-admin denial.
