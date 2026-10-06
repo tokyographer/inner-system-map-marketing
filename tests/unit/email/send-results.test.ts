@@ -54,8 +54,8 @@ describe("sendResultsEmail", () => {
     const institutePdf = Buffer.from("%PDF-english");
     await sendResultsEmail({ ...base, locale: "es", name: "Ana", deleteUrl: "https://example.com/del?token=t", institutePdf }, env, client);
     const [person, institute] = send.mock.calls.map((c) => c[0]);
-    expect(person.attachments).toEqual([{ filename: "mapa-del-sistema-interno-results.pdf", content: base.pdf }]);
-    expect(institute.attachments).toEqual([{ filename: "inner-system-map-results.pdf", content: institutePdf }]);
+    expect(person.attachments).toEqual([{ filename: "mapa-del-sistema-interno-results-ana.pdf", content: base.pdf }]);
+    expect(institute.attachments).toEqual([{ filename: "inner-system-map-results-ana.pdf", content: institutePdf }]);
     expect(person.subject).toBe("Tus resultados del Mapa del Sistema Interno");
     expect(person.text).toContain("Hola, Ana:");
     expect(person.text).toContain(getContent("es").careNote);

@@ -119,7 +119,6 @@
     "send": "Trimite",
     "sending": "Se trimite",
     "sent": "Trimis. Verifică-ți inboxul, inclusiv dosarul de spam.",
-    "errorInvalid": "Te rugăm să introduci o adresă de email validă și să bifezi căsuța de consimțământ.",
     "errorRate": "Prea multe cereri de pe acest dispozitiv. Te rugăm să încerci mai târziu.",
     "errorUnavailable": "Emailul nu este disponibil chiar acum. Poți descărca în continuare PDF-ul.",
     "errorGeneric": "Ceva n-a mers la trimiterea emailului. Te rugăm să încerci din nou."

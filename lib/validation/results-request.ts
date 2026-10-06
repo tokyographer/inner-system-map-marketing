@@ -25,6 +25,8 @@ export const pdfRequestSchema = base.superRefine(completeForForm);
 
 export const emailRequestSchema = base
   .extend({
+    // Required here: the name is printed in both PDFs and used in their filenames.
+    name: z.string().trim().min(1).max(120),
     email: z.email().max(254),
     consent: z.object({
       storeResults: z.literal(true),

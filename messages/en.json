@@ -118,7 +118,6 @@
     "send": "Send",
     "sending": "Sending",
     "sent": "Sent. Check your inbox, including the spam folder.",
-    "errorInvalid": "Please enter a valid email address and tick the consent box.",
     "errorRate": "Too many requests from this device. Please try again later.",
     "errorUnavailable": "Email is not available right now. You can still download the PDF.",
     "errorGeneric": "Something went wrong sending the email. Please try again."

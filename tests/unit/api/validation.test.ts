@@ -19,11 +19,13 @@ describe("request validation", () => {
     expect(pdfRequestSchema.safeParse({ ...valid, form: "full" }).success).toBe(false);
     expect(pdfRequestSchema.safeParse({ ...valid, form: "full", responses: build("full", {}, 3) }).success).toBe(true);
   });
-  it("email request requires explicit storeResults consent and a valid email; newsletter defaults false", () => {
-    const ok = emailRequestSchema.safeParse({ ...valid, email: "a@b.co", consent: { storeResults: true, policyVersion: "v1" } });
+  it("email request requires a name, explicit storeResults consent and a valid email; newsletter defaults false", () => {
+    const ok = emailRequestSchema.safeParse({ ...valid, name: "Ana", email: "a@b.co", consent: { storeResults: true, policyVersion: "v1" } });
     expect(ok.success).toBe(true);
     if (ok.success) expect(ok.data.consent.newsletter).toBe(false);
-    expect(emailRequestSchema.safeParse({ ...valid, email: "a@b.co", consent: { storeResults: false, policyVersion: "v1" } }).success).toBe(false);
-    expect(emailRequestSchema.safeParse({ ...valid, email: "not-an-email", consent: { storeResults: true, policyVersion: "v1" } }).success).toBe(false);
+    expect(emailRequestSchema.safeParse({ ...valid, email: "a@b.co", consent: { storeResults: true, policyVersion: "v1" } }).success).toBe(false);
+    expect(emailRequestSchema.safeParse({ ...valid, name: "   ", email: "a@b.co", consent: { storeResults: true, policyVersion: "v1" } }).success).toBe(false);
+    expect(emailRequestSchema.safeParse({ ...valid, name: "Ana", email: "a@b.co", consent: { storeResults: false, policyVersion: "v1" } }).success).toBe(false);
+    expect(emailRequestSchema.safeParse({ ...valid, name: "Ana", email: "not-an-email", consent: { storeResults: true, policyVersion: "v1" } }).success).toBe(false);
   });
 });

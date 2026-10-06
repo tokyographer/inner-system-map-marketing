@@ -22,6 +22,11 @@ Entry format:
 
 ---
 
+## 2026-10-06 [core]: person's name in every results PDF and filename
+- Changed: `lib/pdf/filename.ts` (`resultsPdfFilename`, `slugify`) names PDFs `<app-name>-results-<name>.pdf` as an ASCII slug. It is used by the person's email (app name in their locale), the institute copy (English app name), the download route's Content-Disposition and the Download button. `emailRequestSchema` now requires `name`. `EmailResultsForm` (shown when no contact is saved) has a name field and reuses `start.contactRequired` for its error. The unused `email.errorInvalid` key was removed from all locales.
+- Agents: never build a results PDF filename by hand; call `resultsPdfFilename`. Non-Latin names slug to nothing and fall back to the plain filename. The name is still printed inside the PDF header.
+- Synced: n/a (marketing repo not cloned yet; the clone will include this commit)
+
 ## 2026-10-06 [core]: institute copy fully in English
 - Changed: the institute copy now attaches its own English PDF (`institutePdf`, rendered in English by `app/api/public/email-results/route.ts` when the person used another locale), named `inner-system-map-results.pdf`. The person still gets the email and PDF in their locale. `sendResultsEmail` throws before sending anything if a copy is configured, the locale is not `en`, and no English PDF was passed.
 - Agents: anything sent to the institute is English. Anything sent to the person is in their locale. A new caller of `sendResultsEmail` must pass `institutePdf` for non-English locales.

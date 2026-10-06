@@ -119,7 +119,6 @@
     "send": "Enviar",
     "sending": "Enviando",
     "sent": "Enviado. Revisa tu bandeja de entrada, incluida la carpeta de spam.",
-    "errorInvalid": "Introduce una dirección de correo válida y marca la casilla de consentimiento.",
     "errorRate": "Demasiadas solicitudes desde este dispositivo. Inténtalo más tarde.",
     "errorUnavailable": "El correo no está disponible ahora mismo. Puedes descargar el PDF igualmente.",
     "errorGeneric": "Algo salió mal al enviar el correo. Inténtalo de nuevo."

@@ -56,7 +56,7 @@ test("public mode happy path: landing → start → questionnaire → results �
 
   // PDF download.
   const [download] = await Promise.all([page.waitForEvent("download"), page.getByRole("button", { name: "Download PDF" }).click()]);
-  expect(download.suggestedFilename()).toBe("inner-system-map-results.pdf");
+  expect(download.suggestedFilename()).toBe("inner-system-map-results-test-person.pdf");
 
   // Results were emailed automatically to the address given at the start.
   await expect(page.getByRole("status")).toContainText("sent to person@example.com");

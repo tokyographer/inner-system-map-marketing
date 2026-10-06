@@ -8,7 +8,9 @@ type Status = "idle" | "sending" | "sent" | "invalid" | "rate" | "unavailable" |
 
 export function EmailResultsForm({ attempt }: { attempt: CompletedAttempt }) {
   const t = useTranslations("email");
+  const tStart = useTranslations("start");
   const locale = useLocale();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [store, setStore] = useState(false);
   const [newsletter, setNewsletter] = useState(false);
@@ -16,14 +18,14 @@ export function EmailResultsForm({ attempt }: { attempt: CompletedAttempt }) {
 
   async function submit(e: FormEvent) {
     e.preventDefault();
-    if (!store || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setStatus("invalid"); return; }
+    if (!store || !name.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setStatus("invalid"); return; }
     setStatus("sending");
     try {
       const res = await fetch("/api/public/email-results", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          email, locale, form: attempt.form, responses: attempt.responses,
+          name: name.trim(), email, locale, form: attempt.form, responses: attempt.responses,
           durationSeconds: Math.round((attempt.completedAt - attempt.startedAt) / 1000),
           ageConfirmed: true,
           consent: { storeResults: true, newsletter, policyVersion: CONSENT_POLICY_VERSION },
@@ -40,13 +42,17 @@ export function EmailResultsForm({ attempt }: { attempt: CompletedAttempt }) {
   }
 
   const message: Partial<Record<Status, string>> = {
-    sent: t("sent"), invalid: t("errorInvalid"), rate: t("errorRate"), unavailable: t("errorUnavailable"), error: t("errorGeneric"),
+    sent: t("sent"), invalid: tStart("contactRequired"), rate: t("errorRate"), unavailable: t("errorUnavailable"), error: t("errorGeneric"),
   };
 
   return (
     <form onSubmit={submit} noValidate className="card space-y-4 p-5">
       <h3 className="text-lg">{t("title")}</h3>
       <p className="text-sm text-ink-muted">{t("lead")}</p>
+      <label className="block text-sm">
+        {tStart("name")}
+        <input type="text" autoComplete="name" maxLength={120} value={name} onChange={(e) => setName(e.target.value)} className="mt-1 min-h-[44px] w-full rounded-[2px] border border-line bg-paper px-3 py-2 focus:border-interactive" required />
+      </label>
       <label className="block text-sm">
         {t("email")}
         <input type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 min-h-[44px] w-full rounded-[2px] border border-line bg-paper px-3 py-2 focus:border-interactive" required />

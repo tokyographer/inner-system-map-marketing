@@ -119,7 +119,6 @@
     "send": "Gönder",
     "sending": "Gönderiliyor",
     "sent": "Gönderildi. Gelen kutunu, spam klasörü dahil, kontrol et.",
-    "errorInvalid": "Lütfen geçerli bir e-posta adresi gir ve onay kutusunu işaretle.",
     "errorRate": "Bu cihazdan çok fazla istek geldi. Lütfen daha sonra tekrar dene.",
     "errorUnavailable": "E-posta şu anda kullanılamıyor. PDF'i yine de indirebilirsin.",
     "errorGeneric": "E-posta gönderilirken bir şeyler ters gitti. Lütfen tekrar dene."

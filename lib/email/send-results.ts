@@ -8,6 +8,7 @@ import { Resend } from "resend";
 import { APP_NAME, PUBLIC_RESULTS_RETENTION_MONTHS, type Locale } from "@/config/app";
 import { getContent } from "@/content";
 import { fillTemplate } from "@/content/email-labels";
+import { resultsPdfFilename } from "@/lib/pdf/filename";
 
 export interface SendResultsArgs {
   to: string;
@@ -67,23 +68,19 @@ function bodyFor(args: SendResultsArgs, forInstitute: boolean): { subject: strin
   };
 }
 
-function pdfFilename(locale: Locale): string {
-  return `${APP_NAME[locale].replace(/\s+/g, "-").toLowerCase()}-results.pdf`;
-}
-
 export async function sendResultsEmail(args: SendResultsArgs, env: EmailEnv, client?: Resend): Promise<{ userId: string; copyId: string | null }> {
   const resend = client ?? new Resend(env.apiKey);
   const institutePdf = args.institutePdf ?? (args.locale === "en" ? args.pdf : null);
   if (env.copyTo && !institutePdf) throw new Error("Copy to institute needs an English PDF: pass institutePdf when locale is not en.");
 
   const user = bodyFor(args, false);
-  const first = await resend.emails.send({ from: env.from, to: [args.to], subject: user.subject, text: user.text, attachments: [{ filename: pdfFilename(args.locale), content: args.pdf }] });
+  const first = await resend.emails.send({ from: env.from, to: [args.to], subject: user.subject, text: user.text, attachments: [{ filename: resultsPdfFilename(args.locale, args.name), content: args.pdf }] });
   if (first.error) throw new Error(`Email to participant failed: ${first.error.message}`);
 
   let copyId: string | null = null;
   if (env.copyTo && institutePdf) {
     const inst = bodyFor(args, true);
-    const second = await resend.emails.send({ from: env.from, to: [env.copyTo], subject: inst.subject, text: inst.text, attachments: [{ filename: pdfFilename("en"), content: institutePdf }] });
+    const second = await resend.emails.send({ from: env.from, to: [env.copyTo], subject: inst.subject, text: inst.text, attachments: [{ filename: resultsPdfFilename("en", args.name), content: institutePdf }] });
     if (second.error) throw new Error(`Copy to institute failed: ${second.error.message}`);
     copyId = second.data?.id ?? null;
   }

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { score } from "@/lib/scoring";
+import { resultsPdfFilename } from "@/lib/pdf/filename";
 import { renderResultsPdf } from "@/lib/pdf/render";
 import { clientKey, rateLimit } from "@/lib/ratelimit";
 import { pdfRequestSchema } from "@/lib/validation/results-request";
@@ -27,7 +28,7 @@ export async function POST(request: Request) {
     return new NextResponse(new Uint8Array(pdf), {
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": 'attachment; filename="inner-system-map-results.pdf"',
+        "Content-Disposition": `attachment; filename="${resultsPdfFilename(parsed.data.locale, parsed.data.name)}"`,
         "Cache-Control": "no-store",
       },
     });
