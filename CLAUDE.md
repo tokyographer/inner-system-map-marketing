@@ -28,7 +28,9 @@ content/*.{en,es,ro,tr}.ts    config/scoring.ts    ├─► components/results 
 - `db/migrations/` holds the Neon schema, SQL functions and RLS. `lib/db/` provides `withUser()` and `asService()`, `lib/auth/` wraps Neon Auth, `lib/actions/` holds the server actions, `lib/dashboard/` holds the queries, role guard, access codes, CSV export and aggregates, and `lib/validation/` holds the zod schemas.
 - Routes live under `app/[locale]/`: `/` landing, `/start`, `/questionnaire`, `/results`, `/cohort/*`, `/facilitator/*`, `/admin/*`, `/privacy`, `/results-deleted`.
 
-Read `docs/AGENT-CHANGELOG.md` for recent significant changes and why they were made. Folder-level rules are in `content/CLAUDE.md`, `lib/scoring/CLAUDE.md`, `db/CLAUDE.md` and `tests/CLAUDE.md`. They load when you work in those folders.
+- `marketing/` (this repo only): lead-generation code and its rules. Read `marketing/CLAUDE.md` before touching anything marketing.
+
+Read `docs/AGENT-CHANGELOG.md` for recent significant changes and why they were made. Folder-level rules are in `marketing/CLAUDE.md`, `content/CLAUDE.md`, `lib/scoring/CLAUDE.md`, `db/CLAUDE.md` and `tests/CLAUDE.md`. They load when you work in those folders.
 
 ## Run Order
 ```

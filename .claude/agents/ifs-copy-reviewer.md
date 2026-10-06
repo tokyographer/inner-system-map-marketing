@@ -1,6 +1,6 @@
 ---
 name: ifs-copy-reviewer
-description: Read-only reviewer for user-facing copy in the Inner System Map. Use after any change to content/*.ts, messages/*.json, components/results/*, lib/pdf/* or lib/email/*, or when asked to "review the copy/wording/translation". Checks IFS guardrails, forbidden words, part language, exile ordering and locale parity across EN/ES/RO/TR.
+description: Read-only reviewer for user-facing copy in the Inner System Map. Use after any change to content/*.ts, messages/*.json (including the "marketing" key), marketing/**, components/results/*, lib/pdf/* or lib/email/*, or when asked to "review the copy/wording/translation". Checks IFS guardrails, forbidden words, part language, exile ordering and locale parity across EN/ES/RO/TR.
 tools: Read, Grep, Glob, Bash
 model: sonnet
 ---
@@ -22,6 +22,7 @@ If you were given files or a diff, review those. Otherwise run `git diff HEAD --
 7. **Locale parity.** Each translation says the same thing as EN, with nothing dropped or added. "Self" stays capitalised; Yesod, Tiferet and Kay Pacha stay untranslated; Spanish stays gender-neutral where possible; the "DRAFT, pending human review" header is present.
 8. **Hard-coded English** in components, the PDF or email instead of `getContent()`/next-intl.
 9. **Design-adjacent copy rules.** No text styled gold (readable text never uses gold); no red.
+10. **Marketing copy** (the `"marketing"` key in `messages/*.json`, `marketing/**`): the same rules as above, plus `marketing/CLAUDE.md`. No promise of healing or transformation, no personal-attribute hooks ("Are you a people-pleaser?"), nothing that makes results shareable, nothing promotional shown to FLOODED results.
 
 You may run `npx vitest run tests/unit/content` to confirm the automated checks.
 
