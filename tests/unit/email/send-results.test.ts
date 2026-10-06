@@ -51,8 +51,11 @@ describe("sendResultsEmail", () => {
   });
   it("writes the person's email in their locale and keeps the institute copy in English", async () => {
     const { client, send } = fakeResend();
-    await sendResultsEmail({ ...base, locale: "es", name: "Ana", deleteUrl: "https://example.com/del?token=t" }, env, client);
+    const institutePdf = Buffer.from("%PDF-english");
+    await sendResultsEmail({ ...base, locale: "es", name: "Ana", deleteUrl: "https://example.com/del?token=t", institutePdf }, env, client);
     const [person, institute] = send.mock.calls.map((c) => c[0]);
+    expect(person.attachments).toEqual([{ filename: "mapa-del-sistema-interno-results.pdf", content: base.pdf }]);
+    expect(institute.attachments).toEqual([{ filename: "inner-system-map-results.pdf", content: institutePdf }]);
     expect(person.subject).toBe("Tus resultados del Mapa del Sistema Interno");
     expect(person.text).toContain("Hola, Ana:");
     expect(person.text).toContain(getContent("es").careNote);
@@ -61,6 +64,19 @@ describe("sendResultsEmail", () => {
     expect(person.text).not.toMatch(/\{\w+\}/);
     expect(institute.subject).toBe("[Inner System Map] New results (Managers are leading)");
     expect(institute.text).toContain("Language: es");
+  });
+  it("refuses to send anything when the institute copy would lack an English PDF", async () => {
+    const { client, send } = fakeResend();
+    await expect(sendResultsEmail({ ...base, locale: "tr" }, env, client)).rejects.toThrow(/English PDF/);
+    expect(send).not.toHaveBeenCalled();
+  });
+  it("needs no separate English PDF when the copy is disabled or the person used English", async () => {
+    const { client, send } = fakeResend();
+    await sendResultsEmail({ ...base, locale: "ro" }, { ...env, copyTo: null }, client);
+    expect(send).toHaveBeenCalledTimes(1);
+    const en = fakeResend();
+    await sendResultsEmail(base, env, en.client);
+    expect(en.send.mock.calls[1][0].attachments[0].content).toBe(base.pdf);
   });
   it("has no leftover placeholders in any locale, with or without a name and delete link", async () => {
     for (const locale of LOCALES) {

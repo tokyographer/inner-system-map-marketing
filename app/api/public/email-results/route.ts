@@ -35,14 +35,17 @@ export async function POST(request: Request) {
   try {
     const { responses, form, durationSeconds, locale, email, name, consent } = parsed.data;
     const result = score({ responses, form, durationSeconds });
-    const pdf = await renderResultsPdf({ result, locale, mode: "public", name });
+    const [pdf, institutePdf] = await Promise.all([
+      renderResultsPdf({ result, locale, mode: "public", name }),
+      env.copyTo && locale !== "en" ? renderResultsPdf({ result, locale: "en", mode: "public", name }) : undefined,
+    ]);
     let deleteUrl: string | undefined;
     if (dbConfigured()) {
       const stored = await storePublicResult({ email, locale, form, responses, result, newsletter: consent.newsletter, policyVersion: consent.policyVersion });
       deleteUrl = `${new URL(request.url).origin}/api/public/delete-result?token=${stored.deleteToken}&locale=${locale}`;
     }
     await sendResultsEmail(
-      { to: email, name, locale, pdf, patternTitle: getContent("en").patterns[result.pattern.key].title, flooded: result.pattern.key === "FLOODED", deleteUrl },
+      { to: email, name, locale, pdf, institutePdf, patternTitle: getContent("en").patterns[result.pattern.key].title, flooded: result.pattern.key === "FLOODED", deleteUrl },
       env,
     );
     return NextResponse.json({ ok: true, copySentToInstitute: env.copyTo !== null });

@@ -1,7 +1,7 @@
 /**
  * Sends the results PDF to the person, in their locale, and a copy to the
- * institute inbox, in English. Two separate sends so neither recipient sees
- * the other in headers.
+ * institute inbox entirely in English (body, subject and PDF). Two separate
+ * sends so neither recipient sees the other in headers.
  * Never logs the payload, the email address or the responses.
  */
 import { Resend } from "resend";
@@ -13,7 +13,10 @@ export interface SendResultsArgs {
   to: string;
   name?: string;
   locale: Locale;
+  /** Results PDF in the person's locale. */
   pdf: Buffer;
+  /** English results PDF for the institute copy. Required unless locale is "en". */
+  institutePdf?: Buffer;
   /** English pattern title, used only in the institute copy. */
   patternTitle: string;
   flooded: boolean;
@@ -64,19 +67,23 @@ function bodyFor(args: SendResultsArgs, forInstitute: boolean): { subject: strin
   };
 }
 
+function pdfFilename(locale: Locale): string {
+  return `${APP_NAME[locale].replace(/\s+/g, "-").toLowerCase()}-results.pdf`;
+}
+
 export async function sendResultsEmail(args: SendResultsArgs, env: EmailEnv, client?: Resend): Promise<{ userId: string; copyId: string | null }> {
   const resend = client ?? new Resend(env.apiKey);
-  const filename = `${APP_NAME[args.locale].replace(/\s+/g, "-").toLowerCase()}-results.pdf`;
-  const attachments = [{ filename, content: args.pdf }];
+  const institutePdf = args.institutePdf ?? (args.locale === "en" ? args.pdf : null);
+  if (env.copyTo && !institutePdf) throw new Error("Copy to institute needs an English PDF: pass institutePdf when locale is not en.");
 
   const user = bodyFor(args, false);
-  const first = await resend.emails.send({ from: env.from, to: [args.to], subject: user.subject, text: user.text, attachments });
+  const first = await resend.emails.send({ from: env.from, to: [args.to], subject: user.subject, text: user.text, attachments: [{ filename: pdfFilename(args.locale), content: args.pdf }] });
   if (first.error) throw new Error(`Email to participant failed: ${first.error.message}`);
 
   let copyId: string | null = null;
-  if (env.copyTo) {
+  if (env.copyTo && institutePdf) {
     const inst = bodyFor(args, true);
-    const second = await resend.emails.send({ from: env.from, to: [env.copyTo], subject: inst.subject, text: inst.text, attachments });
+    const second = await resend.emails.send({ from: env.from, to: [env.copyTo], subject: inst.subject, text: inst.text, attachments: [{ filename: pdfFilename("en"), content: institutePdf }] });
     if (second.error) throw new Error(`Copy to institute failed: ${second.error.message}`);
     copyId = second.data?.id ?? null;
   }

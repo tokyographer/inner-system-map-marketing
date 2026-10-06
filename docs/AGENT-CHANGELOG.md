@@ -22,6 +22,11 @@ Entry format:
 
 ---
 
+## 2026-10-06 [core]: institute copy fully in English
+- Changed: the institute copy now attaches its own English PDF (`institutePdf`, rendered in English by `app/api/public/email-results/route.ts` when the person used another locale), named `inner-system-map-results.pdf`. The person still gets the email and PDF in their locale. `sendResultsEmail` throws before sending anything if a copy is configured, the locale is not `en`, and no English PDF was passed.
+- Agents: anything sent to the institute is English. Anything sent to the person is in their locale. A new caller of `sendResultsEmail` must pass `institutePdf` for non-English locales.
+- Synced: n/a (marketing repo not cloned yet; the clone will include this commit)
+
 ## 2026-10-06 [core]: core contract with the marketing repo
 - Changed: added `CORE.md` (core paths, sync rules, shared safety rules, imported into `CLAUDE.md` with `@CORE.md`), `npm run core:fingerprint` (`scripts/core-fingerprint.mjs`), golden scoring results (`tests/fixtures/core-golden.json`, `tests/unit/scoring/golden.test.ts`, `npm run core:golden:update`), the `core-sync` agent, and `[core]/[app]/[marketing]` tags plus `Synced:` lines in this file.
 - Agents: before changing a path listed in `CORE.md`, expect to port it to `../inner-system-map-marketing` with `core-sync`. Keep marketing work out of core paths. Never regenerate the golden fixture to make a test pass unless the scoring change is deliberate and made upstream.
