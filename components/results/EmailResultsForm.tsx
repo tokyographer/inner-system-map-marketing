@@ -4,6 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { PUBLIC_POLICY_VERSION } from "@/marketing/config";
 import type { CompletedAttempt } from "@/lib/questionnaire/storage";
 import { attributionRequestFields } from "@/marketing/attribution";
+import { funnel } from "@/marketing/funnel";
 
 type Status = "idle" | "sending" | "sent" | "invalid" | "rate" | "unavailable" | "error";
 
@@ -33,7 +34,7 @@ export function EmailResultsForm({ attempt }: { attempt: CompletedAttempt }) {
           ...attributionRequestFields(),
         }),
       });
-      if (res.ok) setStatus("sent");
+      if (res.ok) { setStatus("sent"); funnel("email_sent"); }
       else if (res.status === 429) setStatus("rate");
       else if (res.status === 503) setStatus("unavailable");
       else if (res.status === 400) setStatus("invalid");

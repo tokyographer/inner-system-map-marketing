@@ -6,6 +6,7 @@ import { useRouter } from "@/i18n/navigation";
 import { newSeed } from "@/lib/questionnaire/order";
 import { clearProgress, saveContact, saveProgress, useProgress } from "@/lib/questionnaire/storage";
 import { commitAttribution } from "@/marketing/attribution";
+import { funnel } from "@/marketing/funnel";
 import { PUBLIC_POLICY_VERSION } from "@/marketing/config";
 
 interface Props {
@@ -32,7 +33,7 @@ export function StartScreen({ form = DEFAULT_FORM.public, questionnairePath = "/
   function begin() {
     if (collectContact && (!name.trim() || !EMAIL.test(email) || !consent)) { setError(t("contactRequired")); return; }
     if (!age) { setError(t("ageRequired")); return; }
-    if (collectContact) { saveContact({ name: name.trim(), email: email.trim(), newsletter, policyVersion: PUBLIC_POLICY_VERSION }); commitAttribution(); }
+    if (collectContact) { saveContact({ name: name.trim(), email: email.trim(), newsletter, policyVersion: PUBLIC_POLICY_VERSION }); commitAttribution(); funnel("start"); }
     clearProgress();
     saveProgress({ seed: newSeed(), form, startedAt: Date.now(), index: 0, responses: {} });
     router.push(questionnairePath);

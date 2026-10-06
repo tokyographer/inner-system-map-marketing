@@ -253,7 +253,8 @@
     "privacy": {
       "heading": "Campaign source and partner links",
       "attribution": "If you arrive through a link that names a campaign or a partner (for example a link with ?utm_source= or ?ref= in it), we keep its campaign source, medium, campaign name and partner code in your browser for up to 30 days once you start the map, and store them with your results if you ask us to email them. We use them only to count which channels and partners bring people to the map. The copy stored with your results is deleted together with them, and it never contains your answers or your results.",
-      "draft": "DRAFT, pending legal review."
+      "draft": "DRAFT, pending legal review.",
+      "analytics": "We count visits to the public pages of the map (landing page, start, questions, results and privacy pages) and a few steps of the map (landing page viewed, map started, map completed, results emailed, program or live-session link clicked) with Vercel Web Analytics, which sets no cookies. A visit records the page address, keeping only the campaign and partner parameters of the link, plus the referring site and general information such as country, browser, operating system and device type. To tell visits apart within a day, Vercel derives an identifier from the request that is discarded after 24 hours. Each step records the language of the page and, if there is one, the partner code; a link click also records which link it was. None of it records your name, your email address, your answers or your results. Pages for program participants, facilitators and administrators are not counted."
     }
   }
 }

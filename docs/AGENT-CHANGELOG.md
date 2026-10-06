@@ -22,6 +22,10 @@ Entry format:
 
 ---
 
+## 2026-10-06 [marketing]: cookieless funnel analytics
+- Changed: `@vercel/analytics` is a dependency. `marketing/components/MarketingAnalytics.tsx` in the locale layout records page views with URLs stripped to the path plus utm/ref. Five custom events go through `funnel()` (`marketing/funnel.ts`): `landing_view` (landing page), `start` (public start form), `completion` (public questionnaire), `email_sent` (results emailed) and `invite_click` (program invite). Properties are only `locale`, `ref` and `target`, enforced by `eventProps()`. Page views and events are sent only for the public pages, with URLs reduced to the path plus validated utm/ref (`analyticsBeforeSend`). The privacy page's marketing section describes it, including referrer, country/device data and Vercel's 24-hour visitor identifier.
+- Agents: send events only through `funnel()`. It creates the `window.va` queue, which `<Analytics>` sets up too late for page effects (found by the e2e: `landing_view` was dropped), and it queues `beforeSend` first so an early event is never sent with a raw URL (found by data-privacy-auditor). Never add a property beyond locale, ref and target, and never send anything derived from results. e2e checks the queued events in `window.vaq`.
+
 ## 2026-10-06 [marketing]: happy-path e2e pinned to a seed
 - Changed: `tests/e2e/public.spec.ts` answered by position over a randomly seeded item order, so about 4 runs in 10 reached FLOODED and failed on the placeholder support resources. It now pins seed 4075905763 (MANAGED) after Start. The flake exists upstream too; the same fix is suggested there (the file is not core).
 - Agents: an e2e walk that answers by position must pin the seed, or seed a finished attempt in sessionStorage.

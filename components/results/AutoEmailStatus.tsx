@@ -4,6 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import type { CompletedAttempt, Contact } from "@/lib/questionnaire/storage";
 import { markSent, useSentFor } from "@/lib/questionnaire/storage";
 import { attributionRequestFields } from "@/marketing/attribution";
+import { funnel } from "@/marketing/funnel";
 
 /** Public mode: sends the results to the address given at the start, once per attempt. */
 export function AutoEmailStatus({ attempt, contact }: { attempt: CompletedAttempt; contact: Contact }) {
@@ -28,6 +29,7 @@ export function AutoEmailStatus({ attempt, contact }: { attempt: CompletedAttemp
       });
       if (!res.ok) throw new Error(String(res.status));
       markSent(attempt.completedAt);
+      funnel("email_sent");
       setStatus("sent");
     } catch {
       setStatus("failed");

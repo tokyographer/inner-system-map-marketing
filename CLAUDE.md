@@ -27,7 +27,7 @@ content/*.{en,es,ro,tr}.ts    config/scoring.ts    ├─► components/results 
 - `app/api/public/{results-pdf,email-results,delete-result}`: zod-validated and rate limited. `app/api/cron/retention` runs nightly and checks `CRON_SECRET`. `app/api/{cohort,facilitator,admin}/export` produce the CSV and JSON exports.
 - `db/migrations/` holds the Neon schema, SQL functions and RLS. `lib/db/` provides `withUser()` and `asService()`, `lib/auth/` wraps Neon Auth, `lib/actions/` holds the server actions, `lib/dashboard/` holds the queries, role guard, access codes, CSV export and aggregates, and `lib/validation/` holds the zod schemas.
 - Routes live under `app/[locale]/`: `/` landing, `/start`, `/questionnaire`, `/results`, `/cohort/*`, `/facilitator/*`, `/admin/*`, `/privacy`, `/results-deleted`.
-- `marketing/` (this repo only): lead-generation code and its rules. Read `marketing/CLAUDE.md` before touching anything marketing. Source attribution: `AttributionCapture` (in the locale layout) keeps utm_source/medium/campaign and `ref` in memory, and the start form's consent writes them to localStorage; the results request carries them as `attribution`, parsed by `marketing/validation.ts` in the email route and stored on `public_results` (m0001). Open core requests are in `marketing/UPSTREAM-REQUESTS.md`.
+- `marketing/` (this repo only): lead-generation code and its rules. Read `marketing/CLAUDE.md` before touching anything marketing. Source attribution: `AttributionCapture` (in the locale layout) keeps utm_source/medium/campaign and `ref` in memory, and the start form's consent writes them to localStorage; the results request carries them as `attribution`, parsed by `marketing/validation.ts` in the email route and stored on `public_results` (m0001). Funnel analytics: Vercel Web Analytics custom events (`landing_view`, `start`, `completion`, `email_sent`, `invite_click`) through `funnel()` in `marketing/funnel.ts`, with only locale, ref and target as properties. Open core requests are in `marketing/UPSTREAM-REQUESTS.md`.
 
 Read `docs/AGENT-CHANGELOG.md` for recent significant changes and why they were made. Folder-level rules are in `marketing/CLAUDE.md`, `content/CLAUDE.md`, `lib/scoring/CLAUDE.md`, `db/CLAUDE.md` and `tests/CLAUDE.md`. They load when you work in those folders.
 
@@ -64,6 +64,7 @@ npm run dev
 - Node 24+, npm 11+. Deploys to Vercel, region fra1 (EU), through `vercel.ts`. Neon Postgres and Neon Auth (eu-central-1), Upstash Redis and Resend are all provisioned through the Vercel Marketplace. There is no local database; development uses the Neon dev branch.
 
 ## Key Dependencies & Gotchas
+- `@vercel/analytics`: `<Analytics>` (in `marketing/components/MarketingAnalytics.tsx`) hydrates inside Suspense, after page effects. `track()` drops events until `window.va` exists, so always send events through `marketing/funnel.ts`, which creates the queue. Locally `next start` does not serve the script; e2e reads the queued events from `window.vaq`.
 - Next 16 App Router. It uses `proxy.ts` (not middleware.ts) for next-intl routing. `@react-pdf/renderer` is in `serverExternalPackages`, and the PDF and email routes set `runtime = "nodejs"`.
 - Server Components that read the session export `dynamic = "force-dynamic"`.
 - Never read env or create clients (`auth()`, DB pool, Resend) at module top level in routes or pages. `next build` evaluates them, and CI builds with no Neon or Resend vars. Create them lazily on first request.
@@ -119,7 +120,7 @@ Project subagents are in `.claude/agents/`:
 - `core-sync`: ports core-path commits from upstream into this repo and checks that the fingerprints match.
 
 ## Current Status
-- Marketing (this repo): source attribution on opt-in public results. Not yet in the institute copy (upstream request 1 in `marketing/UPSTREAM-REQUESTS.md`). Public consent records `PUBLIC_POLICY_VERSION` (`2026-09-draft+m2026-10-draft`); the marketing privacy section is DRAFT pending the lawyer.
+- Marketing (this repo): cookieless funnel analytics (Vercel Web Analytics; custom events need a Pro plan and Web Analytics enabled on the project). Source attribution on opt-in public results. Not yet in the institute copy (upstream request 1 in `marketing/UPSTREAM-REQUESTS.md`). Public consent records `PUBLIC_POLICY_VERSION` (`2026-09-draft+m2026-10-draft`); the marketing privacy section is DRAFT pending the lawyer.
 - Done: phases 1–7 (see `docs/PHASE-1-PLAN.md` for the original plan, which still describes Supabase; Neon replaced it).
   - Phase 2: scoring engine, item bank v2 and EN content.
   - Phase 3: public mode, the results PDF, the Resend flow and rate limiting.

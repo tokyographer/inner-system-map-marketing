@@ -254,7 +254,8 @@
     "privacy": {
       "heading": "Origen de campaña y enlaces de colaboración",
       "attribution": "Si llegas a través de un enlace que nombra una campaña o una colaboración (por ejemplo, un enlace con ?utm_source= o ?ref=), guardamos su origen de campaña, medio, nombre de campaña y código de colaboración en tu navegador hasta 30 días cuando empiezas el mapa, y los almacenamos con tus resultados si nos pides que te los enviemos por correo electrónico. Los usamos solo para contar qué canales y colaboraciones traen personas al mapa. La copia almacenada con tus resultados se elimina junto con ellos y nunca contiene tus respuestas ni tus resultados.",
-      "draft": "BORRADOR, pendiente de revisión legal."
+      "draft": "BORRADOR, pendiente de revisión legal.",
+      "analytics": "Contamos las visitas a las páginas públicas del mapa (página de inicio, inicio del mapa, preguntas, resultados y privacidad) y algunos pasos del mapa (página de inicio vista, mapa empezado, mapa completado, resultados enviados por correo electrónico, enlace al programa o a la sesión en vivo pulsado) con Vercel Web Analytics, que no usa cookies. Una visita registra la dirección de la página, conservando solo los parámetros de campaña y de colaboración del enlace, además del sitio de procedencia e información general como el país, el navegador, el sistema operativo y el tipo de dispositivo. Para distinguir las visitas dentro de un mismo día, Vercel obtiene un identificador a partir de la solicitud que se descarta a las 24 horas. Cada paso registra el idioma de la página y, si lo hay, el código de colaboración; un clic en un enlace también registra de cuál se trata. Nada de ello registra tu nombre, tu dirección de correo electrónico, tus respuestas ni tus resultados. Las páginas para participantes del programa, facilitadores y administración no se cuentan."
     }
   }
 }

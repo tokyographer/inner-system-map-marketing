@@ -9,6 +9,7 @@ import { clearProgress, saveAttempt, saveProgress, useProgress, type CompletedAt
 import type { Response } from "@/lib/scoring/types";
 import { LikertItem } from "./LikertItem";
 import { ProgressBar } from "./ProgressBar";
+import { funnel } from "@/marketing/funnel";
 
 const ADVANCE_DELAY_MS = 350;
 
@@ -79,6 +80,7 @@ export function Questionnaire({ onComplete }: Props = {}) {
       }
       finished.current = true;
       saveAttempt(attempt);
+      funnel("completion");
       clearProgress();
       router.push("/results");
       return;

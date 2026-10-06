@@ -28,7 +28,7 @@ This repo is the marketing version of the Inner System Map. It is a clone of the
    ```
 4. **Upstash and Resend.** Add Upstash Redis (EU) and Resend from the Marketplace on the new project, or set `RESEND_API_KEY`/`RESEND_FROM` yourself.
 5. **Test inbox for the institute copy.** Until launch, point `RESULTS_COPY_TO` at a test inbox you own (for example a `+marketing-test` alias), not the institute's real inbox, in `.env` and in the Vercel Preview and Development environments. Set the real address in Production only when you go live.
-6. **Vercel Web Analytics.** Enable Web Analytics in the new project's dashboard (Analytics tab). Custom events (the funnel events) need a Pro or Enterprise plan; on Hobby only page views are recorded.
+6. **Vercel Web Analytics.** Enable Web Analytics in the new project's dashboard (Analytics tab). Custom events (the funnel events) need a Pro or Enterprise plan; on Hobby only page views are recorded. The funnel events are `landing_view`, `start`, `completion`, `email_sent` and `invite_click`, with the properties `locale`, `ref` (partner code) and `target` (invite link) only. Read them under Analytics → Events.
 7. **CI secrets.** The GitHub Actions workflow (`.github/workflows/ci.yml`) runs without secrets; the RLS integration tests and the cohort/facilitator walks then skip. To run them, add these repository secrets in GitHub (Settings → Secrets and variables → Actions), pointing at a **dedicated CI branch** of this repo's Neon project, never production:
    - `CI_DATABASE_URL`, `CI_DATABASE_URL_UNPOOLED`
    - `CI_NEON_AUTH_BASE_URL`, `CI_NEON_AUTH_COOKIE_SECRET`
@@ -119,6 +119,7 @@ curl -X POST localhost:3000/api/public/results-pdf -H 'content-type: application
 - Resend (transactional email)
 - Neon (Postgres and Neon Auth, Frankfurt eu-central-1, via Vercel Marketplace)
 - Upstash (Redis for rate limiting, EU, via Vercel Marketplace)
+- Vercel Web Analytics (cookieless page views and funnel events; this repo only)
 
 ## Troubleshooting
 1. `503 email_not_configured`: set `RESEND_API_KEY` and `RESEND_FROM` in `.env` and restart `npm run dev`.

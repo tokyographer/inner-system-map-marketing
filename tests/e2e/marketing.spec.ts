@@ -33,3 +33,27 @@ test("utm and ref from the landing URL travel with the results request", async (
   await expect(page.getByRole("status")).toContainText("sent to person@example.com");
   expect(emailBody).toMatchObject({ consent: { policyVersion: "2026-09-draft+m2026-10-draft" }, attribution: { utmSource: "newsletter", utmMedium: "email", utmCampaign: "level-ii", ref: "studio-om" } });
 });
+
+/** Custom events queued for Vercel Web Analytics on this page load (the script itself is not served locally). */
+async function queuedEvents(page: Page) {
+  return page.evaluate(() => ((window as unknown as { vaq?: [string, { name?: string; data?: Record<string, string> }?][] }).vaq ?? [])
+    .filter(([kind]) => kind === "event").map(([, e]) => ({ name: e?.name, data: e?.data })));
+}
+
+test("funnel events carry locale and partner code only, never contact details or results", async ({ page }) => {
+  await page.goto("/en?ref=studio-om&utm_source=newsletter");
+  await expect.poll(() => queuedEvents(page)).toContainEqual({ name: "landing_view", data: { locale: "en", ref: "studio-om" } });
+  // The URL sanitiser is queued before any event, so the script never sends an unsanitised URL.
+  expect(await page.evaluate(() => ((window as unknown as { vaq: unknown[][] }).vaq)[0][0])).toBe("beforeSend");
+
+  await page.getByRole("link", { name: "Begin the work" }).click();
+  await startWithContact(page);
+  await page.route("**/api/public/email-results", (route) => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, copySentToInstitute: true }) }));
+  await seedAttempt(page, (_, i) => 1 + (i % 5));
+  await page.goto("/en/results");
+  await expect(page.getByRole("status")).toContainText("sent to person@example.com");
+  await expect.poll(() => queuedEvents(page)).toContainEqual({ name: "email_sent", data: { locale: "en", ref: "studio-om" } });
+
+  const all = JSON.stringify(await page.evaluate(() => (window as unknown as { vaq?: unknown }).vaq ?? []));
+  for (const forbidden of ["person@example.com", "Test Person", "MANAGED", "FLOODED", "REACTIVE", "POLARISED", "responses"]) expect(all).not.toContain(forbidden);
+});
