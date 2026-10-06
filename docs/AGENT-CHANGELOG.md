@@ -8,7 +8,7 @@ A record of significant changes for AI coding agents and new developers. It focu
 - changes behaviour a user, facilitator or the institute can notice (scoring, emails, PDF, consent, retention);
 - fixes a bug whose cause could recur.
 
-Tag each entry `[core]` when it touches a path listed in `CORE.md`, otherwise `[marketing]` (in the marketing repo) or `[app]` (upstream-only, non-core). A `[core]` entry has a `Synced:` line with the commit that carried it to the other repo, or `pending` plus the reason. The `core-sync` agent reads these lines to find what still needs porting.
+Tag each entry `[core]` when it touches a path listed in `CORE.md`, otherwise `[marketing]` (in the marketing repo) or `[app]` (upstream-only, non-core). Entries below the split entry were inherited from upstream. A `[core]` entry has a `Synced:` line with the commit that carried it to the other repo, or `pending` plus the reason. The `core-sync` agent reads these lines to find what still needs porting.
 
 Skip typo fixes, single-item rewording and pure refactors that keep behaviour. Carry any new rule into `CLAUDE.md` (root or folder-level) in the same commit; this file explains it, CLAUDE.md enforces it.
 
@@ -21,6 +21,10 @@ Entry format:
 ```
 
 ---
+
+## 2026-10-06 [marketing]: split from upstream
+- Changed: this repo, `inner-system-map-marketing`, was cloned from the original app `inner-system-ifs-test` at upstream commit `7666ed6` (`git rev-parse --short upstream/main`). The git remote `upstream` points at the original, checked out at `../inner-system-ifs-test`. Both core fingerprints were `e01b8a30d46e…` (86 files) at the split. The root `CLAUDE.md` is renamed "Inner System Map: marketing" and has a "Relationship to upstream" section; `marketing/CLAUDE.md` holds the marketing plan's guardrails; the agents now treat upstream as the sibling and scoring as upstream-only.
+- Agents: never edit a core path here. Write an upstream request (files, behaviour, tests) and port the upstream commit with `core-sync`. Marketing code goes in `marketing/`, marketing strings under the `"marketing"` key of `messages/*.json`, marketing migrations in `db/migrations/m0NNN_*.sql`. Entries in this repo are tagged `[marketing]`, or `[core]` for a port from upstream.
 
 ## 2026-10-06 [core]: person's name in every results PDF and filename
 - Changed: `lib/pdf/filename.ts` (`resultsPdfFilename`, `slugify`) names PDFs `<app-name>-results-<name>.pdf` as an ASCII slug. It is used by the person's email (app name in their locale), the institute copy (English app name), the download route's Content-Disposition and the Download button. `emailRequestSchema` now requires `name`. `EmailResultsForm` (shown when no contact is saved) has a name field and reuses `start.contactRequired` for its error. The unused `email.errorInvalid` key was removed from all locales.
