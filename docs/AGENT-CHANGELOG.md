@@ -22,6 +22,10 @@ Entry format:
 
 ---
 
+## 2026-10-06 [marketing]: upstream requests and postponed items
+- Changed: `marketing/UPSTREAM-REQUESTS.md` holds two core requests for upstream: (1) `instituteDetails` lines in the institute copy, for attribution; (2) an optional `personFooter` in the person's results email, dropped by the core when FLOODED, for the live-session invite line. It also records that the nurture-consent checkbox and the opt-in sync, postponed by the owner, need no core change.
+- Agents: when upstream ships a request, port it with `core-sync`, wire the marketing side (named in each request), and remove the entry. Do not build the nurture consent or the opt-in sync until the owner says so and the lawyer has approved the consent wording.
+
 ## 2026-10-06 [marketing]: Share the map
 - Changed: `marketing/components/ShareTheMap.tsx` on the public results page shares `/{locale}?utm_source=share` through the Web Share API, or copies it to the clipboard, or shows it to copy by hand. It is rendered by `ResultsView` inside the `actions` render, for public mode and not when FLOODED. Strings under `marketing.share` in all four locales.
 - Agents: sharing never carries anything from the attempt (no pattern, score, name or result), and results themselves are never shareable. Do not add a results section for marketing: `components/results/sections.ts` is core, so new marketing UI goes inside an existing section's render in `ResultsView.tsx`.
