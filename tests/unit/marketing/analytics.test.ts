@@ -69,3 +69,21 @@ describe("sanitizeUrl", () => {
     expect(analyticsBeforeSend({ type: "event", url: "https://x.test/en/admin/audit" })).toBeNull();
   });
 });
+
+describe("funnel counts", () => {
+  it("posts starts and completions (with the partner code) to the counter, nothing else", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response(null, { status: 204 }));
+    vi.stubGlobal("fetch", fetchMock);
+    vi.stubGlobal("document", { documentElement: { lang: "en" } });
+    captureAttribution("?ref=studio-om");
+    funnel("start");
+    funnel("completion");
+    funnel("landing_view");
+    funnel("email_sent");
+    funnel("invite_click", { target: "program" });
+    expect(fetchMock.mock.calls.map(([url, init]) => [url, JSON.parse(init.body), init.keepalive])).toEqual([
+      ["/api/marketing/funnel", { event: "start", ref: "studio-om" }, true],
+      ["/api/marketing/funnel", { event: "complete", ref: "studio-om" }, true],
+    ]);
+  });
+});

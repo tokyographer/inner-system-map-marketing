@@ -4,6 +4,7 @@ Migrations in `migrations/` are applied in filename order by `scripts/migrate.mj
 
 ## Rules
 - Marketing migrations (`m0NNN_*.sql`) are **additive only**: new nullable columns or new tables, with their own RLS. Never drop, rename or change core columns, constraints, policies or functions: this repo will run against the production database, possibly while the original still does. Apply them only to the `marketing-dev` branch from a developer machine; production only through "Going live" in `README.md`.
+- Marketing-only (this repo): `m0002_funnel_counts.sql` adds `marketing_partners` (registered codes and a partner name; admins select, insert and delete through RLS, so a partner's name can be erased) and `marketing_funnel_counts` (day, ref_code, event, count; `''` = no code, `'-'` = unregistered code). The counts are aggregates with no personal data; rows older than 400 days are deleted by the retention cron through `pruneFunnelCounts()` (a marketing hook in `app/api/cron/retention/route.ts`; `app.run_retention()` is core and unchanged). Admins select counts; `app_user` cannot write them; the public counter writes on the owner connection.
 - Marketing-only (this repo): `m0001_attribution.sql` adds nullable `utm_source`, `utm_medium`, `utm_campaign`, `ref_code` to `public_results`. They are deleted with the row, so retention and the delete link need no change.
 - Core migrations (`0NNN_*.sql`) are numbered only in the upstream repo and are part of the core shared with the marketing repo (see `CORE.md`). Marketing-only migrations in the marketing repo use `m0NNN_*.sql`.
 - Append-only. Never edit an applied file; add `000N_<topic>.sql` with the next number.
@@ -16,5 +17,6 @@ Migrations in `migrations/` are applied in filename order by `scripts/migrate.mj
 - Retention is `app.run_retention()`, called by the nightly cron through `asService`.
 
 ## Verifying
+- Marketing policies are tested in their own files (`tests/integration/marketing-*.test.ts`), because `rls.test.ts` is shared with upstream.
 - `tests/integration/rls.test.ts` exercises every policy against the Neon dev branch. It runs only when `.env.local` has `DATABASE_URL`. Extend it for every new policy or function.
 - Production: pull the production env into `.env.production.local` and run `npx dotenv -e .env.production.local -- node scripts/migrate.mjs`. Do this only when the user asks.

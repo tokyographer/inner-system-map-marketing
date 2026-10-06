@@ -39,3 +39,12 @@ export const funnelCountSchema = z.object({
   event: z.enum(FUNNEL_COUNTED),
   ref: z.string().regex(REF_CODE).optional(),
 });
+
+/** Admin: register a partner code. */
+export const registerPartnerSchema = z.object({
+  code: z.string().trim().toLowerCase().regex(REF_CODE),
+  label: z.string().trim().min(1).max(120),
+});
+
+/** Admin: remove a partner code. */
+export const partnerCodeSchema = z.object({ code: z.string().regex(REF_CODE) });

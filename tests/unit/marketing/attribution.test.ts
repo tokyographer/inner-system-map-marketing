@@ -80,3 +80,13 @@ describe("parseEmailMarketingFields", () => {
     expect(parseEmailMarketingFields(null)).toEqual({ attribution: null });
   });
 });
+
+describe("registerPartnerSchema", async () => {
+  const { registerPartnerSchema } = await import("@/marketing/validation");
+  it("lowercases and trims the code, and bounds the label", () => {
+    expect(registerPartnerSchema.parse({ code: " Studio-Om ", label: " Studio Om " })).toEqual({ code: "studio-om", label: "Studio Om" });
+    for (const bad of [{ code: "-x", label: "a" }, { code: "a", label: "a" }, { code: "ok-code", label: "" }, { code: "ok-code", label: "x".repeat(121) }]) {
+      expect(registerPartnerSchema.safeParse(bad).success).toBe(false);
+    }
+  });
+});

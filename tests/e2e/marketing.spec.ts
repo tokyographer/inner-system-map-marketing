@@ -18,6 +18,8 @@ async function startWithContact(page: Page) {
 }
 
 test("utm and ref from the landing URL travel with the results request", async ({ page }) => {
+  const counts: unknown[] = [];
+  await page.route("**/api/marketing/funnel", async (route) => { counts.push(route.request().postDataJSON()); await route.fulfill({ status: 204 }); });
   await page.goto("/en?utm_source=newsletter&utm_medium=email&utm_campaign=level-ii&ref=Studio-Om");
   await page.getByRole("link", { name: "Begin the work" }).click();
   await expect(page.getByRole("heading", { name: "Before you begin" })).toBeVisible();
@@ -25,6 +27,8 @@ test("utm and ref from the landing URL travel with the results request", async (
   expect(await page.evaluate(() => localStorage.getItem("ism:mkt:attribution:v1"))).toBeNull();
   await startWithContact(page);
   expect(await page.evaluate(() => localStorage.getItem("ism:mkt:attribution:v1"))).not.toBeNull();
+  // The partner counter gets the start with the code, nothing else.
+  await expect.poll(() => counts).toEqual([{ event: "start", ref: "studio-om" }]);
 
   let emailBody: Record<string, unknown> | null = null;
   await page.route("**/api/public/email-results", async (route) => { emailBody = route.request().postDataJSON(); await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, copySentToInstitute: true }) }); });
@@ -78,4 +82,10 @@ test("no program invite when the pattern is FLOODED", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Support near you" })).toBeVisible();
   await expect(page.locator("[data-section=invite] a")).toHaveCount(0);
   await expect(page.getByRole("heading", { name: "If you want to go further" })).toHaveCount(0);
+});
+
+test("partner counts page is for admins only", async ({ page }) => {
+  await page.goto("/en/admin/partners");
+  await expect(page.getByText("You do not have access to this page.")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Partner links" })).toHaveCount(0);
 });

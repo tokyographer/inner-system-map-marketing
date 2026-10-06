@@ -254,11 +254,39 @@
       "heading": "Campaign source and partner links",
       "attribution": "If you arrive through a link that names a campaign or a partner (for example a link with ?utm_source= or ?ref= in it), we keep its campaign source, medium, campaign name and partner code in your browser for up to 30 days once you start the map, and store them with your results if you ask us to email them. We use them only to count which channels and partners bring people to the map. The copy stored with your results is deleted together with them, and it never contains your answers or your results.",
       "draft": "DRAFT, pending legal review.",
-      "analytics": "We count visits to the public pages of the map (landing page, start, questions, results and privacy pages) and a few steps of the map (landing page viewed, map started, map completed, results emailed, program or live-session link clicked) with Vercel Web Analytics, which sets no cookies. A visit records the page address, keeping only the campaign and partner parameters of the link, plus the referring site and general information such as country, browser, operating system and device type. To tell visits apart within a day, Vercel derives an identifier from the request that is discarded after 24 hours. Each step records the language of the page and, if there is one, the partner code; a link click also records which link it was. None of it records your name, your email address, your answers or your results. Pages for program participants, facilitators and administrators are not counted."
+      "analytics": "We count visits to the public pages of the map (landing page, start, questions, results and privacy pages) and a few steps of the map (landing page viewed, map started, map completed, results emailed, program or live-session link clicked) with Vercel Web Analytics, which sets no cookies. A visit records the page address, keeping only the campaign and partner parameters of the link, plus the referring site and general information such as country, browser, operating system and device type. To tell visits apart within a day, Vercel derives an identifier from the request that is discarded after 24 hours. Each step records the language of the page and, if there is one, the partner code; a link click also records which link it was. None of it records your name, your email address, your answers or your results. Pages for program participants, facilitators and administrators are not counted.",
+      "partnerCounts": "We also keep, in our own database, a daily count of how many maps were started and completed for each partner code; maps started without a partner code are counted together. These counts contain no information about any person."
     },
     "invite": {
       "liveSessionBody": "You can also join a free live session, \"Reading your map\", where a facilitator walks a small group through the map.",
       "liveSessionLink": "Next live session"
+    },
+    "partners": {
+      "title": "Partner links",
+      "intro": "How many people started and completed the map, grouped by the partner code on the link they arrived through. Only registered codes get their own row: maps started without a code are counted under \"No partner code\", and maps started with a code that is not registered under \"Unregistered code\". These are counts only: no names, emails or results.",
+      "empty": "No starts recorded yet.",
+      "code": "Partner code",
+      "noCode": "No partner code",
+      "starts30": "Starts, last 30 days",
+      "completions30": "Completions, last 30 days",
+      "starts": "Starts, all time",
+      "completions": "Completions, all time",
+      "rate": "Completion rate, all time",
+      "link": "Partner links",
+      "builderTitle": "Register a partner",
+      "builderCode": "Partner code",
+      "builderHelp": "2 to 32 letters, digits or hyphens, for example studio-om. Letters are made lowercase, and the first character cannot be a hyphen.",
+      "builderInvalid": "Use 2 to 32 letters, digits or hyphens, not starting with a hyphen.",
+      "label": "Partner name",
+      "register": "Register",
+      "registered": "Registered {code}. Its links are listed above.",
+      "duplicate": "That code is already registered.",
+      "failed": "Something went wrong. Please try again.",
+      "unregistered": "Unregistered code",
+      "links": "Links to share",
+      "untrusted": "The counts come from visitors' browsers and can be inflated by anyone. Use them to compare channels, not to pay partners. Rows older than 400 days are deleted.",
+      "remove": "Remove",
+      "removeConfirm": "Remove {code} and its partner name? Later visits with this code will count as unregistered."
     }
   }
 }

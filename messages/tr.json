@@ -255,11 +255,39 @@
       "heading": "Kampanya kaynağı ve iş ortağı bağlantıları",
       "attribution": "Bir kampanyayı veya iş ortağını belirten bir bağlantıyla gelirsen (örneğin içinde ?utm_source= ya da ?ref= bulunan bir bağlantı), haritaya başladığında kampanya kaynağını, ortamını, kampanya adını ve iş ortağı kodunu en fazla 30 gün boyunca tarayıcında saklarız; sonuçlarının e-postayla gönderilmesini istersen bunları sonuçlarınla birlikte kaydederiz. Bunları yalnızca hangi kanalların ve iş ortaklarının insanları haritaya getirdiğini saymak için kullanırız. Sonuçlarınla birlikte kaydedilen kopya onlarla birlikte silinir ve hiçbir zaman yanıtlarını ya da sonuçlarını içermez.",
       "draft": "TASLAK, hukuki inceleme bekliyor.",
-      "analytics": "Haritanın herkese açık sayfalarına yapılan ziyaretleri (ana sayfa, başlangıç, sorular, sonuçlar ve gizlilik sayfaları) ve haritanın birkaç adımını (ana sayfa görüntülendi, harita başlatıldı, harita tamamlandı, sonuçlar e-postayla gönderildi, program veya canlı oturum bağlantısına tıklandı) çerez kullanmayan Vercel Web Analytics ile sayarız. Bir ziyaret, bağlantının yalnızca kampanya ve iş ortağı parametreleri korunarak sayfa adresini, ayrıca yönlendiren siteyi ve ülke, tarayıcı, işletim sistemi ve cihaz türü gibi genel bilgileri kaydeder. Aynı gün içindeki ziyaretleri ayırt etmek için Vercel istekten 24 saat sonra silinen bir tanımlayıcı türetir. Her adım sayfanın dilini ve varsa iş ortağı kodunu kaydeder; bir bağlantı tıklaması hangi bağlantı olduğunu da kaydeder. Bunların hiçbiri adını, e-posta adresini, yanıtlarını ya da sonuçlarını kaydetmez. Program katılımcıları, kolaylaştırıcılar ve yöneticiler için olan sayfalar sayılmaz."
+      "analytics": "Haritanın herkese açık sayfalarına yapılan ziyaretleri (ana sayfa, başlangıç, sorular, sonuçlar ve gizlilik sayfaları) ve haritanın birkaç adımını (ana sayfa görüntülendi, harita başlatıldı, harita tamamlandı, sonuçlar e-postayla gönderildi, program veya canlı oturum bağlantısına tıklandı) çerez kullanmayan Vercel Web Analytics ile sayarız. Bir ziyaret, bağlantının yalnızca kampanya ve iş ortağı parametreleri korunarak sayfa adresini, ayrıca yönlendiren siteyi ve ülke, tarayıcı, işletim sistemi ve cihaz türü gibi genel bilgileri kaydeder. Aynı gün içindeki ziyaretleri ayırt etmek için Vercel istekten 24 saat sonra silinen bir tanımlayıcı türetir. Her adım sayfanın dilini ve varsa iş ortağı kodunu kaydeder; bir bağlantı tıklaması hangi bağlantı olduğunu da kaydeder. Bunların hiçbiri adını, e-posta adresini, yanıtlarını ya da sonuçlarını kaydetmez. Program katılımcıları, kolaylaştırıcılar ve yöneticiler için olan sayfalar sayılmaz.",
+      "partnerCounts": "Ayrıca kendi veritabanımızda, her iş ortağı kodu için kaç haritanın başlatıldığını ve tamamlandığını gösteren günlük bir sayım tutarız; iş ortağı kodu olmadan başlatılan haritalar birlikte sayılır. Bu sayımlar hiçbir kişiye ait bilgi içermez."
     },
     "invite": {
       "liveSessionBody": "Ayrıca bir kolaylaştırıcının küçük bir gruba haritayı adım adım anlattığı ücretsiz canlı oturuma, \"Haritanı okuma\", katılabilirsin.",
       "liveSessionLink": "Sonraki canlı oturum"
+    },
+    "partners": {
+      "title": "İş ortağı bağlantıları",
+      "intro": "Haritaya başlayan ve haritayı tamamlayan kişi sayısı, geldikleri bağlantıdaki iş ortağı koduna göre gruplanmıştır. Yalnızca kayıtlı kodların kendi satırı vardır: kodsuz başlatılan haritalar \"İş ortağı kodu yok\", kayıtlı olmayan bir kodla başlatılanlar \"Kayıtsız kod\" altında sayılır. Yalnızca sayılardır: ad, e-posta ya da sonuç içermez.",
+      "empty": "Henüz kaydedilmiş başlangıç yok.",
+      "code": "İş ortağı kodu",
+      "noCode": "İş ortağı kodu yok",
+      "starts30": "Başlangıçlar, son 30 gün",
+      "completions30": "Tamamlamalar, son 30 gün",
+      "starts": "Başlangıçlar, toplam",
+      "completions": "Tamamlamalar, toplam",
+      "rate": "Tamamlanma oranı, toplam",
+      "link": "İş ortağı bağlantıları",
+      "builderTitle": "İş ortağı kaydet",
+      "builderCode": "İş ortağı kodu",
+      "builderHelp": "2 ile 32 arasında harf, rakam veya kısa çizgi, örneğin studio-om. Harfler küçük harfe çevrilir ve ilk karakter kısa çizgi olamaz.",
+      "builderInvalid": "Kısa çizgiyle başlamayan, 2 ile 32 arasında harf, rakam veya kısa çizgi kullan.",
+      "label": "İş ortağının adı",
+      "register": "Kaydet",
+      "registered": "{code} kaydedildi. Bağlantıları yukarıda listeleniyor.",
+      "duplicate": "Bu kod zaten kayıtlı.",
+      "failed": "Bir sorun oluştu. Lütfen tekrar dene.",
+      "unregistered": "Kayıtsız kod",
+      "links": "Paylaşılacak bağlantılar",
+      "untrusted": "Sayımlar ziyaretçilerin tarayıcılarından gelir ve herkes tarafından şişirilebilir. Kanalları karşılaştırmak için kullan, iş ortaklarına ödeme yapmak için değil. 400 günden eski satırlar silinir.",
+      "remove": "Kaldır",
+      "removeConfirm": "{code} ve iş ortağının adı kaldırılsın mı? Bu kodla yapılan sonraki ziyaretler kayıtsız sayılır."
     }
   }
 }

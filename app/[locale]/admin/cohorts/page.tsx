@@ -13,6 +13,7 @@ export default async function AdminCohorts({ params }: { params: Promise<{ local
   const auth = await requireRole(["admin"]);
   if (!auth) return <Forbidden />;
   const t = await getTranslations("dashboard");
+  const tm = await getTranslations("marketing.partners");
   const cohorts = await listCohorts(auth.user.id);
   return (
     <div className="space-y-8 py-10">
@@ -28,7 +29,7 @@ export default async function AdminCohorts({ params }: { params: Promise<{ local
       </ul>
       <h2 className="text-2xl">{t("createCohort")}</h2>
       <CreateCohortForm />
-      <Link href="/admin/audit" className="label">{t("audit")}</Link>
+      <p className="flex flex-wrap gap-4"><Link href="/admin/audit" className="label">{t("audit")}</Link><Link href="/admin/partners" className="label">{tm("link")}</Link></p>
     </div>
   );
 }

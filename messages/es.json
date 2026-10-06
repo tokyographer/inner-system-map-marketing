@@ -255,11 +255,39 @@
       "heading": "Origen de campaña y enlaces de colaboración",
       "attribution": "Si llegas a través de un enlace que nombra una campaña o una colaboración (por ejemplo, un enlace con ?utm_source= o ?ref=), guardamos su origen de campaña, medio, nombre de campaña y código de colaboración en tu navegador hasta 30 días cuando empiezas el mapa, y los almacenamos con tus resultados si nos pides que te los enviemos por correo electrónico. Los usamos solo para contar qué canales y colaboraciones traen personas al mapa. La copia almacenada con tus resultados se elimina junto con ellos y nunca contiene tus respuestas ni tus resultados.",
       "draft": "BORRADOR, pendiente de revisión legal.",
-      "analytics": "Contamos las visitas a las páginas públicas del mapa (página de inicio, inicio del mapa, preguntas, resultados y privacidad) y algunos pasos del mapa (página de inicio vista, mapa empezado, mapa completado, resultados enviados por correo electrónico, enlace al programa o a la sesión en vivo pulsado) con Vercel Web Analytics, que no usa cookies. Una visita registra la dirección de la página, conservando solo los parámetros de campaña y de colaboración del enlace, además del sitio de procedencia e información general como el país, el navegador, el sistema operativo y el tipo de dispositivo. Para distinguir las visitas dentro de un mismo día, Vercel obtiene un identificador a partir de la solicitud que se descarta a las 24 horas. Cada paso registra el idioma de la página y, si lo hay, el código de colaboración; un clic en un enlace también registra de cuál se trata. Nada de ello registra tu nombre, tu dirección de correo electrónico, tus respuestas ni tus resultados. Las páginas para participantes del programa, facilitadores y administración no se cuentan."
+      "analytics": "Contamos las visitas a las páginas públicas del mapa (página de inicio, inicio del mapa, preguntas, resultados y privacidad) y algunos pasos del mapa (página de inicio vista, mapa empezado, mapa completado, resultados enviados por correo electrónico, enlace al programa o a la sesión en vivo pulsado) con Vercel Web Analytics, que no usa cookies. Una visita registra la dirección de la página, conservando solo los parámetros de campaña y de colaboración del enlace, además del sitio de procedencia e información general como el país, el navegador, el sistema operativo y el tipo de dispositivo. Para distinguir las visitas dentro de un mismo día, Vercel obtiene un identificador a partir de la solicitud que se descarta a las 24 horas. Cada paso registra el idioma de la página y, si lo hay, el código de colaboración; un clic en un enlace también registra de cuál se trata. Nada de ello registra tu nombre, tu dirección de correo electrónico, tus respuestas ni tus resultados. Las páginas para participantes del programa, facilitadores y administración no se cuentan.",
+      "partnerCounts": "También guardamos, en nuestra propia base de datos, un recuento diario de cuántos mapas se empezaron y se completaron con cada código de colaboración; los mapas empezados sin código de colaboración se cuentan juntos. Estos recuentos no contienen información sobre ninguna persona."
     },
     "invite": {
       "liveSessionBody": "También puedes unirte a una sesión en vivo gratuita, «Lectura de tu mapa», en la que una persona facilitadora recorre el mapa con un grupo pequeño.",
       "liveSessionLink": "Próxima sesión en vivo"
+    },
+    "partners": {
+      "title": "Enlaces de colaboración",
+      "intro": "Cuántas personas empezaron y completaron el mapa, agrupadas por el código de colaboración del enlace con el que llegaron. Solo los códigos registrados tienen su propia fila: los mapas empezados sin código se cuentan en «Sin código de colaboración», y los empezados con un código no registrado, en «Código no registrado». Son solo recuentos: sin nombres, correos electrónicos ni resultados.",
+      "empty": "Aún no hay inicios registrados.",
+      "code": "Código de colaboración",
+      "noCode": "Sin código de colaboración",
+      "starts30": "Inicios, últimos 30 días",
+      "completions30": "Completados, últimos 30 días",
+      "starts": "Inicios, total",
+      "completions": "Completados, total",
+      "rate": "Tasa de finalización, total",
+      "link": "Enlaces de colaboración",
+      "builderTitle": "Registrar una colaboración",
+      "builderCode": "Código de colaboración",
+      "builderHelp": "De 2 a 32 letras, cifras o guiones, por ejemplo studio-om. Las letras se pasan a minúsculas y el primer carácter no puede ser un guion.",
+      "builderInvalid": "Usa de 2 a 32 letras, cifras o guiones, sin empezar por un guion.",
+      "label": "Nombre de la colaboración",
+      "register": "Registrar",
+      "registered": "{code} registrado. Sus enlaces aparecen arriba.",
+      "duplicate": "Ese código ya está registrado.",
+      "failed": "Algo salió mal. Inténtalo de nuevo.",
+      "unregistered": "Código no registrado",
+      "links": "Enlaces para compartir",
+      "untrusted": "Los recuentos proceden de los navegadores de quienes visitan el sitio y cualquiera puede inflarlos. Úsalos para comparar canales, no para pagar a colaboraciones. Las filas de más de 400 días se eliminan.",
+      "remove": "Eliminar",
+      "removeConfirm": "¿Eliminar {code} y el nombre de la colaboración? Las visitas posteriores con este código contarán como no registradas."
     }
   }
 }

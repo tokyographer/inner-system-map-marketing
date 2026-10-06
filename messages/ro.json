@@ -255,11 +255,39 @@
       "heading": "Sursa campaniei și linkurile partenerilor",
       "attribution": "Dacă ajungi printr-un link care numește o campanie sau un partener (de exemplu, un link care conține ?utm_source= sau ?ref=), păstrăm sursa campaniei, mediul, numele campaniei și codul partenerului în browserul tău timp de până la 30 de zile după ce începi harta și le stocăm împreună cu rezultatele tale dacă ne ceri să ți le trimitem pe e-mail. Le folosim doar pentru a număra ce canale și parteneri aduc oameni la hartă. Copia stocată împreună cu rezultatele tale se șterge odată cu ele și nu conține niciodată răspunsurile sau rezultatele tale.",
       "draft": "CIORNĂ, în așteptarea revizuirii juridice.",
-      "analytics": "Numărăm vizitele paginilor publice ale hărții (pagina principală, începutul hărții, întrebările, rezultatele și pagina de confidențialitate) și câțiva pași ai hărții (pagina principală vizualizată, harta începută, harta finalizată, rezultate trimise pe e-mail, link către program sau sesiune live accesat) cu Vercel Web Analytics, care nu folosește cookie-uri. O vizită înregistrează adresa paginii, păstrând doar parametrii de campanie și de partener ai linkului, plus site-ul de proveniență și informații generale precum țara, browserul, sistemul de operare și tipul de dispozitiv. Pentru a deosebi vizitele în aceeași zi, Vercel obține din cerere un identificator care este eliminat după 24 de ore. Fiecare pas înregistrează limba paginii și, dacă există, codul partenerului; un clic pe un link înregistrează și despre care link este vorba. Nimic din toate acestea nu înregistrează numele tău, adresa ta de e-mail, răspunsurile sau rezultatele tale. Paginile pentru participanții la program, facilitatori și administratori nu sunt numărate."
+      "analytics": "Numărăm vizitele paginilor publice ale hărții (pagina principală, începutul hărții, întrebările, rezultatele și pagina de confidențialitate) și câțiva pași ai hărții (pagina principală vizualizată, harta începută, harta finalizată, rezultate trimise pe e-mail, link către program sau sesiune live accesat) cu Vercel Web Analytics, care nu folosește cookie-uri. O vizită înregistrează adresa paginii, păstrând doar parametrii de campanie și de partener ai linkului, plus site-ul de proveniență și informații generale precum țara, browserul, sistemul de operare și tipul de dispozitiv. Pentru a deosebi vizitele în aceeași zi, Vercel obține din cerere un identificator care este eliminat după 24 de ore. Fiecare pas înregistrează limba paginii și, dacă există, codul partenerului; un clic pe un link înregistrează și despre care link este vorba. Nimic din toate acestea nu înregistrează numele tău, adresa ta de e-mail, răspunsurile sau rezultatele tale. Paginile pentru participanții la program, facilitatori și administratori nu sunt numărate.",
+      "partnerCounts": "Păstrăm, de asemenea, în propria noastră bază de date, o numărătoare zilnică a hărților începute și finalizate pentru fiecare cod de partener; hărțile începute fără cod de partener sunt numărate împreună. Aceste numărători nu conțin informații despre nicio persoană."
     },
     "invite": {
       "liveSessionBody": "Te poți alătura și unei sesiuni live gratuite, „Citirea hărții tale”, în care harta este parcursă împreună cu un grup mic, ghidat de o persoană facilitatoare.",
       "liveSessionLink": "Următoarea sesiune live"
+    },
+    "partners": {
+      "title": "Linkuri pentru parteneri",
+      "intro": "Câte persoane au început și au finalizat harta, grupate după codul de partener din linkul prin care au ajuns. Doar codurile înregistrate au propriul rând: hărțile începute fără cod sunt numărate la „Fără cod de partener”, iar cele începute cu un cod neînregistrat la „Cod neînregistrat”. Sunt doar numărători: fără nume, adrese de e-mail sau rezultate.",
+      "empty": "Încă nu sunt începuturi înregistrate.",
+      "code": "Cod de partener",
+      "noCode": "Fără cod de partener",
+      "starts30": "Începute, ultimele 30 de zile",
+      "completions30": "Finalizate, ultimele 30 de zile",
+      "starts": "Începute, total",
+      "completions": "Finalizate, total",
+      "rate": "Rată de finalizare, total",
+      "link": "Linkuri pentru parteneri",
+      "builderTitle": "Înregistrează un partener",
+      "builderCode": "Cod de partener",
+      "builderHelp": "Între 2 și 32 de litere, cifre sau cratime, de exemplu studio-om. Literele devin mici, iar primul caracter nu poate fi o cratimă.",
+      "builderInvalid": "Folosește între 2 și 32 de litere, cifre sau cratime, fără cratimă la început.",
+      "label": "Numele partenerului",
+      "register": "Înregistrează",
+      "registered": "Codul {code} a fost înregistrat. Linkurile lui apar mai sus.",
+      "duplicate": "Acest cod este deja înregistrat.",
+      "failed": "Ceva nu a funcționat. Încearcă din nou.",
+      "unregistered": "Cod neînregistrat",
+      "links": "Linkuri de distribuit",
+      "untrusted": "Numărătorile vin din browserele vizitatorilor și pot fi umflate de oricine. Folosește-le pentru a compara canale, nu pentru a plăti parteneri. Rândurile mai vechi de 400 de zile sunt șterse.",
+      "remove": "Elimină",
+      "removeConfirm": "Elimini codul {code} și numele partenerului? Vizitele ulterioare cu acest cod vor fi numărate ca neînregistrate."
     }
   }
 }

@@ -115,6 +115,8 @@ npm run core:fingerprint      # hash of the core shared with upstream (see CORE.
 - `/{locale}/admin/cohorts`: create cohorts (the access code is shown once), assign facilitators, identified CSV, audit log at `/{locale}/admin/audit`.
 
 ## API (public mode)
+`POST /api/marketing/funnel` (this repo only) with `{ event: "start" | "complete", ref? }` bumps the anonymous daily count for that partner code. 204 on success (also when no database is configured), 400 on anything else, 429 after 10 per client per hour. Only codes an admin registered at `/{locale}/admin/partners` get their own count; others are counted together as unregistered. The counts are client-reported and untrusted.
+
 `POST /api/public/results-pdf` with JSON `{ locale, form, responses, durationSeconds?, ageConfirmed: true, name? }` returns `application/pdf`, named `<app-name>-results-<name>.pdf`.
 
 `POST /api/public/email-results` with the same body plus `{ name, email, consent: { storeResults: true, newsletter, policyVersion } }` sends the PDF to `email` in the request locale, and a separate copy to `RESULTS_COPY_TO` in English (English email and English PDF, whatever the person's language). Returns `{ ok: true, copySentToInstitute }`. In this repo the body may also carry `attribution: { utmSource?, utmMedium?, utmCampaign?, ref? }` (parsed by `marketing/validation.ts`; invalid values are dropped, never rejected), stored on the opt-in `public_results` row.

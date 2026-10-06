@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { asService } from "@/lib/db";
+import { pruneFunnelCounts } from "@/marketing/server/funnel-counts";
 
 export const runtime = "nodejs";
 
@@ -12,8 +13,13 @@ export async function GET(request: Request) {
   try {
     const { rows } = await asService((db) => db.query<{ attempts_deleted: number; public_results_deleted: number }>("select * from app.run_retention()"));
     const r = rows[0] ?? { attempts_deleted: 0, public_results_deleted: 0 };
-    console.log("retention run", { attemptsDeleted: r.attempts_deleted, publicResultsDeleted: r.public_results_deleted });
-    return NextResponse.json({ ok: true, ...r });
+    // Marketing pruning must never make the core retention run look failed.
+    const funnelCountsDeleted = await pruneFunnelCounts().catch((err: unknown) => {
+      console.error("funnel prune failed", { reason: err instanceof Error ? err.message : "unknown" });
+      return null;
+    });
+    console.log("retention run", { attemptsDeleted: r.attempts_deleted, publicResultsDeleted: r.public_results_deleted, funnelCountsDeleted });
+    return NextResponse.json({ ok: true, ...r, funnelCountsDeleted });
   } catch (err) {
     console.error("retention failed", { reason: err instanceof Error ? err.message : "unknown" });
     return NextResponse.json({ error: "retention_failed" }, { status: 500 });

@@ -9,6 +9,7 @@ export async function MarketingPrivacy() {
       <p className="text-sm text-ink-muted">{t("draft")}</p>
       <p>{t("attribution")}</p>
       <p>{t("analytics")}</p>
+      <p>{t("partnerCounts")}</p>
     </section>
   );
 }
