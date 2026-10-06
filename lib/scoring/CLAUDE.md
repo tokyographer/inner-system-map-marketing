@@ -20,3 +20,4 @@
 - Tests live in `tests/unit/scoring/` and use `build(form, perScale, fallback)` from `helpers.ts` to make complete response sets. Test boundaries at, just below and just above each threshold.
 - The `Result` shape is persisted as JSON in `attempts.scores`, and the dashboards read `pattern`, `self_score`, `top_protectors` and `top_exile`. Changes must be additive or come with a migration plus a reader fallback.
 - After any change, run `npm run docs:kb` so the knowledge base matches the rules.
+- This folder is core (see `CORE.md`). `tests/unit/scoring/golden.test.ts` checks `score()` against `tests/fixtures/core-golden.json`. For a deliberate change, run `npm run core:golden:update`, review the diff of the fixture, and port the change to the marketing repo with `core-sync`.

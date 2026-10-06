@@ -37,6 +37,8 @@ npm test                              # vitest; RLS integration tests skip witho
 npx vitest run --coverage             # lib/scoring must stay at 100%
 npm run build && npm run e2e          # Playwright at 360px, starts next start on 3111
 npm run docs:kb                       # regenerate docs/KNOWLEDGE-BASE.md after content/scoring changes
+npm run core:fingerprint              # hash of the core shared with the marketing repo (add -- --list per file)
+npm run core:golden:update            # only for a deliberate scoring/item-bank change; regenerates tests/fixtures/core-golden.json
 npm run dev
 ```
 
@@ -50,7 +52,8 @@ npm run dev
    - Update the folder-level CLAUDE.md for the folders you touched.
    - Update `README.md` when setup, commands, env vars or the API change.
    - Update any `.claude/agents/*.md` whose instructions the change made stale.
-6. Significant changes get an entry in `docs/AGENT-CHANGELOG.md` (newest first; the criteria are at the top of that file). Record what changed and what the next agent must do differently.
+6. If a path listed in `CORE.md` changed, run the `core-sync` agent so the marketing repo gets the change and both `npm run core:fingerprint` hashes match. Otherwise mark the changelog entry `Synced: pending (<reason>)`.
+7. Significant changes get an entry in `docs/AGENT-CHANGELOG.md` (newest first; the criteria are at the top of that file). Record what changed and what the next agent must do differently.
 
 ## Hardware & Environment
 - Node 24+, npm 11+. Deploys to Vercel, region fra1 (EU), through `vercel.ts`. Neon Postgres and Neon Auth (eu-central-1), Upstash Redis and Resend are all provisioned through the Vercel Marketplace. There is no local database; development uses the Neon dev branch.
@@ -84,17 +87,17 @@ npm run dev
 - `.env` comes from `.env.example`. `.env.local` comes from `npx vercel env pull` plus `NEON_AUTH_COOKIE_SECRET`. Both are gitignored. Leaving `RESULTS_COPY_TO` empty disables the institute copy.
 
 ## Never Do
-- Never type people ("you are a ..."). Use part language only ("a part of you that ...").
-- Never use "diagnosis", "disorder", "clinical" or "scientifically validated" in user-facing copy, in any locale (`tests/unit/content/locales.test.ts` enforces this).
-- Never add self-harm or suicidality items.
-- Never show exile content before protector content. Never write an exercise addressed to an exile.
-- Never present thresholds as norms.
-- Never log responses, emails, names or scores. Log the job outcome and reason only.
-- Never use `asService()` for a request a signed-in person makes.
-- Never edit an applied migration.
-- Never import a `content/*.en.ts` file directly from a component. Go through `getContent()`.
-- Never commit `.env` or `.env.local`.
+The core safety rules are in `CORE.md`, which both repositories share (imported below). Repo-specific rules:
+- Never change a core path (listed in `CORE.md`) without porting the change to the marketing repo (see "Sibling repository").
 - Adding a locale requires: `config/app.ts` LOCALES and APP_NAME, `messages/<l>.json` (same key set as en), `content/*.<l>.ts` for items, typologies, exiles, patterns, exercise, support and level-two, `content/pdf-labels.ts`, `content/email-labels.ts`, `content/index.ts`, `LocaleSwitcher` NAMES, a migration widening the locale checks, and the forbidden-word list in the locales test.
+
+## Sibling repository
+The marketing version lives in `../inner-system-map-marketing`, a separate GitHub repo cloned from this one. Its git remote `upstream` points here. This repo is the source of truth for the core.
+- `CORE.md` lists the core paths: scoring, content, PDF, email, validation, db access, core migrations, core message keys and their tests. They must stay identical in both repos. Marketing features (attribution, analytics, nurture consent, partner links, live sessions) live only in the marketing repo, under `marketing/`, `m0NNN_*.sql` migrations and the `"marketing"` messages key.
+- After any change to a core path, run the `core-sync` agent (or Prompt: "Use the core-sync agent to port my core changes to the marketing repo"). It cherry-picks the commits, runs the checks there, and compares `npm run core:fingerprint` in both repos.
+- If the marketing repo is not checked out next to this one, set `SIBLING_REPO` to its path, or write `Synced: pending` in the changelog entry with the reason.
+
+@CORE.md
 
 ## Agents
 Project subagents are in `.claude/agents/`:
@@ -103,6 +106,7 @@ Project subagents are in `.claude/agents/`:
 - `scoring-engineer`: changes thresholds, rules or items in the engine. Bumps the versions, keeps coverage at 100% and regenerates the KB.
 - `data-privacy-auditor` (read-only): reviews diffs for PII logging, `withUser`/`asService` misuse, RLS gaps, missing zod validation or rate limits, and migration hygiene.
 - `verify-gate`: runs the full definition-of-done gate and reports exact failures.
+- `core-sync`: ports core-path commits between this repo and the marketing repo and checks that the fingerprints match.
 
 ## Current Status
 - Done: phases 1–7 (see `docs/PHASE-1-PLAN.md` for the original plan, which still describes Supabase; Neon replaced it).
@@ -112,7 +116,7 @@ Project subagents are in `.claude/agents/`:
   - Phase 5: cohort mode on Neon with RLS, consent, history, notes, export and deletion.
   - Phase 6: facilitator and admin dashboards, CSV export and the audit log.
   - Phase 7: retention cron, Upstash, opt-in public result storage with a delete link, privacy placeholders, axe and Lighthouse checks, and CI.
-- Since then: OG image; the "Meet this part" framing on the results page and in the PDF (reflection plus belief frame; steps behind `EXERCISE_STEPS_READY`); `docs/KNOWLEDGE-BASE.md` generated by `scripts/build-knowledge-base.ts`; translation review spreadsheets in `docs/translations/`; `docs/AGENT-CHANGELOG.md` records significant changes for agents.
+- Since then: OG image; the "Meet this part" framing on the results page and in the PDF (reflection plus belief frame; steps behind `EXERCISE_STEPS_READY`); `docs/KNOWLEDGE-BASE.md` generated by `scripts/build-knowledge-base.ts`; translation review spreadsheets in `docs/translations/`; `docs/AGENT-CHANGELOG.md` records significant changes for agents; `CORE.md`, the core fingerprint and golden scoring fixtures keep this repo and the marketing repo consistent.
 - The results email goes to the person in their locale (`content/email-labels.ts`, via `getContent()`). The institute copy stays in English and states the person's language.
 - Known gaps:
   - The lint warning in `scripts/build-knowledge-base.ts` (unused `ProtectorKey`) is still open.

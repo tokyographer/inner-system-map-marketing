@@ -1,5 +1,7 @@
 # content: copy and the item bank
 
+This whole folder is core (see `CORE.md`): it must stay identical in the marketing repo, so port every change with `core-sync`. Marketing copy never goes here; it lives in `marketing/` in the marketing repo.
+
 English is the master. ES, RO and TR are drafts: every translated file starts with "DRAFT, pending human review", and the locales test checks for it. All copy is DRAFT pending Anthony's clinical review.
 
 ## Layout

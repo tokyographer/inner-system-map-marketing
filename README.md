@@ -40,6 +40,8 @@ npm test             # unit tests + RLS integration tests (the latter run only w
 npx vitest run --coverage
 npm run build
 npm run e2e          # Playwright: public happy path + accessibility audit (needs `npx playwright install chromium` once)
+npm run core:fingerprint      # hash of the core shared with the marketing repo (see CORE.md)
+npm run core:golden:update    # regenerate golden scoring results after a deliberate scoring change
 ```
 
 ## Cohort mode flow

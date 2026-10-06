@@ -12,7 +12,9 @@
     "typecheck": "tsc --noEmit",
     "e2e": "playwright test",
     "db:migrate": "dotenv -e .env.local -- node scripts/migrate.mjs",
-    "docs:kb": "tsx scripts/build-knowledge-base.ts"
+    "docs:kb": "tsx scripts/build-knowledge-base.ts",
+    "core:fingerprint": "node scripts/core-fingerprint.mjs",
+    "core:golden:update": "tsx scripts/update-core-golden.ts"
   },
   "dependencies": {
     "@neondatabase/auth": "^0.5.0-beta",
