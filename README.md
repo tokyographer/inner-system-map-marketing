@@ -1,8 +1,37 @@
-# Inner System Map
+# Inner System Map: marketing
 
 Available in English, Spanish, Romanian and Turkish (translations are drafts pending human review).
 
 A self-report reflection tool that maps a person's inner system in Internal Family Systems (IFS) terms: available Self-leadership, which group of parts is leading, and which parts are most active. Built for Transcendent Institute's Self Leadership Program. It is not a validated psychometric instrument and does not assess any condition.
+
+This is the marketing version of the app: the same core (kept identical to the original app, see `CORE.md`) plus lead-generation features in `marketing/`.
+
+## Setting up this repo (marketing)
+This repo is the marketing version of the Inner System Map. It is a clone of the original app, which is the git remote `upstream` (`../inner-system-ifs-test`). It needs its own Vercel project, its own database and a test inbox, so marketing work never touches the original app's data or emails.
+
+1. **Upstream remote and core check.** Clone the original app next to this one, then confirm both cores match:
+   ```
+   git remote -v                                   # upstream → inner-system-ifs-test
+   git clone git@github.com:tokyographer/inner-system-ifs-test.git ../inner-system-ifs-test   # if missing
+   npm run -s core:fingerprint
+   (cd ../inner-system-ifs-test && npm run -s core:fingerprint)   # must print the same hash
+   ```
+2. **Its own Vercel project.** Do not link this folder to the original app's project. Create a new one (suggested name `inner-system-map-marketing`, region fra1):
+   ```
+   npx vercel link --project inner-system-map-marketing   # answer "no" to linking an existing project if it offers the original one
+   ```
+3. **Its own Neon database.** In the new Vercel project, add Neon from the Marketplace (Frankfurt, Neon Auth on), either as a new Neon project or as a branch of the original one. A branch is cheaper but starts with a copy of the original's data; for real leads use a separate Neon project. Then:
+   ```
+   npx vercel env pull .env.local --yes
+   openssl rand -base64 32          # → NEON_AUTH_COOKIE_SECRET in .env.local and in the Vercel project (all environments)
+   npm run db:migrate               # applies the core 0NNN_*.sql files, then the marketing m0NNN_*.sql files
+   ```
+4. **Upstash and Resend.** Add Upstash Redis (EU) and Resend from the Marketplace on the new project, or set `RESEND_API_KEY`/`RESEND_FROM` yourself.
+5. **Test inbox for the institute copy.** Until launch, point `RESULTS_COPY_TO` at a test inbox you own (for example a `+marketing-test` alias), not the institute's real inbox, in `.env` and in the Vercel Preview and Development environments. Set the real address in Production only when you go live.
+6. **Vercel Web Analytics.** Enable Web Analytics in the new project's dashboard (Analytics tab). Custom events (the funnel events) need a Pro or Enterprise plan; on Hobby only page views are recorded.
+7. **CI secrets.** The GitHub Actions workflow (`.github/workflows/ci.yml`) runs without secrets; the RLS integration tests and the cohort/facilitator walks then skip. To run them, add these repository secrets in GitHub (Settings → Secrets and variables → Actions), pointing at a **dedicated CI branch** of this repo's Neon project, never production:
+   - `CI_DATABASE_URL`, `CI_DATABASE_URL_UNPOOLED`
+   - `CI_NEON_AUTH_BASE_URL`, `CI_NEON_AUTH_COOKIE_SECRET`
 
 ## Prerequisites
 - macOS (Apple Silicon fine), Node 24+, npm 11+
@@ -10,7 +39,8 @@ A self-report reflection tool that maps a person's inner system in Internal Fami
 
 ## Setup
 ```
-git clone <repo> && cd inner-system-map
+git clone git@github.com:tokyographer/inner-system-map-marketing.git && cd inner-system-map-marketing
+git remote add upstream https://github.com/tokyographer/inner-system-ifs-test.git   # once, if missing
 npm install
 cp .env.example .env
 # edit .env: RESEND_API_KEY, RESEND_FROM, RESULTS_COPY_TO
@@ -19,7 +49,7 @@ cp .env.example .env
 ## Neon Postgres and Neon Auth (cohort mode)
 The database and sign-in service are provisioned through the Vercel Marketplace (Neon, region Frankfurt, with Neon Auth enabled). There is no local database: development uses the Neon development branch.
 ```
-npx vercel link                       # once
+npx vercel link --project inner-system-map-marketing   # once; this repo's own project (see above)
 npx vercel env pull .env.local --yes  # DATABASE_URL, NEON_AUTH_BASE_URL, ...
 openssl rand -base64 32               # → NEON_AUTH_COOKIE_SECRET in .env.local and in Vercel (all environments)
 npm run db:migrate                    # applies db/migrations/*.sql once each (tracked in schema_migrations)
@@ -40,8 +70,8 @@ npm test             # unit tests + RLS integration tests (the latter run only w
 npx vitest run --coverage
 npm run build
 npm run e2e          # Playwright: public happy path + accessibility audit (needs `npx playwright install chromium` once)
-npm run core:fingerprint      # hash of the core shared with the marketing repo (see CORE.md)
-npm run core:golden:update    # regenerate golden scoring results after a deliberate scoring change
+npm run core:fingerprint      # hash of the core shared with upstream (see CORE.md); must equal ../inner-system-ifs-test
+# npm run core:golden:update  # upstream only; never in this repo
 ```
 
 ## Cohort mode flow
