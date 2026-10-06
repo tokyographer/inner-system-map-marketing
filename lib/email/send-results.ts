@@ -23,6 +23,17 @@ export interface SendResultsArgs {
   flooded: boolean;
   /** One-click deletion link for the stored copy (absent when no database is configured). */
   deleteUrl?: string;
+  /**
+   * Extra "Label: value" lines for the institute copy only, after the Pattern line.
+   * The caller keeps them in English. Line breaks are flattened, each part is capped
+   * at 120 characters, and entries with an empty label or value are dropped.
+   */
+  instituteDetails?: { label: string; value: string }[];
+  /**
+   * One plain-text paragraph in the person's locale, appended to the person's email
+   * after the retention line. Capped at 500 characters. Dropped when the pattern is FLOODED.
+   */
+  personFooter?: string;
 }
 
 export interface EmailEnv {
@@ -40,17 +51,34 @@ export function readEmailEnv(env: NodeJS.ProcessEnv = process.env): EmailEnv {
   return { apiKey, from, copyTo: env.RESULTS_COPY_TO?.trim() || null };
 }
 
+const DETAIL_MAX = 120;
+const FOOTER_MAX = 500;
+
+function detailLines(details: SendResultsArgs["instituteDetails"]): string {
+  return (details ?? [])
+    .map(({ label, value }) => [label, value].map((part) => part.replace(/[\r\n]+/g, " ").trim().slice(0, DETAIL_MAX).trim()))
+    .filter(([label, value]) => label && value)
+    .map(([label, value]) => `\n${label}: ${value}`)
+    .join("");
+}
+
+function footerFor(args: SendResultsArgs): string | null {
+  if (args.flooded || !args.personFooter) return null;
+  return args.personFooter.replace(/\r/g, "").trim().slice(0, FOOTER_MAX).trim() || null;
+}
+
 function bodyFor(args: SendResultsArgs, forInstitute: boolean): { subject: string; text: string } {
   const name = APP_NAME[args.locale];
   if (forInstitute) {
     const name = APP_NAME.en;
     return {
       subject: `[${name}] New results (${args.patternTitle})`,
-      text: `A person completed the ${name} and consented to share results with the institute. The PDF is attached.\n\nName: ${args.name ?? "(not given)"}\nRecipient: ${args.to}\nLanguage: ${args.locale}\nPattern: ${args.patternTitle}${args.flooded ? "\nNote: pattern FLOODED. May benefit from extra support." : ""}`,
+      text: `A person completed the ${name} and consented to share results with the institute. The PDF is attached.\n\nName: ${args.name ?? "(not given)"}\nRecipient: ${args.to}\nLanguage: ${args.locale}\nPattern: ${args.patternTitle}${args.flooded ? "\nNote: pattern FLOODED. May benefit from extra support." : ""}${detailLines(args.instituteDetails)}`,
     };
   }
   const c = getContent(args.locale);
   const t = c.email;
+  const footer = footerFor(args);
   return {
     subject: fillTemplate(t.subject, { app: name }),
     text: [
@@ -64,6 +92,7 @@ function bodyFor(args: SendResultsArgs, forInstitute: boolean): { subject: strin
       args.deleteUrl
         ? fillTemplate(t.keptWithLink, { months: PUBLIC_RESULTS_RETENTION_MONTHS, url: args.deleteUrl })
         : t.keptReplyToDelete,
+      ...(footer ? [``, footer] : []),
     ].join("\n"),
   };
 }

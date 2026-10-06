@@ -1,0 +1,40 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`sendResultsEmail > keeps both bodies byte-identical when no optional extras are passed 1`] = `
+[
+  "Hello Ana,
+
+Thank you for taking the Inner System Map.
+Your results are attached as a PDF. This is a map of how your inner system is organised right now, not a label.
+
+If this brought up strong feelings, slow down and reach out to someone you trust or to a mental health professional. This tool is not a substitute for professional support.
+
+You asked us to keep a copy of these results for 6 months. To delete it now, open this link: https://example.com/d",
+  "A person completed the Inner System Map and consented to share results with the institute. The PDF is attached.
+
+Name: Ana
+Recipient: person@example.com
+Language: en
+Pattern: Managers are leading",
+]
+`;
+
+exports[`sendResultsEmail > keeps both bodies byte-identical when no optional extras are passed 2`] = `
+[
+  "Hello Ana,
+
+Thank you for taking the Inner System Map.
+Your results are attached as a PDF. This is a map of how your inner system is organised right now, not a label.
+
+If this brought up strong feelings, slow down and reach out to someone you trust or to a mental health professional. This tool is not a substitute for professional support.
+
+You asked us to keep a copy of these results for 6 months. To delete it now, open this link: https://example.com/d",
+  "A person completed the Inner System Map and consented to share results with the institute. The PDF is attached.
+
+Name: Ana
+Recipient: person@example.com
+Language: en
+Pattern: Managers are leading
+Note: pattern FLOODED. May benefit from extra support.",
+]
+`;

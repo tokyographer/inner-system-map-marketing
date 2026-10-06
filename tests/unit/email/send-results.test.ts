@@ -89,6 +89,50 @@ describe("sendResultsEmail", () => {
       }
     }
   });
+  it("keeps both bodies byte-identical when no optional extras are passed", async () => {
+    for (const flooded of [false, true]) {
+      const { client, send } = fakeResend();
+      await sendResultsEmail({ ...base, flooded, name: "Ana", deleteUrl: "https://example.com/d" }, env, client);
+      expect(send.mock.calls.map((c) => c[0].text)).toMatchSnapshot();
+    }
+  });
+  it("adds instituteDetails to the institute copy only, one line each, dropping empty entries", async () => {
+    const { client, send } = fakeResend();
+    const instituteDetails = [
+      { label: "Source", value: "webinar\r\nspring" },
+      { label: "  ", value: "dropped-label" },
+      { label: "Empty", value: "\n" },
+      { label: "Long", value: "x".repeat(200) },
+    ];
+    await sendResultsEmail({ ...base, flooded: true, instituteDetails }, env, client);
+    const [person, institute] = send.mock.calls.map((c) => c[0].text as string);
+    expect(institute.endsWith(`FLOODED. May benefit from extra support.\nSource: webinar spring\nLong: ${"x".repeat(120)}`)).toBe(true);
+    expect(institute).not.toContain("dropped-label");
+    expect(institute).not.toContain("Empty:");
+    expect(person).not.toContain("Source");
+  });
+  it("ends the person's text with personFooter, never in the institute copy", async () => {
+    const { client, send } = fakeResend();
+    await sendResultsEmail({ ...base, locale: "es", institutePdf: base.pdf, personFooter: "  Línea uno\r\nLínea dos  " }, env, client);
+    const [person, institute] = send.mock.calls.map((c) => c[0].text as string);
+    expect(person.endsWith(`${getContent("es").email.keptReplyToDelete}\n\nLínea uno\nLínea dos`)).toBe(true);
+    expect(person).not.toContain("\r");
+    expect(institute).not.toContain("Línea");
+  });
+  it("cuts personFooter at 500 characters and treats blank input as no footer", async () => {
+    const long = fakeResend();
+    await sendResultsEmail({ ...base, personFooter: "y".repeat(800) }, env, long.client);
+    expect(long.send.mock.calls[0][0].text.endsWith(`\n\n${"y".repeat(500)}`)).toBe(true);
+    expect(long.send.mock.calls[0][0].text).not.toContain("y".repeat(501));
+    const blank = fakeResend();
+    await sendResultsEmail({ ...base, personFooter: " \r\n " }, env, blank.client);
+    expect(blank.send.mock.calls[0][0].text.endsWith(getContent("en").email.keptReplyToDelete)).toBe(true);
+  });
+  it("drops personFooter when the pattern is FLOODED", async () => {
+    const { client, send } = fakeResend();
+    await sendResultsEmail({ ...base, flooded: true, personFooter: "Join our next live session." }, env, client);
+    for (const call of send.mock.calls) expect(call[0].text).not.toContain("live session");
+  });
   it("surfaces provider errors", async () => {
     await expect(sendResultsEmail(base, env, fakeResend("first").client)).rejects.toThrow(/participant failed/);
     await expect(sendResultsEmail(base, env, fakeResend("second").client)).rejects.toThrow(/institute failed/);

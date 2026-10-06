@@ -22,6 +22,11 @@ Entry format:
 
 ---
 
+## 2026-10-06 [core]: optional institute details and person footer in the results email
+- Changed: `SendResultsArgs` has two optional fields, requested by the marketing repo. `instituteDetails` appends sanitised "Label: value" lines to the institute copy after the Pattern line (and the FLOODED note): line breaks become spaces, each part is trimmed and capped at 120 characters, and empty entries are dropped. `personFooter` appends one paragraph to the person's email after the retention/delete line, separated by a blank line: `\r` is stripped, the text is trimmed and capped at 500 characters, and it is dropped whenever `flooded` is true. Upstream passes neither, so both bodies are byte-identical to before. A vitest snapshot (`tests/unit/email/__snapshots__/send-results.test.ts.snap`) pins the default bodies.
+- Agents: `instituteDetails` must be English and must never carry scores or responses beyond what the institute copy already shows. `personFooter` must be in the person's locale. Do not move the FLOODED check to callers: the email module enforces it. If you deliberately change email copy, update the snapshot with `npx vitest run -u tests/unit/email` and check the diff.
+- Synced: inner-system-ifs-test@f2021d9 (ported from upstream)
+
 ## 2026-10-06 [marketing]: fixes from a whole-branch review
 - Changed: the funnel counter allows 60 of each event per client per hour, after a coarse 300-per-hour limit, so a group taking the map on one network is counted. Removing a partner folds its counts into `'-'` (new `m0003_funnel_admin_writes.sql` gives admins write policies on the counts for this; m0002 is unchanged), so a later partner with the same code does not inherit them. `parseEmailMarketingFields` drops invalid attribution fields one by one instead of all of them. `next.config.ts` sends `Referrer-Policy: strict-origin` on every route (the layout also sets the meta tag), so a `?ref=` landing URL or a dashboard URL is never sent on as a referrer. The Neon integration tests now create real admin and participant users and test the admin path; the attribution test cleans up its partner.
 - Agents: run `npm run db:migrate` on `marketing-dev` for m0003. Never edit a committed migration; add the next `m0NNN` file.
