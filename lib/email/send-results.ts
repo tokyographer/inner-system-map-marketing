@@ -97,6 +97,11 @@ function bodyFor(args: SendResultsArgs, forInstitute: boolean): { subject: strin
   };
 }
 
+/** Resend's error name (a short code such as "validation_error"), never its message, which may echo the recipient. */
+function providerReason(error: { name?: unknown }): string {
+  return typeof error.name === "string" && /^[a-z_]{1,40}$/.test(error.name) ? error.name : "unknown";
+}
+
 export async function sendResultsEmail(args: SendResultsArgs, env: EmailEnv, client?: Resend): Promise<{ userId: string; copyId: string | null }> {
   const resend = client ?? new Resend(env.apiKey);
   const institutePdf = args.institutePdf ?? (args.locale === "en" ? args.pdf : null);
@@ -104,13 +109,13 @@ export async function sendResultsEmail(args: SendResultsArgs, env: EmailEnv, cli
 
   const user = bodyFor(args, false);
   const first = await resend.emails.send({ from: env.from, to: [args.to], subject: user.subject, text: user.text, attachments: [{ filename: resultsPdfFilename(args.locale, args.name), content: args.pdf }] });
-  if (first.error) throw new Error(`Email to participant failed: ${first.error.message}`);
+  if (first.error) throw new Error(`Email to participant failed (${providerReason(first.error)})`);
 
   let copyId: string | null = null;
   if (env.copyTo && institutePdf) {
     const inst = bodyFor(args, true);
     const second = await resend.emails.send({ from: env.from, to: [env.copyTo], subject: inst.subject, text: inst.text, attachments: [{ filename: resultsPdfFilename("en", args.name), content: institutePdf }] });
-    if (second.error) throw new Error(`Copy to institute failed: ${second.error.message}`);
+    if (second.error) throw new Error(`Copy to institute failed (${providerReason(second.error)})`);
     copyId = second.data?.id ?? null;
   }
   return { userId: first.data?.id ?? "", copyId };

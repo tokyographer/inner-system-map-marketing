@@ -2,14 +2,7 @@
 
 Core changes the marketing features need. Each one is made in `../inner-system-ifs-test` (the source of truth for the core) and ported here with the `core-sync` agent. Remove an entry here once it has been ported.
 
-Requests 1 (`instituteDetails`) and 2 (`personFooter`) were made upstream in `inner-system-ifs-test@f2021d9`, ported here as `f14acf5` and wired in `marketing/email.ts`.
-
-## 3. Do not log Resend's error text
-- **Why:** found by data-privacy-auditor. `lib/email/send-results.ts` wraps Resend's `error.message` in the thrown error ("Copy to institute failed: …" and the person's send), and `app/api/public/email-results/route.ts` logs `err.message` as `reason`. If Resend's message ever echoes the recipient address, an email lands in the logs, which breaks "never log emails".
-- **Files:** `lib/email/send-results.ts`, `tests/unit/email/send-results.test.ts`.
-- **Behaviour:** throw errors with a fixed message plus Resend's error `name` or code only (for example `Results email failed (validation_error)`), never Resend's `message`. Keep the existing distinction between the person's send and the institute copy.
-- **Tests:** a mocked Resend error whose `message` contains `person@example.test` produces a thrown error whose message does not contain it and does contain the error name.
-- **Marketing follow-up after the port:** none (the route already logs `err.message` only).
+Requests 1 to 3 are done. Requests 1 (`instituteDetails`) and 2 (`personFooter`) were made upstream in `inner-system-ifs-test@f2021d9`, ported here as `f14acf5` and wired in `marketing/email.ts`. Request 3 (do not log Resend's error text) was made upstream in `inner-system-ifs-test@6b1ba87` and ported here in this commit; it needed no marketing follow-up.
 
 ## Not core: assessed and left to the marketing repo
 The brief listed these as core work; on inspection they need no core change, so they are not requests here. They were postponed as instructed and wait for your go-ahead.

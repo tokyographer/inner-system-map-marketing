@@ -4,10 +4,10 @@ import { LOCALES, PUBLIC_RESULTS_RETENTION_MONTHS } from "@/config/app";
 import { getContent } from "@/content";
 import { readEmailEnv, sendResultsEmail } from "@/lib/email/send-results";
 
-function fakeResend(fail?: "first" | "second") {
+function fakeResend(fail?: "first" | "second", error: Record<string, unknown> = { message: "boom" }) {
   const send = vi.fn()
-    .mockResolvedValueOnce(fail === "first" ? { data: null, error: { message: "boom" } } : { data: { id: "u1" }, error: null })
-    .mockResolvedValueOnce(fail === "second" ? { data: null, error: { message: "boom" } } : { data: { id: "c1" }, error: null });
+    .mockResolvedValueOnce(fail === "first" ? { data: null, error } : { data: { id: "u1" }, error: null })
+    .mockResolvedValueOnce(fail === "second" ? { data: null, error } : { data: { id: "c1" }, error: null });
   return { client: { emails: { send } } as unknown as Resend, send };
 }
 
@@ -134,7 +134,20 @@ describe("sendResultsEmail", () => {
     for (const call of send.mock.calls) expect(call[0].text).not.toContain("live session");
   });
   it("surfaces provider errors", async () => {
-    await expect(sendResultsEmail(base, env, fakeResend("first").client)).rejects.toThrow(/participant failed/);
-    await expect(sendResultsEmail(base, env, fakeResend("second").client)).rejects.toThrow(/institute failed/);
+    await expect(sendResultsEmail(base, env, fakeResend("first").client)).rejects.toThrow(/participant failed \(unknown\)/);
+    await expect(sendResultsEmail(base, env, fakeResend("second").client)).rejects.toThrow(/institute failed \(unknown\)/);
+  });
+
+  it("never puts the provider's message (which may echo an address) in the error, only its error name", async () => {
+    const error = { name: "validation_error", message: "Invalid `to` field: person@example.com" };
+    for (const fail of ["first", "second"] as const) {
+      const thrown = await sendResultsEmail(base, env, fakeResend(fail, error).client).catch((e: Error) => e);
+      expect(thrown).toBeInstanceOf(Error);
+      expect((thrown as Error).message).toContain("(validation_error)");
+      expect((thrown as Error).message).not.toContain("person@example.com");
+      expect((thrown as Error).message).not.toContain("Invalid");
+    }
+    const odd = await sendResultsEmail(base, env, fakeResend("first", { name: "Bad Name person@example.com", message: "x" }).client).catch((e: Error) => e);
+    expect((odd as Error).message).toBe("Email to participant failed (unknown)");
   });
 });

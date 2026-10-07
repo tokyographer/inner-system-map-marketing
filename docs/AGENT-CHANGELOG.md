@@ -22,6 +22,11 @@ Entry format:
 
 ---
 
+## 2026-10-07 [core]: results email errors never carry the provider's message
+- Changed: `lib/email/send-results.ts` throws `Email to participant failed (<name>)` / `Copy to institute failed (<name>)` with Resend's error name only (a lowercase code such as `validation_error`, else `unknown`), never Resend's `message`, which may echo the recipient address. The email route logs `err.message` as the reason, so before this an address could reach the logs. Requested by the marketing repo (upstream request 3, found by data-privacy-auditor).
+- Agents: never put a provider's free-text error message into a thrown error or a log line; use a fixed message plus a validated code.
+- Synced: inner-system-ifs-test@6b1ba87 (ported from upstream)
+
 ## 2026-10-06 [marketing]: milestone messages and a halfway event in the public questionnaire
 - Changed: `marketing/components/QuestionnaireMilestones.tsx`, rendered by `components/questionnaire/Questionnaire.tsx` in public mode only, shows a short encouragement for 3 statements from about a third and two thirds of the form (`marketing.milestones.*`, all four locales) and sends one `halfway` funnel event when the person moves forward into the middle statement. `FUNNEL_EVENTS` and the privacy section list it. The questionnaire length (63, core) is unchanged.
 - Agents: the decision to keep 63 statements and measure is recorded in `marketing/CLAUDE.md` ("Length of the questionnaire"). A shorter form is an upstream core change with clinical review, never a marketing change.
