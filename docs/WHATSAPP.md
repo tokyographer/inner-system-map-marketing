@@ -48,7 +48,7 @@ Create it in WhatsApp Manager > Message templates.
 1. Template approved in all four languages.
 2. Payment method on the WhatsApp Business Account.
 3. Migration `0010_public_results_whatsapp.sql` applied to this deployment's production database (a deliberate step; `npm run db:migrate` runs only against `marketing-dev` during development).
-4. `WHATSAPP_TOKEN` and `WHATSAPP_PHONE_NUMBER_ID` set in Vercel for every environment (`WHATSAPP_TEMPLATE` only if the name differs).
+4. `WHATSAPP_TOKEN` and `WHATSAPP_PHONE_NUMBER_ID` set in Vercel for every environment (`WHATSAPP_TEMPLATE` only if the name differs), and Upstash connected (`UPSTASH_REDIS_REST_URL`/`TOKEN`): without shared rate limits every WhatsApp send is skipped.
 5. Legal review: consent to send the results PDF through Meta, possibly outside the EU.
 6. Set `WHATSAPP_RESULTS_READY = true` upstream, port it here with `core-sync`, deploy, and run the public flow once with your own number.
 
@@ -83,6 +83,9 @@ A Meta app has one webhook callback URL, and it points at the upstream app. If t
 | log code `132001` | Template name or language code does not match an approved template. |
 | log code `131042` | No payment method on the WhatsApp Business Account. |
 | log `recipient_rate_limited` | That number already received 2 results in 24 hours. |
+| log `no_shared_limiter` | Upstash is not configured; WhatsApp sends need shared limits. Set `UPSTASH_REDIS_REST_URL`/`TOKEN`. |
+| log `daily_cap` | 100 WhatsApp sends in 24 hours were already made. |
+| log `whatsapp-results not recorded` | The message went out but migration 0010 is not applied, so the number was not stored. |
 | Webhook returns 401 | `WHATSAPP_APP_SECRET` does not match the Meta app. |
 | Webhook returns 503 | A `WHATSAPP_*` variable is missing. |
 | Messages never reach the inbox | `messages` field not subscribed, or `WHATSAPP_INBOX_READY` is off (the webhook then acknowledges without storing). |

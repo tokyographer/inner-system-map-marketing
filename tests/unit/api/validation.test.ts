@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { emailRequestSchema, pdfRequestSchema } from "@/lib/validation/results-request";
+import { cleanDisplayName } from "@/lib/validation/name";
 import { isWhatsAppNumber, normalizeWhatsApp } from "@/lib/validation/whatsapp";
 import { whatsappConversationIdSchema, whatsappReplySchema } from "@/lib/validation/admin";
 import { build } from "../scoring/helpers";
@@ -56,4 +57,16 @@ describe("request validation", () => {
     expect(whatsappConversationIdSchema.safeParse("34600000000").success).toBe(false);
   });
 
+  it("cleans the name everywhere it is printed: letters only, no links or numbers, capped at 60", () => {
+    expect(cleanDisplayName("  Ana-María   O'Neil ")).toBe("Ana-María O'Neil");
+    expect(cleanDisplayName("Şükrü Çağlar")).toBe("Şükrü Çağlar");
+    expect(cleanDisplayName("Win at https://evil.example/x?y=1")).toBe("Win at httpsevilexamplexy");
+    expect(cleanDisplayName("call +44 7700 900123 now")).toBe("call now");
+    expect(cleanDisplayName("A".repeat(80))).toHaveLength(60);
+    expect(cleanDisplayName("123 !!")).toBeNull();
+    const req = { ...valid, email: "a@b.co", consent: { storeResults: true, policyVersion: "v1" } };
+    expect(emailRequestSchema.safeParse({ ...req, name: " Ana <b>x</b> " })).toMatchObject({ success: true, data: { name: "Ana bxb" } });
+    expect(emailRequestSchema.safeParse({ ...req, name: "0800 123" }).success).toBe(false);
+    expect(pdfRequestSchema.safeParse({ ...valid, name: "0800" })).toMatchObject({ success: true, data: { name: undefined } });
+  });
 });

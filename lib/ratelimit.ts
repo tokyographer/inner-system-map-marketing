@@ -17,7 +17,13 @@ function memoryLimit(key: string, limit: number, windowMs: number, now = Date.no
   if (hits.length >= limit) return { ok: false, retryAfterSeconds: Math.ceil((hits[0] + windowMs - now) / 1000) };
   hits.push(now);
   buckets.set(key, hits);
+  if (buckets.size > 10_000) for (const [k, v] of buckets) if (!v.some((t) => t > since)) buckets.delete(k);
   return { ok: true, retryAfterSeconds: 0 };
+}
+
+/** True when limits are shared across instances (Upstash). Sends that cost money or reputation need this. */
+export function sharedLimiterConfigured(): boolean {
+  return Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
 }
 
 function redisLimiter(limit: number, windowMs: number): Ratelimit | null {
@@ -46,7 +52,9 @@ export async function rateLimit(key: string, limit: number, windowMs: number): P
 /** Exposed for unit tests of the in-memory window. */
 export const _memoryLimit = memoryLimit;
 
+/** Vercel sets x-real-ip and x-vercel-forwarded-for itself; behind any other proxy the last x-forwarded-for entry is the one the proxy added. */
 export function clientKey(request: Request): string {
-  const fwd = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
-  return fwd || request.headers.get("x-real-ip") || "anonymous";
+  const h = request.headers;
+  const fwd = h.get("x-forwarded-for")?.split(",").map((s) => s.trim()).filter(Boolean).at(-1);
+  return h.get("x-real-ip") || h.get("x-vercel-forwarded-for")?.split(",")[0]?.trim() || fwd || "anonymous";
 }

@@ -131,7 +131,7 @@ curl -X POST localhost:3000/api/public/results-pdf -H 'content-type: application
 ```
 
 ### WhatsApp delivery (behind a flag)
-When `WHATSAPP_RESULTS_READY` in `config/app.ts` is `true`, the start screen offers an optional WhatsApp number with its own consent box. The email request then also accepts `{ whatsapp: "+34600000000", consent: { ..., whatsapp: true } }`: the PDF is sent by email as before, then to WhatsApp as the approved template, and the response adds `whatsappSent: true | false` (`null` when no number was given). A WhatsApp failure never fails the email. While the flag is `false`, the number is ignored entirely.
+When `WHATSAPP_RESULTS_READY` in `config/app.ts` is `true`, the start screen offers an optional WhatsApp number with its own consent box. The email request then also accepts `{ whatsapp: "+34600000000", consent: { ..., whatsapp: true } }`: the PDF goes to WhatsApp as the approved template, then by email as before, and the response adds `whatsappSent: true | false` (`null` when no number was given). A WhatsApp failure never fails the email. The number is stored and shown to the institute only after WhatsApp accepted the message, because nothing verifies that the number belongs to the person. Names are reduced to letters, spaces, apostrophes and hyphens (60 characters) before they reach any PDF, email, template or filename. While the flag is `false`, the number is ignored entirely.
 In this repo the number is used only for that delivery: no marketing code (attribution, funnel, analytics, nurture) reads or forwards it. The flag lives in core `config/app.ts`, so it is switched on upstream and ported here with `core-sync`.
 
 To switch it on:
@@ -173,9 +173,9 @@ To switch it on:
 ## Troubleshooting
 1. `503 email_not_configured`: set `RESEND_API_KEY` and `RESEND_FROM` in `.env` and restart `npm run dev`.
 2. `400 invalid_request` with "item(s) missing": the form (`short` = 63 items, `full` = 84) does not match the responses sent.
-3. `429 rate_limited`: 3 emails or 10 PDFs per client per window. Wait for `Retry-After` seconds.
+3. `429 rate_limited`: 3 emails per client per hour, 10 PDFs per client per window, 3 emails per recipient address per day and 60 emails per hour overall. Wait for `Retry-After` seconds.
 4. Retention job returns 401: `CRON_SECRET` differs between Vercel and the request. Vercel sends it automatically for scheduled runs; for a manual run pass `Authorization: Bearer <secret>`.
-5. `whatsappSent: false` in the email-results response: the Vercel log line `whatsapp-results failed` carries Meta's code. `not_configured` means `WHATSAPP_TOKEN` or `WHATSAPP_PHONE_NUMBER_ID` is missing; `recipient_rate_limited` means that number already got 2 sends in 24 h; code `132001` means the template name or language code does not match an approved template; `131042` means the WhatsApp account has no payment method.
+5. `whatsappSent: false` in the email-results response: the Vercel log line `whatsapp-results failed` carries Meta's code. `not_configured` means `WHATSAPP_TOKEN` or `WHATSAPP_PHONE_NUMBER_ID` is missing; `no_shared_limiter` means Upstash is not configured (WhatsApp needs limits shared across instances); `daily_cap` means 100 sends in 24 h were already made; `recipient_rate_limited` means that number already got 2 sends in 24 h; code `132001` means the template name or language code does not match an approved template; `131042` means the WhatsApp account has no payment method.
 
 ## Git workflow
 ```

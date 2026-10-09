@@ -1,12 +1,13 @@
+import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
 import { WHATSAPP_RESULTS_READY } from "@/config/app";
 import { getContent } from "@/content";
 import { readEmailEnv, sendResultsEmail } from "@/lib/email/send-results";
 import { renderResultsPdf } from "@/lib/pdf/render";
-import { clientKey, rateLimit } from "@/lib/ratelimit";
+import { clientKey, rateLimit, sharedLimiterConfigured } from "@/lib/ratelimit";
 import { score } from "@/lib/scoring";
 import { emailRequestSchema } from "@/lib/validation/results-request";
-import { storePublicResult } from "@/lib/public-results/store";
+import { recordWhatsApp, storePublicResult } from "@/lib/public-results/store";
 import { dbConfigured } from "@/lib/db";
 import { readWhatsAppEnv, recipientKey, sendResultsWhatsApp } from "@/lib/whatsapp/send-results";
 import { parseEmailMarketingFields } from "@/marketing/validation";
@@ -30,6 +31,12 @@ export async function POST(request: Request) {
   const parsed = emailRequestSchema.safeParse(json);
   if (!parsed.success) {
     return NextResponse.json({ error: "invalid_request", issues: parsed.error.issues.map((i) => i.message) }, { status: 400 });
+  }
+  // Per recipient and overall, on top of the per-client window: the email carries the institute's name.
+  const recipient = await rateLimit(`email-to:${createHash("sha256").update(parsed.data.email).digest("hex")}`, 3, 24 * 60 * 60 * 1000);
+  const overall = recipient.ok ? await rateLimit("email:all", 60, 60 * 60 * 1000) : recipient;
+  if (!overall.ok) {
+    return NextResponse.json({ error: "rate_limited" }, { status: 429, headers: { "Retry-After": String(overall.retryAfterSeconds) } });
   }
   let env;
   try {
@@ -55,17 +62,24 @@ export async function POST(request: Request) {
     const personFooter = consent.newsletter ? liveSessionFooter(locale, (url) => tm("liveSession", { url })) : undefined;
     let deleteUrl: string | undefined;
     let registeredRef: string | null = null;
+    let storedId: string | undefined;
     if (dbConfigured()) {
-      const stored = await storePublicResult({ email, locale, form, responses, result, newsletter: consent.newsletter, policyVersion: consent.policyVersion, whatsapp });
+      const stored = await storePublicResult({ email, locale, form, responses, result, newsletter: consent.newsletter, policyVersion: consent.policyVersion });
+      storedId = stored.id;
       deleteUrl = `${new URL(request.url).origin}/api/public/delete-result?token=${stored.deleteToken}&locale=${locale}`;
       if (attribution) registeredRef = (await saveResultAttribution(stored.id, attribution)).registeredRef;
     }
+    // The number is unverified: it is kept and shown to the institute only once WhatsApp accepted a message to it.
+    const whatsappSent = whatsapp ? await sendWhatsApp({ to: whatsapp, name, locale, pdf }) : null;
     await sendResultsEmail(
       { to: email, name, locale, pdf, institutePdf, patternTitle: getContent("en").patterns[result.pattern.key].title, flooded: result.pattern.key === "FLOODED", deleteUrl,
-        instituteDetails: [...instituteDetails(attribution, registeredRef), ...(whatsapp ? [{ label: "WhatsApp", value: whatsapp }] : [])], personFooter },
+        instituteDetails: [...instituteDetails(attribution, registeredRef), ...(whatsapp && whatsappSent ? [{ label: "WhatsApp", value: whatsapp }] : [])], personFooter },
       env,
     );
-    const whatsappSent = whatsapp ? await sendWhatsApp({ to: whatsapp, name, locale, pdf }) : null;
+    if (whatsapp && whatsappSent && storedId) {
+      // Needs migration 0010. The email has gone out, so a missing column must not turn into a 502.
+      await recordWhatsApp(storedId, whatsapp).catch((err: unknown) => console.error("whatsapp-results not recorded", { reason: err instanceof Error ? err.message : "unknown" }));
+    }
     return NextResponse.json({ ok: true, copySentToInstitute: env.copyTo !== null, whatsappSent });
   } catch (err) {
     console.error("email-results failed", { reason: err instanceof Error ? err.message : "unknown" });
@@ -80,9 +94,17 @@ async function sendWhatsApp(args: Parameters<typeof sendResultsWhatsApp>[0]): Pr
     console.error("whatsapp-results skipped", { reason: "not_configured" });
     return false;
   }
-  // Per recipient, on top of the per-client limit, so nobody can use the form to message strangers repeatedly.
+  // Limits must hold across instances: each send costs money and the number's reputation.
+  if (!sharedLimiterConfigured()) {
+    console.error("whatsapp-results skipped", { reason: "no_shared_limiter" });
+    return false;
+  }
   if (!(await rateLimit(recipientKey(args.to), 2, 24 * 60 * 60 * 1000)).ok) {
     console.error("whatsapp-results skipped", { reason: "recipient_rate_limited" });
+    return false;
+  }
+  if (!(await rateLimit("wa:all", 100, 24 * 60 * 60 * 1000)).ok) {
+    console.error("whatsapp-results skipped", { reason: "daily_cap" });
     return false;
   }
   try {

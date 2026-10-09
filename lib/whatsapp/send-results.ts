@@ -7,6 +7,7 @@
 import { createHash } from "node:crypto";
 import { WHATSAPP_TEMPLATE_LANGUAGE, type Locale } from "@/config/app";
 import { resultsPdfFilename } from "@/lib/pdf/filename";
+import { cleanDisplayName } from "@/lib/validation/name";
 
 export const GRAPH_API = "https://graph.facebook.com/v21.0";
 export const DEFAULT_TEMPLATE = "inner_system_map_results";
@@ -34,15 +35,8 @@ export function readWhatsAppEnv(env: NodeJS.ProcessEnv = process.env): WhatsAppE
   return { token, phoneNumberId, template: env.WHATSAPP_TEMPLATE?.trim() || DEFAULT_TEMPLATE };
 }
 
-/**
- * The template's {{1}}: letters, spaces, apostrophes and hyphens only, at most 60 characters, so a
- * caller cannot put a link or other text into a message from the institute's number. Null when
- * nothing usable is left; callers then skip the WhatsApp send.
- */
-export function templateName(name: string): string | null {
-  const clean = name.replace(/[^\p{L}\p{M}\s'’-]/gu, "").replace(/\s+/g, " ").trim().slice(0, 60).trim();
-  return /\p{L}/u.test(clean) ? clean : null;
-}
+/** The template's {{1}}: the same cleaning the validation layer applies, so nothing else can get into a message from the institute's number. */
+export const templateName = cleanDisplayName;
 
 /** Rate-limit key for one recipient: a hash, so no plain number is stored in Redis. */
 export function recipientKey(to: string): string {

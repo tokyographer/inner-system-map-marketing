@@ -11,8 +11,10 @@ vi.mock("next-intl/server", () => ({ getTranslations: async () => (key: string, 
 const { POST } = await import("@/app/api/public/email-results/route");
 
 let ip = 0;
+let n = 0;
+// A fresh address per request: the route limits each recipient to 3 emails a day.
 const body = (extra: Record<string, unknown>) => ({
-  locale: "en", form: "short", responses: build("short", {}, 3), ageConfirmed: true, name: "Test Person", email: "person@example.test",
+  locale: "en", form: "short", responses: build("short", {}, 3), ageConfirmed: true, name: "Test Person", email: `person${++n}@example.test`,
   consent: { storeResults: true, newsletter: false, policyVersion: "2026-09-draft+m2026-10-draft" }, ...extra,
 });
 const post = (b: unknown) => POST(new Request("http://x.test/api/public/email-results", { method: "POST", headers: { "content-type": "application/json", "x-forwarded-for": `10.1.0.${++ip}` }, body: JSON.stringify(b) }));
