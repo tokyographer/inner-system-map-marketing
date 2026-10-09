@@ -258,7 +258,6 @@
     "clearFilters": "Borrar",
     "total": "Resultados",
     "exportAllCsv": "Descargar CSV (identificado, todos los resultados filtrados)",
-    "downloadPdfEn": "Descargar PDF (inglés)",
     "noResults": "Ningún resultado coincide con estos filtros.",
     "previous": "Anterior",
     "next": "Siguiente",
@@ -270,7 +269,10 @@
     "unnamed": "(sin nombre guardado)",
     "durationMinutes": "{n} min",
     "resultMeta": "Detalles del resultado",
-    "duration": "Tiempo empleado"
+    "duration": "Tiempo empleado",
+    "downloadPdfIn": "Descargar PDF ({language})",
+    "viewIn": "Abrir esta página en {language}",
+    "pdf": "PDF"
   },
   "deleted": {
     "title": "Tus resultados guardados se han eliminado",

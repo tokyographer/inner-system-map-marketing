@@ -37,4 +37,6 @@ export const resultRefSchema = z.object({
   id: z.uuid(),
 });
 
+export const pdfLocaleSchema = z.enum(LOCALES).default("en");
+
 export type ResultsFilter = z.infer<typeof resultsFilterSchema>;

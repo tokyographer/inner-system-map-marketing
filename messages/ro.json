@@ -258,7 +258,6 @@
     "clearFilters": "Șterge",
     "total": "Rezultate",
     "exportAllCsv": "Descarcă CSV (identificat, toate rezultatele filtrate)",
-    "downloadPdfEn": "Descarcă PDF (engleză)",
     "noResults": "Niciun rezultat nu corespunde acestor filtre.",
     "previous": "Înapoi",
     "next": "Înainte",
@@ -270,7 +269,10 @@
     "unnamed": "(niciun nume păstrat)",
     "durationMinutes": "{n} min",
     "resultMeta": "Detaliile rezultatului",
-    "duration": "Durată"
+    "duration": "Durată",
+    "downloadPdfIn": "Descarcă PDF ({language})",
+    "viewIn": "Deschide această pagină în {language}",
+    "pdf": "PDF"
   },
   "deleted": {
     "title": "Rezultatele tale stocate au fost șterse",

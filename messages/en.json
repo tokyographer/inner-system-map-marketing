@@ -257,7 +257,6 @@
     "clearFilters": "Clear",
     "total": "Results",
     "exportAllCsv": "Download CSV (identified, all matching results)",
-    "downloadPdfEn": "Download PDF (English)",
     "noResults": "No results match these filters.",
     "previous": "Previous",
     "next": "Next",
@@ -269,7 +268,10 @@
     "unnamed": "(no name stored)",
     "durationMinutes": "{n} min",
     "resultMeta": "Result details",
-    "duration": "Time taken"
+    "duration": "Time taken",
+    "downloadPdfIn": "Download PDF ({language})",
+    "viewIn": "Open this page in {language}",
+    "pdf": "PDF"
   },
   "deleted": {
     "title": "Your stored results were deleted",

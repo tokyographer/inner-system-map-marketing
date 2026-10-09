@@ -258,7 +258,6 @@
     "clearFilters": "Temizle",
     "total": "Sonuçlar",
     "exportAllCsv": "CSV indir (kimlikli, filtreye uyan tüm sonuçlar)",
-    "downloadPdfEn": "PDF indir (İngilizce)",
     "noResults": "Bu filtrelere uyan sonuç yok.",
     "previous": "Önceki",
     "next": "Sonraki",
@@ -270,7 +269,10 @@
     "unnamed": "(saklanmış isim yok)",
     "durationMinutes": "{n} dk",
     "resultMeta": "Sonuç ayrıntıları",
-    "duration": "Süre"
+    "duration": "Süre",
+    "downloadPdfIn": "PDF indir ({language})",
+    "viewIn": "Bu sayfayı {language} olarak aç",
+    "pdf": "PDF"
   },
   "deleted": {
     "title": "Saklanan sonuçların silindi",

@@ -12,6 +12,13 @@ export type Locale = keyof typeof APP_NAME;
 export const LOCALES: Locale[] = ["en", "es", "ro", "tr"];
 export const DEFAULT_LOCALE: Locale = "en";
 
+/** Each language's name in its own language, for switchers and download buttons. */
+export const LOCALE_NAMES: Record<Locale, string> = { en: "English", es: "Español", ro: "Română", tr: "Türkçe" };
+
+export function isLocale(value: string): value is Locale {
+  return (LOCALES as string[]).includes(value);
+}
+
 export type Mode = "public" | "cohort";
 export type Form = "full" | "short";
 
