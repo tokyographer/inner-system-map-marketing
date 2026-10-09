@@ -21,7 +21,7 @@ test("utm and ref from the landing URL travel with the results request", async (
   const counts: unknown[] = [];
   await page.route("**/api/marketing/funnel", async (route) => { counts.push(route.request().postDataJSON()); await route.fulfill({ status: 204 }); });
   await page.goto("/en?utm_source=newsletter&utm_medium=email&utm_campaign=level-ii&ref=Studio-Om");
-  await page.getByRole("link", { name: "Begin the work" }).click();
+  await page.getByRole("link", { name: "Start Test" }).click();
   await expect(page.getByRole("heading", { name: "Before you begin" })).toBeVisible();
   // Nothing is stored on the device before the person submits the start form.
   expect(await page.evaluate(() => localStorage.getItem("ism:mkt:attribution:v1"))).toBeNull();
@@ -50,7 +50,7 @@ test("funnel events carry the locale only, never the partner code, contact detai
   // The URL sanitiser is queued before any event, so the script never sends an unsanitised URL.
   expect(await page.evaluate(() => ((window as unknown as { vaq: unknown[][] }).vaq)[0][0])).toBe("beforeSend");
 
-  await page.getByRole("link", { name: "Begin the work" }).click();
+  await page.getByRole("link", { name: "Start Test" }).click();
   await startWithContact(page);
   await page.route("**/api/public/email-results", (route) => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, copySentToInstitute: true }) }));
   await seedAttempt(page, (_, i) => 1 + (i % 5));
