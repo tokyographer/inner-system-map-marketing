@@ -17,7 +17,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
     sections: [
       { heading: "Who we are", paragraphs: ["Transcendent Institute operates the Inner System Map. Contact: info@transcendentinstitute.com."] },
       { heading: "What we process and why", paragraphs: [
-        "Public mode: your answers are scored in your browser. When you give your name and email at the start, we email you your results as a PDF, keep a copy of your answers and results for 6 months, and send a copy to Transcendent Institute so the school can follow up if you ask. This is based on your explicit consent, which you can withdraw at any time using the deletion link in the email.",
+        "Public mode: your answers are scored in your browser. When you give your name and email at the start, we email you your results as a PDF, keep a copy of your name, email, answers and results for 6 months, and send a copy to Transcendent Institute so the school can follow up if you ask. Only the institute's administrators can see the stored copy, and every time they open it is recorded. This is based on your explicit consent, which you can withdraw at any time using the deletion link in the email.",
         "Cohort mode: your answers, results and any notes you choose to share are stored under your account and are visible to the named facilitators of your cohort, to support your work in the retreat. This is based on your explicit consent, recorded with its date and policy version. You can export or delete everything at any time from your data page.",
         "Answers describe your inner life and may reveal information about mental health. We treat all of it as special category data.",
       ] },
@@ -34,7 +34,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
     sections: [
       { heading: "Quiénes somos", paragraphs: ["Transcendent Institute opera el Mapa del Sistema Interno. Contacto: info@transcendentinstitute.com."] },
       { heading: "Qué tratamos y por qué", paragraphs: [
-        "Modo público: tus respuestas se puntúan en tu navegador. Cuando das tu nombre y correo al inicio, te enviamos tus resultados en PDF, guardamos una copia de tus respuestas y resultados durante 6 meses y enviamos una copia a Transcendent Institute para que la escuela pueda hacer seguimiento si lo pides. La base es tu consentimiento explícito, que puedes retirar en cualquier momento con el enlace de eliminación del correo.",
+        "Modo público: tus respuestas se puntúan en tu navegador. Cuando das tu nombre y correo al inicio, te enviamos tus resultados en PDF, guardamos una copia de tu nombre, correo, respuestas y resultados durante 6 meses y enviamos una copia a Transcendent Institute para que la escuela pueda hacer seguimiento si lo pides. Solo los administradores del instituto pueden ver la copia guardada, y cada acceso queda registrado. La base es tu consentimiento explícito, que puedes retirar en cualquier momento con el enlace de eliminación del correo.",
         "Modo cohorte: tus respuestas, resultados y las notas que decidas compartir se guardan bajo tu cuenta y son visibles para los facilitadores designados de tu cohorte, para acompañar tu trabajo en el retiro. La base es tu consentimiento explícito, registrado con fecha y versión de la política. Puedes exportar o eliminar todo en cualquier momento desde tu página de datos.",
         "Las respuestas describen tu vida interior y pueden revelar información sobre salud mental. Tratamos todo como datos de categoría especial.",
       ] },
@@ -51,7 +51,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
     sections: [
       { heading: "Cine suntem", paragraphs: ["Transcendent Institute operează Harta Sistemului Interior. Contact: info@transcendentinstitute.com."] },
       { heading: "Ce prelucrăm și de ce", paragraphs: [
-        "Modul public: răspunsurile tale sunt evaluate în browser. Când îți dai numele și emailul la început, îți trimitem rezultatele ca PDF, păstrăm o copie a răspunsurilor și rezultatelor timp de 6 luni și trimitem o copie la Transcendent Institute, ca școala să poată reveni dacă ceri. Temeiul este consimțământul tău explicit, pe care îl poți retrage oricând prin linkul de ștergere din email.",
+        "Modul public: răspunsurile tale sunt evaluate în browser. Când îți dai numele și emailul la început, îți trimitem rezultatele ca PDF, păstrăm o copie a numelui, emailului, răspunsurilor și rezultatelor tale timp de 6 luni și trimitem o copie la Transcendent Institute, ca școala să poată reveni dacă ceri. Doar administratorii institutului pot vedea copia păstrată, iar fiecare accesare este înregistrată. Temeiul este consimțământul tău explicit, pe care îl poți retrage oricând prin linkul de ștergere din email.",
         "Modul cohortă: răspunsurile, rezultatele și notele pe care alegi să le împărtășești sunt stocate în contul tău și sunt vizibile facilitatorilor desemnați ai cohortei tale, pentru a-ți sprijini munca în retreat. Temeiul este consimțământul tău explicit, înregistrat cu data și versiunea politicii. Poți exporta sau șterge totul oricând din pagina ta de date.",
         "Răspunsurile descriu viața ta interioară și pot dezvălui informații despre sănătatea mintală. Tratăm totul ca date din categorii speciale.",
       ] },
@@ -68,7 +68,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
     sections: [
       { heading: "Biz kimiz", paragraphs: ["İç Sistem Haritası'nı Transcendent Institute işletir. İletişim: info@transcendentinstitute.com."] },
       { heading: "Neyi, neden işliyoruz", paragraphs: [
-        "Açık mod: yanıtların tarayıcında puanlanır. Başta adını ve e-postanı verdiğinde sonuçlarını PDF olarak gönderir, yanıtlarının ve sonuçlarının bir kopyasını 6 ay saklar ve istersen okulun sana ulaşabilmesi için bir kopyasını Transcendent Institute'e göndeririz. Dayanak, e-postadaki silme bağlantısıyla istediğin zaman geri çekebileceğin açık rızandır.",
+        "Açık mod: yanıtların tarayıcında puanlanır. Başta adını ve e-postanı verdiğinde sonuçlarını PDF olarak gönderir, adının, e-postanın, yanıtlarının ve sonuçlarının bir kopyasını 6 ay saklar ve istersen okulun sana ulaşabilmesi için bir kopyasını Transcendent Institute'e göndeririz. Saklanan kopyayı yalnızca enstitünün yöneticileri görebilir ve her erişim kaydedilir. Dayanak, e-postadaki silme bağlantısıyla istediğin zaman geri çekebileceğin açık rızandır.",
         "Grup modu: yanıtların, sonuçların ve paylaşmayı seçtiğin notlar hesabının altında saklanır ve inziva çalışmanı desteklemek için grubunun belirlenmiş kolaylaştırıcılarına görünür. Dayanak, tarih ve politika sürümüyle kaydedilen açık rızandır. Veri sayfandan istediğin zaman her şeyi dışa aktarabilir ya da silebilirsin.",
         "Yanıtlar iç hayatını anlatır ve ruh sağlığına ilişkin bilgi açığa çıkarabilir. Hepsini özel nitelikli veri olarak ele alırız.",
       ] },
