@@ -1,5 +1,5 @@
 /**
- * PLACEHOLDER, requires legal review. Privacy notice and consent text per
+ * DRAFT, pending human review. PLACEHOLDER, requires legal review. Privacy notice and consent text per
  * locale, structured as sections so a lawyer can replace the wording without
  * touching layout. Sub-processors listed here must match README.
  */

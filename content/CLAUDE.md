@@ -16,7 +16,8 @@ English is the master. ES, RO and TR are drafts: every translated file starts wi
 - Every protector gets a respectful, curious tone ("no bad parts"). Write wounds in a tentative voice ("may carry…").
 - Exiles are approached only through protectors. Exile copy never invites the reader to go to an exile, and the exercise addresses the leading protector only.
 - A low exile score alongside strong protectors means the protectors may be succeeding, not that there are no exiles.
-- Never use the forbidden words in any locale (see the list in `tests/unit/content/locales.test.ts`): diagnosis, disorder, clinical, scientifically validated, and their translations.
+- Never use the forbidden words in any locale (see the list in `tests/unit/content/locales.test.ts`): diagnosis, disorder, clinical, scientifically validated, and their translations. The test scans `getContent()`, `messages/*.json`, the items, `content/legal/privacy.ts` and `content/whatsapp-template.ts`; user-facing copy that lives anywhere else is unscanned, so put it in one of those.
+- `content/whatsapp-template.ts` is the record of the WhatsApp template bodies submitted to Meta. Change it and the template in WhatsApp Manager together.
 - Bands and thresholds are the school's heuristics, never norms or percentiles.
 - Keep "Self" capitalised. Keep Yesod, Tiferet and Kay Pacha untranslated.
 - Spanish uses gender-neutral phrasing where possible.

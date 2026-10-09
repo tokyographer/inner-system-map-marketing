@@ -30,11 +30,7 @@ Create it in WhatsApp Manager > Message templates.
 - Name `inner_system_map_results`, category **Utility**, variable type **Number**.
 - Header: **Document** (the code attaches each person's PDF). No header text, no footer, no buttons; marketing-style buttons can move the template to the Marketing category.
 - Review samples: a made-up name such as `Ana` for `{{1}}`, and a sample PDF with a fake name and invented answers, never a real person's results.
-- Languages and bodies (ES/RO/TR are drafts; have a native speaker check them):
-  - en: `Hello {{1}}, your Inner System Map results are attached as a PDF. Thank you for taking the time to reflect.`
-  - es: `Hola, {{1}}: adjuntamos en PDF tus resultados del Mapa del Sistema Interno. Gracias por tomarte el tiempo de reflexionar.`
-  - ro: `Bună, {{1}}! Rezultatele tale din Harta Sistemului Interior sunt atașate ca PDF. Îți mulțumim că ți-ai făcut timp pentru reflecție.`
-  - tr: `Merhaba {{1}}, İç Sistem Haritası sonuçların PDF olarak ekte. Düşünmeye zaman ayırdığın için teşekkür ederiz.`
+- Languages and bodies: the four texts are in `content/whatsapp-template.ts` (`WHATSAPP_TEMPLATE_BODY`), which the forbidden-word test scans. Submit them exactly as written there; ES/RO/TR are drafts, so have a native speaker check them first.
 - After approval, check that the language codes WhatsApp Manager shows match `WHATSAPP_TEMPLATE_LANGUAGE` in `config/app.ts` (`en`, `es`, `ro`, `tr`; Meta sometimes uses `en_US`).
 
 ## Costs

@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
+import { PRIVACY } from "@/content/legal/privacy";
+import { WHATSAPP_TEMPLATE_BODY } from "@/content/whatsapp-template";
 import { LOCALES } from "@/config/app";
 import { ALL_ITEM_IDS, getContent, itemText } from "@/content";
 import { ITEMS } from "@/content/items.v2";
@@ -59,7 +61,7 @@ describe("locale completeness", () => {
   it("no forbidden words in any locale, in content or messages", () => {
     const msgs = { en, es, ro, tr } as const;
     for (const locale of LOCALES) {
-      const text = JSON.stringify({ c: getContent(locale), m: msgs[locale], items: ITEMS.map((i) => itemText(i, locale)) }).toLowerCase();
+      const text = JSON.stringify({ c: getContent(locale), m: msgs[locale], items: ITEMS.map((i) => itemText(i, locale)), privacy: PRIVACY[locale], whatsapp: WHATSAPP_TEMPLATE_BODY[locale] }).toLowerCase();
       for (const w of FORBIDDEN[locale]) {
         // Whole-word match on Unicode letters, so "tanı" (diagnosis) does not fire on "tanımak" (to know).
         const re = new RegExp(`(^|[^\\p{L}])${w}(?=[^\\p{L}]|$)`, "u");
@@ -75,7 +77,8 @@ describe("locale completeness", () => {
     }
   });
   it("translation files carry the draft header", () => {
-    for (const f of ["content/items.v2.es.ts", "content/items.v2.ro.ts", "content/typologies.es.ts", "content/typologies.ro.ts", "content/exiles.es.ts", "content/exiles.ro.ts", "content/patterns.es.ts", "content/patterns.ro.ts", "content/items.v2.tr.ts", "content/typologies.tr.ts", "content/exiles.tr.ts", "content/patterns.tr.ts"]) {
+    const translated = ["items.v2", "typologies", "exiles", "patterns", "exercise", "support-resources", "level-two"].flatMap((f) => ["es", "ro", "tr"].map((l) => `content/${f}.${l}.ts`));
+    for (const f of [...translated, "content/legal/privacy.ts", "content/whatsapp-template.ts"]) {
       expect(readFileSync(f, "utf8")).toContain("DRAFT, pending human review");
     }
     expect((es as { _comment?: string })._comment).toContain("DRAFT");

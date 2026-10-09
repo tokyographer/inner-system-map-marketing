@@ -22,6 +22,11 @@ Entry format:
 
 ---
 
+## 2026-10-09 [core]: review fixes, part 4: forbidden-word test covers every copy file
+- Changed: ported upstream `12f77ea`. The forbidden-word and draft-header tests (`tests/unit/content/locales.test.ts`) also cover `content/legal/privacy.ts` (now with the standard "DRAFT, pending human review" header) and the new `content/whatsapp-template.ts` (the four WhatsApp template bodies, moved out of `docs/WHATSAPP.md`), and the header check covers exercise, support-resources and level-two in ES/RO/TR. `content/CLAUDE.md` matches upstream.
+- Agents: user-facing copy must live where the locales test scans it (see `content/CLAUDE.md`); marketing strings belong under the `"marketing"` key in `messages/*.json`, which the test scans.
+- Synced: inner-system-ifs-test@12f77ea (ported from upstream)
+
 ## 2026-10-09 [core]: review fixes, part 3: thresholds pinned, durations trustworthy
 - Changed: ported upstream `5baf67b`. `tests/fixtures/core-golden.json` now has 25 cases, including a boundary case for every `SCORING` key (`scripts/update-core-golden.ts` taken as-is). The dead `pattern.quietSelfMax` is gone from `config/scoring.ts` (scoring behaviour unchanged, `SCORING_VERSION` unchanged) and the KB row for QUIET_OR_GUARDED no longer claims SELF < 3.5 (`scripts/build-knowledge-base.ts` got only that hunk, keeping this repo's own sections 9 and 10; `docs/KNOWLEDGE-BASE.md` regenerated here with `npm run docs:kb`). `durationSeconds` is required in the public request schemas; `cohortAttemptSchema` rejects `completedAt` more than a minute in the future and `startedAt` older than 30 days. `tests/unit/marketing/email-route.test.ts` now sends `durationSeconds`.
 - Agents: do not reintroduce an optional duration; any marketing client or test posting results must send it. Cohort timestamp tests must use `Date.now()`-relative values. Never regenerate the golden fixture here.
