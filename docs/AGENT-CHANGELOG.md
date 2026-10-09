@@ -22,6 +22,11 @@ Entry format:
 
 ---
 
+## 2026-10-09 [core]: review fixes, part 2: landing and start copy match the public flow
+- Changed: ported upstream `f43847e`. `landing.time` and `start.browser` now say that results are emailed as a PDF, a copy is kept 6 months and can be deleted from the email, and that answers are scored in the browser and sent only on completion. All four locales; ES/RO/TR are drafts. The `"marketing"` key is unchanged.
+- Agents: when a flow changes, grep `messages/*.json` (including the `"marketing"` key) and `content/legal/privacy.ts` for promises about storage, sending and choice; the forbidden-word test does not catch a false promise.
+- Synced: inner-system-ifs-test@f43847e (ported from upstream)
+
 ## 2026-10-09 [core]: review fixes, part 1: names, send limits, unverified numbers
 - Changed: ported upstream `4f6ad49`. Core: `cleanDisplayName` (`lib/validation/name.ts`) runs inside `emailRequestSchema`/`pdfRequestSchema` (letters, marks, spaces, apostrophes, hyphens, 60 chars; the email schema rejects a name without letters), and `templateName` in `lib/whatsapp/send-results.ts` is an alias of it. Non-core, merged by hand: `lib/ratelimit.ts` and its test match upstream (`sharedLimiterConfigured()`, `clientKey` prefers `x-real-ip`/`x-vercel-forwarded-for` then the last `x-forwarded-for` entry, memory-bucket pruning). The email route keeps marketing's attribution parsing and storage, the live-session footer and the attribution lines in `instituteDetails`, and adds upstream's per-recipient (3 per address per day, hashed key) and overall (60 per hour) email limits right after validation, the WhatsApp send before the email with the `sharedLimiterConfigured()` gate and the `wa:all` 100-per-day cap, the `WhatsApp:` institute line only when `whatsappSent`, and `recordWhatsApp` after the send (errors logged, not raised). `StoreArgs` loses `whatsapp`; `storePublicResult` keeps this repo's insert (no `name`). `.env.example` lists the Upstash variables. `tests/unit/marketing/email-route.test.ts` uses a fresh address per request because of the recipient limit.
 - Agents: never print a name that did not pass the schema. Do not add a send path (email, WhatsApp, marketing emails, anything with the institute's name on it) without a per-recipient limit. Marketing code still never reads the WhatsApp number.
