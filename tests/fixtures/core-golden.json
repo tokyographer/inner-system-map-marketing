@@ -4108,6 +4108,3493 @@
     ],
     "careFlag": true
    }
+  },
+  {
+   "name": "care flag from exile lead 4.0 alone (managers 5)",
+   "input": {
+    "form": "full",
+    "durationSeconds": 600,
+    "responses": {
+     "SELF1": 2,
+     "SELF2": 2,
+     "SELF3": 2,
+     "SELF4": 2,
+     "SELF5": 2,
+     "SELF6": 2,
+     "SELF7": 2,
+     "SELF8": 2,
+     "PERF1": 5,
+     "PERF2": 5,
+     "PERF3": 5,
+     "PERF4": 5,
+     "CRIT1": 5,
+     "CRIT2": 5,
+     "CRIT3": 5,
+     "CRIT4": 5,
+     "PLEA1": 5,
+     "PLEA2": 5,
+     "PLEA3": 5,
+     "PLEA4": 5,
+     "CTRL1": 5,
+     "CTRL2": 5,
+     "CTRL3": 5,
+     "CTRL4": 5,
+     "INTL1": 5,
+     "INTL2": 5,
+     "INTL3": 5,
+     "INTL4": 5,
+     "AVOI1": 5,
+     "AVOI2": 5,
+     "AVOI3": 5,
+     "AVOI4": 5,
+     "CARE1": 5,
+     "CARE2": 5,
+     "CARE3": 5,
+     "CARE4": 5,
+     "HYPV1": 5,
+     "HYPV2": 5,
+     "HYPV3": 5,
+     "HYPV4": 5,
+     "DIST1": 5,
+     "DIST2": 5,
+     "DIST3": 5,
+     "DIST4": 5,
+     "NUMB1": 1,
+     "NUMB2": 1,
+     "NUMB3": 1,
+     "NUMB4": 1,
+     "DISS1": 1,
+     "DISS2": 1,
+     "DISS3": 1,
+     "DISS4": 1,
+     "ANGR1": 1,
+     "ANGR2": 1,
+     "ANGR3": 1,
+     "ANGR4": 1,
+     "IMPL1": 1,
+     "IMPL2": 1,
+     "IMPL3": 1,
+     "IMPL4": 1,
+     "REBL1": 1,
+     "REBL2": 1,
+     "REBL3": 1,
+     "REBL4": 1,
+     "SHAM1": 4,
+     "SHAM2": 4,
+     "SHAM3": 4,
+     "SHAM4": 4,
+     "ABAN1": 4,
+     "ABAN2": 4,
+     "ABAN3": 4,
+     "ABAN4": 4,
+     "FEAR1": 4,
+     "FEAR2": 4,
+     "FEAR3": 4,
+     "FEAR4": 4,
+     "POWL1": 4,
+     "POWL2": 4,
+     "POWL3": 4,
+     "POWL4": 4,
+     "LONE1": 4,
+     "LONE2": 4,
+     "LONE3": 4,
+     "LONE4": 4
+    }
+   },
+   "result": {
+    "itemBankVersion": "v2",
+    "scoringVersion": "2026-09-18.1",
+    "form": "full",
+    "self": {
+     "key": "SELF",
+     "mean": 2,
+     "display": 25,
+     "itemCount": 8,
+     "highCount": 0,
+     "band": "hardToReach"
+    },
+    "scales": {
+     "PERF": {
+      "key": "PERF",
+      "mean": 5,
+      "display": 100,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "CRIT": {
+      "key": "CRIT",
+      "mean": 5,
+      "display": 100,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "PLEA": {
+      "key": "PLEA",
+      "mean": 5,
+      "display": 100,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "CTRL": {
+      "key": "CTRL",
+      "mean": 5,
+      "display": 100,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "INTL": {
+      "key": "INTL",
+      "mean": 5,
+      "display": 100,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "AVOI": {
+      "key": "AVOI",
+      "mean": 5,
+      "display": 100,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "CARE": {
+      "key": "CARE",
+      "mean": 5,
+      "display": 100,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "HYPV": {
+      "key": "HYPV",
+      "mean": 5,
+      "display": 100,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "DIST": {
+      "key": "DIST",
+      "mean": 5,
+      "display": 100,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "NUMB": {
+      "key": "NUMB",
+      "mean": 1,
+      "display": 0,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "DISS": {
+      "key": "DISS",
+      "mean": 1,
+      "display": 0,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "ANGR": {
+      "key": "ANGR",
+      "mean": 1,
+      "display": 0,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "IMPL": {
+      "key": "IMPL",
+      "mean": 1,
+      "display": 0,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "REBL": {
+      "key": "REBL",
+      "mean": 1,
+      "display": 0,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "SHAM": {
+      "key": "SHAM",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "ABAN": {
+      "key": "ABAN",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "FEAR": {
+      "key": "FEAR",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "POWL": {
+      "key": "POWL",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "LONE": {
+      "key": "LONE",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     }
+    },
+    "leads": {
+     "manager": 5,
+     "firefighter": 1,
+     "exile": 4,
+     "protectionLoad": 3.5714
+    },
+    "pattern": {
+     "key": "MANAGED",
+     "modifiers": [],
+     "evidence": {
+      "self": 2,
+      "manager": 5,
+      "firefighter": 1,
+      "exile": 4,
+      "protectionLoad": 3.5714
+     }
+    },
+    "protectors": {
+     "ranked": [
+      "AVOI",
+      "CARE",
+      "CRIT",
+      "CTRL",
+      "DIST",
+      "HYPV",
+      "INTL",
+      "PERF",
+      "PLEA",
+      "ANGR",
+      "DISS",
+      "IMPL",
+      "NUMB",
+      "REBL"
+     ],
+     "leading": null,
+     "team": [
+      "AVOI",
+      "CARE",
+      "CRIT"
+     ]
+    },
+    "exiles": {
+     "ranked": [
+      "ABAN",
+      "FEAR",
+      "LONE",
+      "POWL",
+      "SHAM"
+     ]
+    },
+    "pairings": [
+     {
+      "protector": "AVOI",
+      "exile": "SHAM"
+     },
+     {
+      "protector": "AVOI",
+      "exile": "POWL"
+     },
+     {
+      "protector": "CARE",
+      "exile": "ABAN"
+     },
+     {
+      "protector": "CRIT",
+      "exile": "SHAM"
+     },
+     {
+      "protector": "CRIT",
+      "exile": "FEAR"
+     }
+    ],
+    "qualityFlags": [],
+    "careFlag": true
+   }
+  },
+  {
+   "name": "flooded at the margin: exiles 3.5, managers 3.75",
+   "input": {
+    "form": "full",
+    "durationSeconds": 600,
+    "responses": {
+     "SELF1": 2,
+     "SELF2": 2,
+     "SELF3": 2,
+     "SELF4": 2,
+     "SELF5": 2,
+     "SELF6": 2,
+     "SELF7": 2,
+     "SELF8": 2,
+     "PERF1": 4,
+     "PERF2": 4,
+     "PERF3": 4,
+     "PERF4": 3,
+     "CRIT1": 4,
+     "CRIT2": 4,
+     "CRIT3": 4,
+     "CRIT4": 3,
+     "PLEA1": 4,
+     "PLEA2": 4,
+     "PLEA3": 4,
+     "PLEA4": 3,
+     "CTRL1": 4,
+     "CTRL2": 4,
+     "CTRL3": 4,
+     "CTRL4": 3,
+     "INTL1": 4,
+     "INTL2": 4,
+     "INTL3": 4,
+     "INTL4": 3,
+     "AVOI1": 4,
+     "AVOI2": 4,
+     "AVOI3": 4,
+     "AVOI4": 3,
+     "CARE1": 4,
+     "CARE2": 4,
+     "CARE3": 4,
+     "CARE4": 3,
+     "HYPV1": 4,
+     "HYPV2": 4,
+     "HYPV3": 4,
+     "HYPV4": 3,
+     "DIST1": 4,
+     "DIST2": 4,
+     "DIST3": 4,
+     "DIST4": 3,
+     "NUMB1": 1,
+     "NUMB2": 1,
+     "NUMB3": 1,
+     "NUMB4": 1,
+     "DISS1": 1,
+     "DISS2": 1,
+     "DISS3": 1,
+     "DISS4": 1,
+     "ANGR1": 1,
+     "ANGR2": 1,
+     "ANGR3": 1,
+     "ANGR4": 1,
+     "IMPL1": 1,
+     "IMPL2": 1,
+     "IMPL3": 1,
+     "IMPL4": 1,
+     "REBL1": 1,
+     "REBL2": 1,
+     "REBL3": 1,
+     "REBL4": 1,
+     "SHAM1": 3,
+     "SHAM2": 4,
+     "SHAM3": 3,
+     "SHAM4": 4,
+     "ABAN1": 3,
+     "ABAN2": 4,
+     "ABAN3": 3,
+     "ABAN4": 4,
+     "FEAR1": 3,
+     "FEAR2": 4,
+     "FEAR3": 3,
+     "FEAR4": 4,
+     "POWL1": 3,
+     "POWL2": 4,
+     "POWL3": 3,
+     "POWL4": 4,
+     "LONE1": 3,
+     "LONE2": 4,
+     "LONE3": 3,
+     "LONE4": 4
+    }
+   },
+   "result": {
+    "itemBankVersion": "v2",
+    "scoringVersion": "2026-09-18.1",
+    "form": "full",
+    "self": {
+     "key": "SELF",
+     "mean": 2,
+     "display": 25,
+     "itemCount": 8,
+     "highCount": 0,
+     "band": "hardToReach"
+    },
+    "scales": {
+     "PERF": {
+      "key": "PERF",
+      "mean": 3.75,
+      "display": 69,
+      "itemCount": 4,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "CRIT": {
+      "key": "CRIT",
+      "mean": 3.75,
+      "display": 69,
+      "itemCount": 4,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "PLEA": {
+      "key": "PLEA",
+      "mean": 3.75,
+      "display": 69,
+      "itemCount": 4,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "CTRL": {
+      "key": "CTRL",
+      "mean": 3.75,
+      "display": 69,
+      "itemCount": 4,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "INTL": {
+      "key": "INTL",
+      "mean": 3.75,
+      "display": 69,
+      "itemCount": 4,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "AVOI": {
+      "key": "AVOI",
+      "mean": 3.75,
+      "display": 69,
+      "itemCount": 4,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "CARE": {
+      "key": "CARE",
+      "mean": 3.75,
+      "display": 69,
+      "itemCount": 4,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "HYPV": {
+      "key": "HYPV",
+      "mean": 3.75,
+      "display": 69,
+      "itemCount": 4,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "DIST": {
+      "key": "DIST",
+      "mean": 3.75,
+      "display": 69,
+      "itemCount": 4,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "NUMB": {
+      "key": "NUMB",
+      "mean": 1,
+      "display": 0,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "DISS": {
+      "key": "DISS",
+      "mean": 1,
+      "display": 0,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "ANGR": {
+      "key": "ANGR",
+      "mean": 1,
+      "display": 0,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "IMPL": {
+      "key": "IMPL",
+      "mean": 1,
+      "display": 0,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "REBL": {
+      "key": "REBL",
+      "mean": 1,
+      "display": 0,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "SHAM": {
+      "key": "SHAM",
+      "mean": 3.5,
+      "display": 63,
+      "itemCount": 4,
+      "highCount": 2,
+      "band": "veryActive"
+     },
+     "ABAN": {
+      "key": "ABAN",
+      "mean": 3.5,
+      "display": 63,
+      "itemCount": 4,
+      "highCount": 2,
+      "band": "veryActive"
+     },
+     "FEAR": {
+      "key": "FEAR",
+      "mean": 3.5,
+      "display": 63,
+      "itemCount": 4,
+      "highCount": 2,
+      "band": "veryActive"
+     },
+     "POWL": {
+      "key": "POWL",
+      "mean": 3.5,
+      "display": 63,
+      "itemCount": 4,
+      "highCount": 2,
+      "band": "veryActive"
+     },
+     "LONE": {
+      "key": "LONE",
+      "mean": 3.5,
+      "display": 63,
+      "itemCount": 4,
+      "highCount": 2,
+      "band": "veryActive"
+     }
+    },
+    "leads": {
+     "manager": 3.75,
+     "firefighter": 1,
+     "exile": 3.5,
+     "protectionLoad": 2.7679
+    },
+    "pattern": {
+     "key": "FLOODED",
+     "modifiers": [],
+     "evidence": {
+      "self": 2,
+      "manager": 3.75,
+      "firefighter": 1,
+      "exile": 3.5,
+      "protectionLoad": 2.7679
+     }
+    },
+    "protectors": {
+     "ranked": [
+      "AVOI",
+      "CARE",
+      "CRIT",
+      "CTRL",
+      "DIST",
+      "HYPV",
+      "INTL",
+      "PERF",
+      "PLEA",
+      "ANGR",
+      "DISS",
+      "IMPL",
+      "NUMB",
+      "REBL"
+     ],
+     "leading": null,
+     "team": [
+      "AVOI",
+      "CARE",
+      "CRIT"
+     ]
+    },
+    "exiles": {
+     "ranked": [
+      "ABAN",
+      "FEAR",
+      "LONE",
+      "POWL",
+      "SHAM"
+     ]
+    },
+    "pairings": [
+     {
+      "protector": "AVOI",
+      "exile": "SHAM"
+     },
+     {
+      "protector": "AVOI",
+      "exile": "POWL"
+     },
+     {
+      "protector": "CARE",
+      "exile": "ABAN"
+     },
+     {
+      "protector": "CRIT",
+      "exile": "SHAM"
+     },
+     {
+      "protector": "CRIT",
+      "exile": "FEAR"
+     }
+    ],
+    "qualityFlags": [],
+    "careFlag": true
+   }
+  },
+  {
+   "name": "self 5 with every lead exactly 3.0",
+   "input": {
+    "form": "full",
+    "durationSeconds": 600,
+    "responses": {
+     "SELF1": 5,
+     "SELF2": 5,
+     "SELF3": 5,
+     "SELF4": 5,
+     "SELF5": 5,
+     "SELF6": 5,
+     "SELF7": 5,
+     "SELF8": 5,
+     "PERF1": 3,
+     "PERF2": 3,
+     "PERF3": 3,
+     "PERF4": 3,
+     "CRIT1": 3,
+     "CRIT2": 3,
+     "CRIT3": 3,
+     "CRIT4": 3,
+     "PLEA1": 3,
+     "PLEA2": 3,
+     "PLEA3": 3,
+     "PLEA4": 3,
+     "CTRL1": 3,
+     "CTRL2": 3,
+     "CTRL3": 3,
+     "CTRL4": 3,
+     "INTL1": 3,
+     "INTL2": 3,
+     "INTL3": 3,
+     "INTL4": 3,
+     "AVOI1": 3,
+     "AVOI2": 3,
+     "AVOI3": 3,
+     "AVOI4": 3,
+     "CARE1": 3,
+     "CARE2": 3,
+     "CARE3": 3,
+     "CARE4": 3,
+     "HYPV1": 3,
+     "HYPV2": 3,
+     "HYPV3": 3,
+     "HYPV4": 3,
+     "DIST1": 3,
+     "DIST2": 3,
+     "DIST3": 3,
+     "DIST4": 3,
+     "NUMB1": 3,
+     "NUMB2": 3,
+     "NUMB3": 3,
+     "NUMB4": 3,
+     "DISS1": 3,
+     "DISS2": 3,
+     "DISS3": 3,
+     "DISS4": 3,
+     "ANGR1": 3,
+     "ANGR2": 3,
+     "ANGR3": 3,
+     "ANGR4": 3,
+     "IMPL1": 3,
+     "IMPL2": 3,
+     "IMPL3": 3,
+     "IMPL4": 3,
+     "REBL1": 3,
+     "REBL2": 3,
+     "REBL3": 3,
+     "REBL4": 3,
+     "SHAM1": 3,
+     "SHAM2": 3,
+     "SHAM3": 3,
+     "SHAM4": 3,
+     "ABAN1": 3,
+     "ABAN2": 3,
+     "ABAN3": 3,
+     "ABAN4": 3,
+     "FEAR1": 3,
+     "FEAR2": 3,
+     "FEAR3": 3,
+     "FEAR4": 3,
+     "POWL1": 3,
+     "POWL2": 3,
+     "POWL3": 3,
+     "POWL4": 3,
+     "LONE1": 3,
+     "LONE2": 3,
+     "LONE3": 3,
+     "LONE4": 3
+    }
+   },
+   "result": {
+    "itemBankVersion": "v2",
+    "scoringVersion": "2026-09-18.1",
+    "form": "full",
+    "self": {
+     "key": "SELF",
+     "mean": 5,
+     "display": 100,
+     "itemCount": 8,
+     "highCount": 8,
+     "band": "oftenAvailable"
+    },
+    "scales": {
+     "PERF": {
+      "key": "PERF",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "CRIT": {
+      "key": "CRIT",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "PLEA": {
+      "key": "PLEA",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "CTRL": {
+      "key": "CTRL",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "INTL": {
+      "key": "INTL",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "AVOI": {
+      "key": "AVOI",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "CARE": {
+      "key": "CARE",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "HYPV": {
+      "key": "HYPV",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "DIST": {
+      "key": "DIST",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "NUMB": {
+      "key": "NUMB",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "DISS": {
+      "key": "DISS",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "ANGR": {
+      "key": "ANGR",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "IMPL": {
+      "key": "IMPL",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "REBL": {
+      "key": "REBL",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "SHAM": {
+      "key": "SHAM",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "ABAN": {
+      "key": "ABAN",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "FEAR": {
+      "key": "FEAR",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "POWL": {
+      "key": "POWL",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "LONE": {
+      "key": "LONE",
+      "mean": 3,
+      "display": 50,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     }
+    },
+    "leads": {
+     "manager": 3,
+     "firefighter": 3,
+     "exile": 3,
+     "protectionLoad": 3
+    },
+    "pattern": {
+     "key": "POLARISED",
+     "modifiers": [
+      "SELF_PRESENT"
+     ],
+     "evidence": {
+      "self": 5,
+      "manager": 3,
+      "firefighter": 3,
+      "exile": 3,
+      "protectionLoad": 3
+     }
+    },
+    "protectors": {
+     "ranked": [
+      "ANGR",
+      "AVOI",
+      "CARE",
+      "CRIT",
+      "CTRL",
+      "DISS",
+      "DIST",
+      "HYPV",
+      "IMPL",
+      "INTL",
+      "NUMB",
+      "PERF",
+      "PLEA",
+      "REBL"
+     ],
+     "leading": null,
+     "team": [
+      "ANGR",
+      "AVOI",
+      "CARE"
+     ]
+    },
+    "exiles": {
+     "ranked": [
+      "ABAN",
+      "FEAR",
+      "LONE",
+      "POWL",
+      "SHAM"
+     ]
+    },
+    "pairings": [
+     {
+      "protector": "ANGR",
+      "exile": "POWL"
+     },
+     {
+      "protector": "ANGR",
+      "exile": "SHAM"
+     },
+     {
+      "protector": "AVOI",
+      "exile": "SHAM"
+     },
+     {
+      "protector": "AVOI",
+      "exile": "POWL"
+     },
+     {
+      "protector": "CARE",
+      "exile": "ABAN"
+     }
+    ],
+    "qualityFlags": [
+     "STRAIGHT_LINING"
+    ],
+    "careFlag": false
+   }
+  },
+  {
+   "name": "short form team: gaps of a third",
+   "input": {
+    "form": "short",
+    "durationSeconds": 600,
+    "responses": {
+     "SELF1": 2,
+     "SELF2": 2,
+     "SELF3": 2,
+     "SELF4": 2,
+     "SELF5": 2,
+     "SELF6": 2,
+     "PERF1": 4,
+     "PERF2": 4,
+     "PERF3": 4,
+     "CRIT1": 4,
+     "CRIT2": 4,
+     "CRIT3": 3,
+     "PLEA1": 4,
+     "PLEA2": 3,
+     "PLEA3": 3,
+     "CTRL1": 2,
+     "CTRL2": 2,
+     "CTRL3": 2,
+     "INTL1": 2,
+     "INTL2": 2,
+     "INTL3": 2,
+     "AVOI1": 2,
+     "AVOI2": 2,
+     "AVOI3": 2,
+     "CARE1": 2,
+     "CARE2": 2,
+     "CARE3": 2,
+     "HYPV1": 2,
+     "HYPV2": 2,
+     "HYPV3": 2,
+     "DIST1": 2,
+     "DIST2": 2,
+     "DIST3": 2,
+     "NUMB1": 2,
+     "NUMB2": 2,
+     "NUMB3": 2,
+     "DISS1": 2,
+     "DISS2": 2,
+     "DISS3": 2,
+     "ANGR1": 2,
+     "ANGR2": 2,
+     "ANGR3": 2,
+     "IMPL1": 2,
+     "IMPL2": 2,
+     "IMPL3": 2,
+     "REBL1": 2,
+     "REBL2": 2,
+     "REBL3": 2,
+     "SHAM1": 2,
+     "SHAM2": 2,
+     "SHAM3": 2,
+     "ABAN1": 2,
+     "ABAN2": 2,
+     "ABAN3": 2,
+     "FEAR1": 2,
+     "FEAR2": 2,
+     "FEAR3": 2,
+     "POWL1": 2,
+     "POWL2": 2,
+     "POWL3": 2,
+     "LONE1": 2,
+     "LONE2": 2,
+     "LONE3": 2
+    }
+   },
+   "result": {
+    "itemBankVersion": "v2",
+    "scoringVersion": "2026-09-18.1",
+    "form": "short",
+    "self": {
+     "key": "SELF",
+     "mean": 2,
+     "display": 25,
+     "itemCount": 6,
+     "highCount": 0,
+     "band": "hardToReach"
+    },
+    "scales": {
+     "PERF": {
+      "key": "PERF",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 3,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "CRIT": {
+      "key": "CRIT",
+      "mean": 3.6667,
+      "display": 67,
+      "itemCount": 3,
+      "highCount": 2,
+      "band": "veryActive"
+     },
+     "PLEA": {
+      "key": "PLEA",
+      "mean": 3.3333,
+      "display": 58,
+      "itemCount": 3,
+      "highCount": 1,
+      "band": "present"
+     },
+     "CTRL": {
+      "key": "CTRL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "INTL": {
+      "key": "INTL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "AVOI": {
+      "key": "AVOI",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "CARE": {
+      "key": "CARE",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "HYPV": {
+      "key": "HYPV",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "DIST": {
+      "key": "DIST",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "NUMB": {
+      "key": "NUMB",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "DISS": {
+      "key": "DISS",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "ANGR": {
+      "key": "ANGR",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "IMPL": {
+      "key": "IMPL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "REBL": {
+      "key": "REBL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "SHAM": {
+      "key": "SHAM",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "ABAN": {
+      "key": "ABAN",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "FEAR": {
+      "key": "FEAR",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "POWL": {
+      "key": "POWL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "LONE": {
+      "key": "LONE",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     }
+    },
+    "leads": {
+     "manager": 3.8334,
+     "firefighter": 2,
+     "exile": 2,
+     "protectionLoad": 2.3571
+    },
+    "pattern": {
+     "key": "MANAGED",
+     "modifiers": [
+      "HIDDEN_EXILES"
+     ],
+     "evidence": {
+      "self": 2,
+      "manager": 3.8334,
+      "firefighter": 2,
+      "exile": 2,
+      "protectionLoad": 2.3571
+     }
+    },
+    "protectors": {
+     "ranked": [
+      "PERF",
+      "CRIT",
+      "PLEA",
+      "ANGR",
+      "AVOI",
+      "CARE",
+      "CTRL",
+      "DISS",
+      "DIST",
+      "HYPV",
+      "IMPL",
+      "INTL",
+      "NUMB",
+      "REBL"
+     ],
+     "leading": null,
+     "team": [
+      "PERF",
+      "CRIT",
+      "PLEA"
+     ]
+    },
+    "exiles": {
+     "ranked": [
+      "ABAN",
+      "FEAR",
+      "LONE",
+      "POWL",
+      "SHAM"
+     ]
+    },
+    "pairings": [],
+    "qualityFlags": [],
+    "careFlag": false
+   }
+  },
+  {
+   "name": "short form group gap of a third",
+   "input": {
+    "form": "short",
+    "durationSeconds": 600,
+    "responses": {
+     "SELF1": 2,
+     "SELF2": 2,
+     "SELF3": 2,
+     "SELF4": 2,
+     "SELF5": 2,
+     "SELF6": 2,
+     "PERF1": 4,
+     "PERF2": 4,
+     "PERF3": 4,
+     "CRIT1": 4,
+     "CRIT2": 4,
+     "CRIT3": 4,
+     "PLEA1": 4,
+     "PLEA2": 4,
+     "PLEA3": 4,
+     "CTRL1": 4,
+     "CTRL2": 4,
+     "CTRL3": 4,
+     "INTL1": 4,
+     "INTL2": 4,
+     "INTL3": 4,
+     "AVOI1": 4,
+     "AVOI2": 4,
+     "AVOI3": 4,
+     "CARE1": 4,
+     "CARE2": 4,
+     "CARE3": 4,
+     "HYPV1": 4,
+     "HYPV2": 4,
+     "HYPV3": 4,
+     "DIST1": 4,
+     "DIST2": 4,
+     "DIST3": 4,
+     "NUMB1": 4,
+     "NUMB2": 4,
+     "NUMB3": 3,
+     "DISS1": 4,
+     "DISS2": 4,
+     "DISS3": 3,
+     "ANGR1": 4,
+     "ANGR2": 4,
+     "ANGR3": 3,
+     "IMPL1": 4,
+     "IMPL2": 4,
+     "IMPL3": 3,
+     "REBL1": 2,
+     "REBL2": 2,
+     "REBL3": 2,
+     "SHAM1": 2,
+     "SHAM2": 2,
+     "SHAM3": 2,
+     "ABAN1": 2,
+     "ABAN2": 2,
+     "ABAN3": 2,
+     "FEAR1": 2,
+     "FEAR2": 2,
+     "FEAR3": 2,
+     "POWL1": 2,
+     "POWL2": 2,
+     "POWL3": 2,
+     "LONE1": 2,
+     "LONE2": 2,
+     "LONE3": 2
+    }
+   },
+   "result": {
+    "itemBankVersion": "v2",
+    "scoringVersion": "2026-09-18.1",
+    "form": "short",
+    "self": {
+     "key": "SELF",
+     "mean": 2,
+     "display": 25,
+     "itemCount": 6,
+     "highCount": 0,
+     "band": "hardToReach"
+    },
+    "scales": {
+     "PERF": {
+      "key": "PERF",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 3,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "CRIT": {
+      "key": "CRIT",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 3,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "PLEA": {
+      "key": "PLEA",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 3,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "CTRL": {
+      "key": "CTRL",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 3,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "INTL": {
+      "key": "INTL",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 3,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "AVOI": {
+      "key": "AVOI",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 3,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "CARE": {
+      "key": "CARE",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 3,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "HYPV": {
+      "key": "HYPV",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 3,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "DIST": {
+      "key": "DIST",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 3,
+      "highCount": 3,
+      "band": "veryActive"
+     },
+     "NUMB": {
+      "key": "NUMB",
+      "mean": 3.6667,
+      "display": 67,
+      "itemCount": 3,
+      "highCount": 2,
+      "band": "veryActive"
+     },
+     "DISS": {
+      "key": "DISS",
+      "mean": 3.6667,
+      "display": 67,
+      "itemCount": 3,
+      "highCount": 2,
+      "band": "veryActive"
+     },
+     "ANGR": {
+      "key": "ANGR",
+      "mean": 3.6667,
+      "display": 67,
+      "itemCount": 3,
+      "highCount": 2,
+      "band": "veryActive"
+     },
+     "IMPL": {
+      "key": "IMPL",
+      "mean": 3.6667,
+      "display": 67,
+      "itemCount": 3,
+      "highCount": 2,
+      "band": "veryActive"
+     },
+     "REBL": {
+      "key": "REBL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "SHAM": {
+      "key": "SHAM",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "ABAN": {
+      "key": "ABAN",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "FEAR": {
+      "key": "FEAR",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "POWL": {
+      "key": "POWL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "LONE": {
+      "key": "LONE",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     }
+    },
+    "leads": {
+     "manager": 4,
+     "firefighter": 3.6667,
+     "exile": 2,
+     "protectionLoad": 3.7619
+    },
+    "pattern": {
+     "key": "MANAGED",
+     "modifiers": [
+      "HIDDEN_EXILES"
+     ],
+     "evidence": {
+      "self": 2,
+      "manager": 4,
+      "firefighter": 3.6667,
+      "exile": 2,
+      "protectionLoad": 3.7619
+     }
+    },
+    "protectors": {
+     "ranked": [
+      "AVOI",
+      "CARE",
+      "CRIT",
+      "CTRL",
+      "DIST",
+      "HYPV",
+      "INTL",
+      "PERF",
+      "PLEA",
+      "ANGR",
+      "DISS",
+      "IMPL",
+      "NUMB",
+      "REBL"
+     ],
+     "leading": null,
+     "team": [
+      "AVOI",
+      "CARE",
+      "CRIT"
+     ]
+    },
+    "exiles": {
+     "ranked": [
+      "ABAN",
+      "FEAR",
+      "LONE",
+      "POWL",
+      "SHAM"
+     ]
+    },
+    "pairings": [],
+    "qualityFlags": [],
+    "careFlag": false
+   }
+  },
+  {
+   "name": "acquiescence at self 4.0 and load 4.0",
+   "input": {
+    "form": "full",
+    "durationSeconds": 600,
+    "responses": {
+     "SELF1": 4,
+     "SELF2": 4,
+     "SELF3": 4,
+     "SELF4": 4,
+     "SELF5": 4,
+     "SELF6": 4,
+     "SELF7": 4,
+     "SELF8": 4,
+     "PERF1": 4,
+     "PERF2": 4,
+     "PERF3": 4,
+     "PERF4": 4,
+     "CRIT1": 4,
+     "CRIT2": 4,
+     "CRIT3": 4,
+     "CRIT4": 4,
+     "PLEA1": 4,
+     "PLEA2": 4,
+     "PLEA3": 4,
+     "PLEA4": 4,
+     "CTRL1": 4,
+     "CTRL2": 4,
+     "CTRL3": 4,
+     "CTRL4": 4,
+     "INTL1": 4,
+     "INTL2": 4,
+     "INTL3": 4,
+     "INTL4": 4,
+     "AVOI1": 4,
+     "AVOI2": 4,
+     "AVOI3": 4,
+     "AVOI4": 4,
+     "CARE1": 4,
+     "CARE2": 4,
+     "CARE3": 4,
+     "CARE4": 4,
+     "HYPV1": 4,
+     "HYPV2": 4,
+     "HYPV3": 4,
+     "HYPV4": 4,
+     "DIST1": 4,
+     "DIST2": 4,
+     "DIST3": 4,
+     "DIST4": 4,
+     "NUMB1": 4,
+     "NUMB2": 4,
+     "NUMB3": 4,
+     "NUMB4": 4,
+     "DISS1": 4,
+     "DISS2": 4,
+     "DISS3": 4,
+     "DISS4": 4,
+     "ANGR1": 4,
+     "ANGR2": 4,
+     "ANGR3": 4,
+     "ANGR4": 4,
+     "IMPL1": 4,
+     "IMPL2": 4,
+     "IMPL3": 4,
+     "IMPL4": 4,
+     "REBL1": 4,
+     "REBL2": 4,
+     "REBL3": 4,
+     "REBL4": 4,
+     "SHAM1": 4,
+     "SHAM2": 4,
+     "SHAM3": 4,
+     "SHAM4": 4,
+     "ABAN1": 4,
+     "ABAN2": 4,
+     "ABAN3": 4,
+     "ABAN4": 4,
+     "FEAR1": 4,
+     "FEAR2": 4,
+     "FEAR3": 4,
+     "FEAR4": 4,
+     "POWL1": 4,
+     "POWL2": 4,
+     "POWL3": 4,
+     "POWL4": 4,
+     "LONE1": 4,
+     "LONE2": 4,
+     "LONE3": 4,
+     "LONE4": 4
+    }
+   },
+   "result": {
+    "itemBankVersion": "v2",
+    "scoringVersion": "2026-09-18.1",
+    "form": "full",
+    "self": {
+     "key": "SELF",
+     "mean": 4,
+     "display": 75,
+     "itemCount": 8,
+     "highCount": 8,
+     "band": "oftenAvailable"
+    },
+    "scales": {
+     "PERF": {
+      "key": "PERF",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "CRIT": {
+      "key": "CRIT",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "PLEA": {
+      "key": "PLEA",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "CTRL": {
+      "key": "CTRL",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "INTL": {
+      "key": "INTL",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "AVOI": {
+      "key": "AVOI",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "CARE": {
+      "key": "CARE",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "HYPV": {
+      "key": "HYPV",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "DIST": {
+      "key": "DIST",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "NUMB": {
+      "key": "NUMB",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "DISS": {
+      "key": "DISS",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "ANGR": {
+      "key": "ANGR",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "IMPL": {
+      "key": "IMPL",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "REBL": {
+      "key": "REBL",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "SHAM": {
+      "key": "SHAM",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "ABAN": {
+      "key": "ABAN",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "FEAR": {
+      "key": "FEAR",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "POWL": {
+      "key": "POWL",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "LONE": {
+      "key": "LONE",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     }
+    },
+    "leads": {
+     "manager": 4,
+     "firefighter": 4,
+     "exile": 4,
+     "protectionLoad": 4
+    },
+    "pattern": {
+     "key": "FLOODED",
+     "modifiers": [
+      "SELF_PRESENT"
+     ],
+     "evidence": {
+      "self": 4,
+      "manager": 4,
+      "firefighter": 4,
+      "exile": 4,
+      "protectionLoad": 4
+     }
+    },
+    "protectors": {
+     "ranked": [
+      "ANGR",
+      "AVOI",
+      "CARE",
+      "CRIT",
+      "CTRL",
+      "DISS",
+      "DIST",
+      "HYPV",
+      "IMPL",
+      "INTL",
+      "NUMB",
+      "PERF",
+      "PLEA",
+      "REBL"
+     ],
+     "leading": null,
+     "team": [
+      "ANGR",
+      "AVOI",
+      "CARE"
+     ]
+    },
+    "exiles": {
+     "ranked": [
+      "ABAN",
+      "FEAR",
+      "LONE",
+      "POWL",
+      "SHAM"
+     ]
+    },
+    "pairings": [
+     {
+      "protector": "ANGR",
+      "exile": "POWL"
+     },
+     {
+      "protector": "ANGR",
+      "exile": "SHAM"
+     },
+     {
+      "protector": "AVOI",
+      "exile": "SHAM"
+     },
+     {
+      "protector": "AVOI",
+      "exile": "POWL"
+     },
+     {
+      "protector": "CARE",
+      "exile": "ABAN"
+     }
+    ],
+    "qualityFlags": [
+     "STRAIGHT_LINING",
+     "ACQUIESCENCE"
+    ],
+    "careFlag": true
+   }
+  },
+  {
+   "name": "hidden exiles at 2.5",
+   "input": {
+    "form": "full",
+    "durationSeconds": 600,
+    "responses": {
+     "SELF1": 2,
+     "SELF2": 2,
+     "SELF3": 2,
+     "SELF4": 2,
+     "SELF5": 2,
+     "SELF6": 2,
+     "SELF7": 2,
+     "SELF8": 2,
+     "PERF1": 4,
+     "PERF2": 4,
+     "PERF3": 4,
+     "PERF4": 4,
+     "CRIT1": 4,
+     "CRIT2": 4,
+     "CRIT3": 4,
+     "CRIT4": 4,
+     "PLEA1": 4,
+     "PLEA2": 4,
+     "PLEA3": 4,
+     "PLEA4": 4,
+     "CTRL1": 4,
+     "CTRL2": 4,
+     "CTRL3": 4,
+     "CTRL4": 4,
+     "INTL1": 4,
+     "INTL2": 4,
+     "INTL3": 4,
+     "INTL4": 4,
+     "AVOI1": 4,
+     "AVOI2": 4,
+     "AVOI3": 4,
+     "AVOI4": 4,
+     "CARE1": 4,
+     "CARE2": 4,
+     "CARE3": 4,
+     "CARE4": 4,
+     "HYPV1": 4,
+     "HYPV2": 4,
+     "HYPV3": 4,
+     "HYPV4": 4,
+     "DIST1": 4,
+     "DIST2": 4,
+     "DIST3": 4,
+     "DIST4": 4,
+     "NUMB1": 1,
+     "NUMB2": 1,
+     "NUMB3": 1,
+     "NUMB4": 1,
+     "DISS1": 1,
+     "DISS2": 1,
+     "DISS3": 1,
+     "DISS4": 1,
+     "ANGR1": 1,
+     "ANGR2": 1,
+     "ANGR3": 1,
+     "ANGR4": 1,
+     "IMPL1": 1,
+     "IMPL2": 1,
+     "IMPL3": 1,
+     "IMPL4": 1,
+     "REBL1": 1,
+     "REBL2": 1,
+     "REBL3": 1,
+     "REBL4": 1,
+     "SHAM1": 2,
+     "SHAM2": 3,
+     "SHAM3": 2,
+     "SHAM4": 3,
+     "ABAN1": 2,
+     "ABAN2": 3,
+     "ABAN3": 2,
+     "ABAN4": 3,
+     "FEAR1": 2,
+     "FEAR2": 3,
+     "FEAR3": 2,
+     "FEAR4": 3,
+     "POWL1": 2,
+     "POWL2": 3,
+     "POWL3": 2,
+     "POWL4": 3,
+     "LONE1": 2,
+     "LONE2": 3,
+     "LONE3": 2,
+     "LONE4": 3
+    }
+   },
+   "result": {
+    "itemBankVersion": "v2",
+    "scoringVersion": "2026-09-18.1",
+    "form": "full",
+    "self": {
+     "key": "SELF",
+     "mean": 2,
+     "display": 25,
+     "itemCount": 8,
+     "highCount": 0,
+     "band": "hardToReach"
+    },
+    "scales": {
+     "PERF": {
+      "key": "PERF",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "CRIT": {
+      "key": "CRIT",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "PLEA": {
+      "key": "PLEA",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "CTRL": {
+      "key": "CTRL",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "INTL": {
+      "key": "INTL",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "AVOI": {
+      "key": "AVOI",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "CARE": {
+      "key": "CARE",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "HYPV": {
+      "key": "HYPV",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "DIST": {
+      "key": "DIST",
+      "mean": 4,
+      "display": 75,
+      "itemCount": 4,
+      "highCount": 4,
+      "band": "veryActive"
+     },
+     "NUMB": {
+      "key": "NUMB",
+      "mean": 1,
+      "display": 0,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "DISS": {
+      "key": "DISS",
+      "mean": 1,
+      "display": 0,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "ANGR": {
+      "key": "ANGR",
+      "mean": 1,
+      "display": 0,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "IMPL": {
+      "key": "IMPL",
+      "mean": 1,
+      "display": 0,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "REBL": {
+      "key": "REBL",
+      "mean": 1,
+      "display": 0,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "SHAM": {
+      "key": "SHAM",
+      "mean": 2.5,
+      "display": 38,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "ABAN": {
+      "key": "ABAN",
+      "mean": 2.5,
+      "display": 38,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "FEAR": {
+      "key": "FEAR",
+      "mean": 2.5,
+      "display": 38,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "POWL": {
+      "key": "POWL",
+      "mean": 2.5,
+      "display": 38,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     },
+     "LONE": {
+      "key": "LONE",
+      "mean": 2.5,
+      "display": 38,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "present"
+     }
+    },
+    "leads": {
+     "manager": 4,
+     "firefighter": 1,
+     "exile": 2.5,
+     "protectionLoad": 2.9286
+    },
+    "pattern": {
+     "key": "MANAGED",
+     "modifiers": [],
+     "evidence": {
+      "self": 2,
+      "manager": 4,
+      "firefighter": 1,
+      "exile": 2.5,
+      "protectionLoad": 2.9286
+     }
+    },
+    "protectors": {
+     "ranked": [
+      "AVOI",
+      "CARE",
+      "CRIT",
+      "CTRL",
+      "DIST",
+      "HYPV",
+      "INTL",
+      "PERF",
+      "PLEA",
+      "ANGR",
+      "DISS",
+      "IMPL",
+      "NUMB",
+      "REBL"
+     ],
+     "leading": null,
+     "team": [
+      "AVOI",
+      "CARE",
+      "CRIT"
+     ]
+    },
+    "exiles": {
+     "ranked": [
+      "ABAN",
+      "FEAR",
+      "LONE",
+      "POWL",
+      "SHAM"
+     ]
+    },
+    "pairings": [
+     {
+      "protector": "AVOI",
+      "exile": "SHAM"
+     },
+     {
+      "protector": "AVOI",
+      "exile": "POWL"
+     },
+     {
+      "protector": "CARE",
+      "exile": "ABAN"
+     },
+     {
+      "protector": "CRIT",
+      "exile": "SHAM"
+     },
+     {
+      "protector": "CRIT",
+      "exile": "FEAR"
+     }
+    ],
+    "qualityFlags": [],
+    "careFlag": false
+   }
+  },
+  {
+   "name": "full form at 239 s",
+   "input": {
+    "form": "full",
+    "durationSeconds": 239,
+    "responses": {
+     "SELF1": 4,
+     "SELF2": 4,
+     "SELF3": 4,
+     "SELF4": 4,
+     "SELF5": 4,
+     "SELF6": 4,
+     "SELF7": 4,
+     "SELF8": 4,
+     "PERF1": 2,
+     "PERF2": 2,
+     "PERF3": 2,
+     "PERF4": 2,
+     "CRIT1": 2,
+     "CRIT2": 2,
+     "CRIT3": 2,
+     "CRIT4": 2,
+     "PLEA1": 2,
+     "PLEA2": 2,
+     "PLEA3": 2,
+     "PLEA4": 2,
+     "CTRL1": 2,
+     "CTRL2": 2,
+     "CTRL3": 2,
+     "CTRL4": 2,
+     "INTL1": 2,
+     "INTL2": 2,
+     "INTL3": 2,
+     "INTL4": 2,
+     "AVOI1": 2,
+     "AVOI2": 2,
+     "AVOI3": 2,
+     "AVOI4": 2,
+     "CARE1": 2,
+     "CARE2": 2,
+     "CARE3": 2,
+     "CARE4": 2,
+     "HYPV1": 2,
+     "HYPV2": 2,
+     "HYPV3": 2,
+     "HYPV4": 2,
+     "DIST1": 2,
+     "DIST2": 2,
+     "DIST3": 2,
+     "DIST4": 2,
+     "NUMB1": 2,
+     "NUMB2": 2,
+     "NUMB3": 2,
+     "NUMB4": 2,
+     "DISS1": 2,
+     "DISS2": 2,
+     "DISS3": 2,
+     "DISS4": 2,
+     "ANGR1": 2,
+     "ANGR2": 2,
+     "ANGR3": 2,
+     "ANGR4": 2,
+     "IMPL1": 2,
+     "IMPL2": 2,
+     "IMPL3": 2,
+     "IMPL4": 2,
+     "REBL1": 2,
+     "REBL2": 2,
+     "REBL3": 2,
+     "REBL4": 2,
+     "SHAM1": 2,
+     "SHAM2": 2,
+     "SHAM3": 2,
+     "SHAM4": 2,
+     "ABAN1": 2,
+     "ABAN2": 2,
+     "ABAN3": 2,
+     "ABAN4": 2,
+     "FEAR1": 2,
+     "FEAR2": 2,
+     "FEAR3": 2,
+     "FEAR4": 2,
+     "POWL1": 2,
+     "POWL2": 2,
+     "POWL3": 2,
+     "POWL4": 2,
+     "LONE1": 2,
+     "LONE2": 2,
+     "LONE3": 2,
+     "LONE4": 2
+    }
+   },
+   "result": {
+    "itemBankVersion": "v2",
+    "scoringVersion": "2026-09-18.1",
+    "form": "full",
+    "self": {
+     "key": "SELF",
+     "mean": 4,
+     "display": 75,
+     "itemCount": 8,
+     "highCount": 8,
+     "band": "oftenAvailable"
+    },
+    "scales": {
+     "PERF": {
+      "key": "PERF",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "CRIT": {
+      "key": "CRIT",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "PLEA": {
+      "key": "PLEA",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "CTRL": {
+      "key": "CTRL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "INTL": {
+      "key": "INTL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "AVOI": {
+      "key": "AVOI",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "CARE": {
+      "key": "CARE",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "HYPV": {
+      "key": "HYPV",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "DIST": {
+      "key": "DIST",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "NUMB": {
+      "key": "NUMB",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "DISS": {
+      "key": "DISS",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "ANGR": {
+      "key": "ANGR",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "IMPL": {
+      "key": "IMPL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "REBL": {
+      "key": "REBL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "SHAM": {
+      "key": "SHAM",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "ABAN": {
+      "key": "ABAN",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "FEAR": {
+      "key": "FEAR",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "POWL": {
+      "key": "POWL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "LONE": {
+      "key": "LONE",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     }
+    },
+    "leads": {
+     "manager": 2,
+     "firefighter": 2,
+     "exile": 2,
+     "protectionLoad": 2
+    },
+    "pattern": {
+     "key": "SELF_LED",
+     "modifiers": [],
+     "evidence": {
+      "self": 4,
+      "manager": 2,
+      "firefighter": 2,
+      "exile": 2,
+      "protectionLoad": 2
+     }
+    },
+    "protectors": {
+     "ranked": [
+      "ANGR",
+      "AVOI",
+      "CARE",
+      "CRIT",
+      "CTRL",
+      "DISS",
+      "DIST",
+      "HYPV",
+      "IMPL",
+      "INTL",
+      "NUMB",
+      "PERF",
+      "PLEA",
+      "REBL"
+     ],
+     "leading": null,
+     "team": [
+      "ANGR",
+      "AVOI",
+      "CARE"
+     ]
+    },
+    "exiles": {
+     "ranked": [
+      "ABAN",
+      "FEAR",
+      "LONE",
+      "POWL",
+      "SHAM"
+     ]
+    },
+    "pairings": [],
+    "qualityFlags": [
+     "STRAIGHT_LINING",
+     "TOO_FAST"
+    ],
+    "careFlag": false
+   }
+  },
+  {
+   "name": "full form at 240 s",
+   "input": {
+    "form": "full",
+    "durationSeconds": 240,
+    "responses": {
+     "SELF1": 4,
+     "SELF2": 4,
+     "SELF3": 4,
+     "SELF4": 4,
+     "SELF5": 4,
+     "SELF6": 4,
+     "SELF7": 4,
+     "SELF8": 4,
+     "PERF1": 2,
+     "PERF2": 2,
+     "PERF3": 2,
+     "PERF4": 2,
+     "CRIT1": 2,
+     "CRIT2": 2,
+     "CRIT3": 2,
+     "CRIT4": 2,
+     "PLEA1": 2,
+     "PLEA2": 2,
+     "PLEA3": 2,
+     "PLEA4": 2,
+     "CTRL1": 2,
+     "CTRL2": 2,
+     "CTRL3": 2,
+     "CTRL4": 2,
+     "INTL1": 2,
+     "INTL2": 2,
+     "INTL3": 2,
+     "INTL4": 2,
+     "AVOI1": 2,
+     "AVOI2": 2,
+     "AVOI3": 2,
+     "AVOI4": 2,
+     "CARE1": 2,
+     "CARE2": 2,
+     "CARE3": 2,
+     "CARE4": 2,
+     "HYPV1": 2,
+     "HYPV2": 2,
+     "HYPV3": 2,
+     "HYPV4": 2,
+     "DIST1": 2,
+     "DIST2": 2,
+     "DIST3": 2,
+     "DIST4": 2,
+     "NUMB1": 2,
+     "NUMB2": 2,
+     "NUMB3": 2,
+     "NUMB4": 2,
+     "DISS1": 2,
+     "DISS2": 2,
+     "DISS3": 2,
+     "DISS4": 2,
+     "ANGR1": 2,
+     "ANGR2": 2,
+     "ANGR3": 2,
+     "ANGR4": 2,
+     "IMPL1": 2,
+     "IMPL2": 2,
+     "IMPL3": 2,
+     "IMPL4": 2,
+     "REBL1": 2,
+     "REBL2": 2,
+     "REBL3": 2,
+     "REBL4": 2,
+     "SHAM1": 2,
+     "SHAM2": 2,
+     "SHAM3": 2,
+     "SHAM4": 2,
+     "ABAN1": 2,
+     "ABAN2": 2,
+     "ABAN3": 2,
+     "ABAN4": 2,
+     "FEAR1": 2,
+     "FEAR2": 2,
+     "FEAR3": 2,
+     "FEAR4": 2,
+     "POWL1": 2,
+     "POWL2": 2,
+     "POWL3": 2,
+     "POWL4": 2,
+     "LONE1": 2,
+     "LONE2": 2,
+     "LONE3": 2,
+     "LONE4": 2
+    }
+   },
+   "result": {
+    "itemBankVersion": "v2",
+    "scoringVersion": "2026-09-18.1",
+    "form": "full",
+    "self": {
+     "key": "SELF",
+     "mean": 4,
+     "display": 75,
+     "itemCount": 8,
+     "highCount": 8,
+     "band": "oftenAvailable"
+    },
+    "scales": {
+     "PERF": {
+      "key": "PERF",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "CRIT": {
+      "key": "CRIT",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "PLEA": {
+      "key": "PLEA",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "CTRL": {
+      "key": "CTRL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "INTL": {
+      "key": "INTL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "AVOI": {
+      "key": "AVOI",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "CARE": {
+      "key": "CARE",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "HYPV": {
+      "key": "HYPV",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "DIST": {
+      "key": "DIST",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "NUMB": {
+      "key": "NUMB",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "DISS": {
+      "key": "DISS",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "ANGR": {
+      "key": "ANGR",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "IMPL": {
+      "key": "IMPL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "REBL": {
+      "key": "REBL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "SHAM": {
+      "key": "SHAM",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "ABAN": {
+      "key": "ABAN",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "FEAR": {
+      "key": "FEAR",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "POWL": {
+      "key": "POWL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "LONE": {
+      "key": "LONE",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 4,
+      "highCount": 0,
+      "band": "quiet"
+     }
+    },
+    "leads": {
+     "manager": 2,
+     "firefighter": 2,
+     "exile": 2,
+     "protectionLoad": 2
+    },
+    "pattern": {
+     "key": "SELF_LED",
+     "modifiers": [],
+     "evidence": {
+      "self": 4,
+      "manager": 2,
+      "firefighter": 2,
+      "exile": 2,
+      "protectionLoad": 2
+     }
+    },
+    "protectors": {
+     "ranked": [
+      "ANGR",
+      "AVOI",
+      "CARE",
+      "CRIT",
+      "CTRL",
+      "DISS",
+      "DIST",
+      "HYPV",
+      "IMPL",
+      "INTL",
+      "NUMB",
+      "PERF",
+      "PLEA",
+      "REBL"
+     ],
+     "leading": null,
+     "team": [
+      "ANGR",
+      "AVOI",
+      "CARE"
+     ]
+    },
+    "exiles": {
+     "ranked": [
+      "ABAN",
+      "FEAR",
+      "LONE",
+      "POWL",
+      "SHAM"
+     ]
+    },
+    "pairings": [],
+    "qualityFlags": [
+     "STRAIGHT_LINING"
+    ],
+    "careFlag": false
+   }
+  },
+  {
+   "name": "short form at 179 s",
+   "input": {
+    "form": "short",
+    "durationSeconds": 179,
+    "responses": {
+     "SELF1": 4,
+     "SELF2": 4,
+     "SELF3": 4,
+     "SELF4": 4,
+     "SELF5": 4,
+     "SELF6": 4,
+     "PERF1": 2,
+     "PERF2": 2,
+     "PERF3": 2,
+     "CRIT1": 2,
+     "CRIT2": 2,
+     "CRIT3": 2,
+     "PLEA1": 2,
+     "PLEA2": 2,
+     "PLEA3": 2,
+     "CTRL1": 2,
+     "CTRL2": 2,
+     "CTRL3": 2,
+     "INTL1": 2,
+     "INTL2": 2,
+     "INTL3": 2,
+     "AVOI1": 2,
+     "AVOI2": 2,
+     "AVOI3": 2,
+     "CARE1": 2,
+     "CARE2": 2,
+     "CARE3": 2,
+     "HYPV1": 2,
+     "HYPV2": 2,
+     "HYPV3": 2,
+     "DIST1": 2,
+     "DIST2": 2,
+     "DIST3": 2,
+     "NUMB1": 2,
+     "NUMB2": 2,
+     "NUMB3": 2,
+     "DISS1": 2,
+     "DISS2": 2,
+     "DISS3": 2,
+     "ANGR1": 2,
+     "ANGR2": 2,
+     "ANGR3": 2,
+     "IMPL1": 2,
+     "IMPL2": 2,
+     "IMPL3": 2,
+     "REBL1": 2,
+     "REBL2": 2,
+     "REBL3": 2,
+     "SHAM1": 2,
+     "SHAM2": 2,
+     "SHAM3": 2,
+     "ABAN1": 2,
+     "ABAN2": 2,
+     "ABAN3": 2,
+     "FEAR1": 2,
+     "FEAR2": 2,
+     "FEAR3": 2,
+     "POWL1": 2,
+     "POWL2": 2,
+     "POWL3": 2,
+     "LONE1": 2,
+     "LONE2": 2,
+     "LONE3": 2
+    }
+   },
+   "result": {
+    "itemBankVersion": "v2",
+    "scoringVersion": "2026-09-18.1",
+    "form": "short",
+    "self": {
+     "key": "SELF",
+     "mean": 4,
+     "display": 75,
+     "itemCount": 6,
+     "highCount": 6,
+     "band": "oftenAvailable"
+    },
+    "scales": {
+     "PERF": {
+      "key": "PERF",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "CRIT": {
+      "key": "CRIT",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "PLEA": {
+      "key": "PLEA",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "CTRL": {
+      "key": "CTRL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "INTL": {
+      "key": "INTL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "AVOI": {
+      "key": "AVOI",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "CARE": {
+      "key": "CARE",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "HYPV": {
+      "key": "HYPV",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "DIST": {
+      "key": "DIST",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "NUMB": {
+      "key": "NUMB",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "DISS": {
+      "key": "DISS",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "ANGR": {
+      "key": "ANGR",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "IMPL": {
+      "key": "IMPL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "REBL": {
+      "key": "REBL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "SHAM": {
+      "key": "SHAM",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "ABAN": {
+      "key": "ABAN",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "FEAR": {
+      "key": "FEAR",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "POWL": {
+      "key": "POWL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "LONE": {
+      "key": "LONE",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     }
+    },
+    "leads": {
+     "manager": 2,
+     "firefighter": 2,
+     "exile": 2,
+     "protectionLoad": 2
+    },
+    "pattern": {
+     "key": "SELF_LED",
+     "modifiers": [],
+     "evidence": {
+      "self": 4,
+      "manager": 2,
+      "firefighter": 2,
+      "exile": 2,
+      "protectionLoad": 2
+     }
+    },
+    "protectors": {
+     "ranked": [
+      "ANGR",
+      "AVOI",
+      "CARE",
+      "CRIT",
+      "CTRL",
+      "DISS",
+      "DIST",
+      "HYPV",
+      "IMPL",
+      "INTL",
+      "NUMB",
+      "PERF",
+      "PLEA",
+      "REBL"
+     ],
+     "leading": null,
+     "team": [
+      "ANGR",
+      "AVOI",
+      "CARE"
+     ]
+    },
+    "exiles": {
+     "ranked": [
+      "ABAN",
+      "FEAR",
+      "LONE",
+      "POWL",
+      "SHAM"
+     ]
+    },
+    "pairings": [],
+    "qualityFlags": [
+     "STRAIGHT_LINING",
+     "TOO_FAST"
+    ],
+    "careFlag": false
+   }
+  },
+  {
+   "name": "short form at 180 s",
+   "input": {
+    "form": "short",
+    "durationSeconds": 180,
+    "responses": {
+     "SELF1": 4,
+     "SELF2": 4,
+     "SELF3": 4,
+     "SELF4": 4,
+     "SELF5": 4,
+     "SELF6": 4,
+     "PERF1": 2,
+     "PERF2": 2,
+     "PERF3": 2,
+     "CRIT1": 2,
+     "CRIT2": 2,
+     "CRIT3": 2,
+     "PLEA1": 2,
+     "PLEA2": 2,
+     "PLEA3": 2,
+     "CTRL1": 2,
+     "CTRL2": 2,
+     "CTRL3": 2,
+     "INTL1": 2,
+     "INTL2": 2,
+     "INTL3": 2,
+     "AVOI1": 2,
+     "AVOI2": 2,
+     "AVOI3": 2,
+     "CARE1": 2,
+     "CARE2": 2,
+     "CARE3": 2,
+     "HYPV1": 2,
+     "HYPV2": 2,
+     "HYPV3": 2,
+     "DIST1": 2,
+     "DIST2": 2,
+     "DIST3": 2,
+     "NUMB1": 2,
+     "NUMB2": 2,
+     "NUMB3": 2,
+     "DISS1": 2,
+     "DISS2": 2,
+     "DISS3": 2,
+     "ANGR1": 2,
+     "ANGR2": 2,
+     "ANGR3": 2,
+     "IMPL1": 2,
+     "IMPL2": 2,
+     "IMPL3": 2,
+     "REBL1": 2,
+     "REBL2": 2,
+     "REBL3": 2,
+     "SHAM1": 2,
+     "SHAM2": 2,
+     "SHAM3": 2,
+     "ABAN1": 2,
+     "ABAN2": 2,
+     "ABAN3": 2,
+     "FEAR1": 2,
+     "FEAR2": 2,
+     "FEAR3": 2,
+     "POWL1": 2,
+     "POWL2": 2,
+     "POWL3": 2,
+     "LONE1": 2,
+     "LONE2": 2,
+     "LONE3": 2
+    }
+   },
+   "result": {
+    "itemBankVersion": "v2",
+    "scoringVersion": "2026-09-18.1",
+    "form": "short",
+    "self": {
+     "key": "SELF",
+     "mean": 4,
+     "display": 75,
+     "itemCount": 6,
+     "highCount": 6,
+     "band": "oftenAvailable"
+    },
+    "scales": {
+     "PERF": {
+      "key": "PERF",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "CRIT": {
+      "key": "CRIT",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "PLEA": {
+      "key": "PLEA",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "CTRL": {
+      "key": "CTRL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "INTL": {
+      "key": "INTL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "AVOI": {
+      "key": "AVOI",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "CARE": {
+      "key": "CARE",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "HYPV": {
+      "key": "HYPV",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "DIST": {
+      "key": "DIST",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "NUMB": {
+      "key": "NUMB",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "DISS": {
+      "key": "DISS",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "ANGR": {
+      "key": "ANGR",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "IMPL": {
+      "key": "IMPL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "REBL": {
+      "key": "REBL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "SHAM": {
+      "key": "SHAM",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "ABAN": {
+      "key": "ABAN",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "FEAR": {
+      "key": "FEAR",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "POWL": {
+      "key": "POWL",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     },
+     "LONE": {
+      "key": "LONE",
+      "mean": 2,
+      "display": 25,
+      "itemCount": 3,
+      "highCount": 0,
+      "band": "quiet"
+     }
+    },
+    "leads": {
+     "manager": 2,
+     "firefighter": 2,
+     "exile": 2,
+     "protectionLoad": 2
+    },
+    "pattern": {
+     "key": "SELF_LED",
+     "modifiers": [],
+     "evidence": {
+      "self": 4,
+      "manager": 2,
+      "firefighter": 2,
+      "exile": 2,
+      "protectionLoad": 2
+     }
+    },
+    "protectors": {
+     "ranked": [
+      "ANGR",
+      "AVOI",
+      "CARE",
+      "CRIT",
+      "CTRL",
+      "DISS",
+      "DIST",
+      "HYPV",
+      "IMPL",
+      "INTL",
+      "NUMB",
+      "PERF",
+      "PLEA",
+      "REBL"
+     ],
+     "leading": null,
+     "team": [
+      "ANGR",
+      "AVOI",
+      "CARE"
+     ]
+    },
+    "exiles": {
+     "ranked": [
+      "ABAN",
+      "FEAR",
+      "LONE",
+      "POWL",
+      "SHAM"
+     ]
+    },
+    "pairings": [],
+    "qualityFlags": [
+     "STRAIGHT_LINING"
+    ],
+    "careFlag": false
+   }
   }
  ]
 }

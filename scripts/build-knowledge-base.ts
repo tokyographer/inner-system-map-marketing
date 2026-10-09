@@ -95,7 +95,7 @@ table(["#", "Pattern", "Rule"], [
   [3, "REACTIVE (firefighters leading)", `firefighterLead ≥ ${SCORING.pattern.groupLeadMin} and ≥ managerLead + ${SCORING.pattern.groupLeadGap}`],
   [4, "MANAGED (managers leading)", `managerLead ≥ ${SCORING.pattern.groupLeadMin} and ≥ firefighterLead + ${SCORING.pattern.groupLeadGap}`],
   [5, "POLARISED", `both ≥ ${SCORING.pattern.groupLeadMin} and within ${SCORING.pattern.groupLeadGap} of each other`],
-  [6, "QUIET_OR_GUARDED", `none of the above (SELF < ${SCORING.pattern.quietSelfMax})`],
+  [6, "QUIET_OR_GUARDED", "none of the above (SELF may be at any level)"],
 ]);
 p(`Modifiers: HIDDEN_EXILES is attached when the pattern is MANAGED, REACTIVE or POLARISED and exileLead < ${SCORING.pattern.hiddenExilesMax}. SELF_PRESENT is attached when the pattern is not SELF_LED and SELF ≥ ${SCORING.pattern.selfPresentMin}. A gap of exactly ${SCORING.pattern.groupLeadGap} between managers and firefighters resolves to MANAGED or REACTIVE, not POLARISED, because of the evaluation order.`);
 h(3, "5.4 Leading parts");

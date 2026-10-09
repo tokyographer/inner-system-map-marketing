@@ -234,7 +234,7 @@ Evaluated in this order; the first match wins.
 | 3 | REACTIVE (firefighters leading) | firefighterLead ≥ 3 and ≥ managerLead + 0.3 |
 | 4 | MANAGED (managers leading) | managerLead ≥ 3 and ≥ firefighterLead + 0.3 |
 | 5 | POLARISED | both ≥ 3 and within 0.3 of each other |
-| 6 | QUIET_OR_GUARDED | none of the above (SELF < 3.5) |
+| 6 | QUIET_OR_GUARDED | none of the above (SELF may be at any level) |
 
 Modifiers: HIDDEN_EXILES is attached when the pattern is MANAGED, REACTIVE or POLARISED and exileLead < 2.5. SELF_PRESENT is attached when the pattern is not SELF_LED and SELF ≥ 3.5. A gap of exactly 0.3 between managers and firefighters resolves to MANAGED or REACTIVE, not POLARISED, because of the evaluation order.
 

@@ -20,7 +20,6 @@ export const SCORING = {
     floodedMargin: 0.3,
     groupLeadMin: 3.0,
     groupLeadGap: 0.3,
-    quietSelfMax: 3.5,
     hiddenExilesMax: 2.5,
     selfPresentMin: 3.5,
   },

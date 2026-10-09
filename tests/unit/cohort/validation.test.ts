@@ -21,10 +21,14 @@ describe("cohort validation", () => {
     if (ok.success) expect(ok.data.newsletter).toBe(false);
     expect(consentSchema.safeParse({ code: "ABC123", storeAndShare: false, policyVersion: "v1", locale: "en" }).success).toBe(false);
   });
-  it("cohort attempt requires complete responses and sane timestamps", () => {
-    const base = { cohortId: uuid, locale: "en", form: "full", seed: 42, startedAt: 1000, completedAt: 2000 };
+  it("cohort attempt requires complete responses and timestamps near server time", () => {
+    const now = Date.now();
+    const base = { cohortId: uuid, locale: "en", form: "full", seed: 42, startedAt: now - 600_000, completedAt: now - 1000 };
     expect(cohortAttemptSchema.safeParse({ ...base, responses: build("full", {}, 3) }).success).toBe(true);
-    expect(cohortAttemptSchema.safeParse({ ...base, completedAt: 500, responses: build("full", {}, 3) }).success).toBe(false);
+    expect(cohortAttemptSchema.safeParse({ ...base, completedAt: base.startedAt - 1, responses: build("full", {}, 3) }).success).toBe(false);
+    expect(cohortAttemptSchema.safeParse({ ...base, completedAt: now + 120_000, responses: build("full", {}, 3) }).success).toBe(false);
+    expect(cohortAttemptSchema.safeParse({ ...base, startedAt: now - 31 * 24 * 3600 * 1000, responses: build("full", {}, 3) }).success).toBe(false);
+    expect(cohortAttemptSchema.safeParse({ ...base, startedAt: 1000, completedAt: 2000, responses: build("full", {}, 3) }).success).toBe(false);
     expect(cohortAttemptSchema.safeParse({ ...base, cohortId: "nope", responses: build("full", {}, 3) }).success).toBe(false);
   });
   it("notes only accept protector keys and bounded bodies", () => {

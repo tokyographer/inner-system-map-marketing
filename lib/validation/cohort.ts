@@ -34,7 +34,11 @@ export const cohortAttemptSchema = z.object({
   startedAt: z.number().int().positive(),
   completedAt: z.number().int().positive(),
   responses: z.record(z.string().regex(/^[A-Z]{4}\d$/), response),
-}).refine((d) => d.completedAt >= d.startedAt, { path: ["completedAt"], message: "completedAt must not precede startedAt" });
+})
+  .refine((d) => d.completedAt >= d.startedAt, { path: ["completedAt"], message: "completedAt must not precede startedAt" })
+  // Client clocks feed the TOO_FAST flag and the stored dates, so keep them near server time: not in the future, started within the last 30 days.
+  .refine((d) => d.completedAt <= Date.now() + 60_000, { path: ["completedAt"], message: "completedAt is in the future" })
+  .refine((d) => d.startedAt >= Date.now() - 30 * 24 * 3600 * 1000, { path: ["startedAt"], message: "startedAt is too old" });
 
 export const noteSchema = z.object({
   attemptId: z.uuid(),

@@ -10,7 +10,8 @@ const base = z.object({
   locale: z.enum(LOCALES),
   form: z.enum(["full", "short"]),
   responses: z.record(z.string().regex(/^[A-Z]{4}\d$/), response),
-  durationSeconds: z.number().int().min(0).max(24 * 3600).optional(),
+  // Required: without it the TOO_FAST quality flag can never fire, and every shipped client sends it.
+  durationSeconds: z.number().int().min(0).max(24 * 3600),
   ageConfirmed: z.literal(true),
   name: z.string().max(120).transform((v) => cleanDisplayName(v) ?? undefined).optional(),
 });

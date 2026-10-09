@@ -5,7 +5,7 @@ import { isWhatsAppNumber, normalizeWhatsApp } from "@/lib/validation/whatsapp";
 import { whatsappConversationIdSchema, whatsappReplySchema } from "@/lib/validation/admin";
 import { build } from "../scoring/helpers";
 
-const valid = { locale: "en", form: "short", responses: build("short", {}, 3), ageConfirmed: true };
+const valid = { locale: "en", form: "short", responses: build("short", {}, 3), ageConfirmed: true, durationSeconds: 400 };
 
 describe("request validation", () => {
   it("accepts a complete short-form request", () => {
@@ -17,6 +17,8 @@ describe("request validation", () => {
     expect(pdfRequestSchema.safeParse({ ...valid, responses: { ...valid.responses, ZZZZ9: 3 } }).success).toBe(false);
     expect(pdfRequestSchema.safeParse({ ...valid, responses: { ...valid.responses, SELF1: 6 } }).success).toBe(false);
     expect(pdfRequestSchema.safeParse({ ...valid, ageConfirmed: false }).success).toBe(false);
+    expect(pdfRequestSchema.safeParse({ ...valid, durationSeconds: undefined }).success).toBe(false);
+    expect(pdfRequestSchema.safeParse({ ...valid, durationSeconds: -1 }).success).toBe(false);
   });
   it("full form requires all 84 items", () => {
     expect(pdfRequestSchema.safeParse({ ...valid, form: "full" }).success).toBe(false);
