@@ -22,6 +22,12 @@ Entry format:
 
 ---
 
+## 2026-10-09 [core]: landing button "Start Test", admin-results core, LOCALE_NAMES, privacy text (a57fd14, d1a62f9, 92b40ca, 11eea18)
+- Changed: ported the core paths of upstream `38cd1f9`, `a7ea83c`, `9ea31f0` and `e95eec0` (`e738e7c` has no core paths). `landing.begin` is "Start Test" (ES "Comenzar el test", RO "Începe testul", TR "Teste başla"). New core migration `0009_admin_results.sql` (`public_results.name` and the admin-only `app.admin_results()`), `resultsFilterSchema`/`resultRefSchema`/`pdfLocaleSchema` in `lib/validation/admin.ts`, `LOCALE_NAMES` and `isLocale()` in `config/app.ts`, the upstream `dashboard.*` strings, and the privacy notice saying the stored public copy includes name and email and is visible only to admins. The `"marketing"` messages key is unchanged. `tests/e2e/public.spec.ts`, `locales.spec.ts` and the marketing-only `marketing.spec.ts` click "Start Test".
+- Not ported (non-core): upstream's admin "All results" pages, its export and PDF routes, `lib/dashboard/results.ts`, the `storePublicResult` change that writes `name`, and the `LocaleSwitcher` switch to `LOCALE_NAMES`. This repo therefore has the 0009 function and the `dashboard.*` strings but no page that uses them, and it does not store the name yet even though the privacy text now mentions it. Bring those files over from upstream if this repo should have the page.
+- Agents: run `npm run db:migrate` on `marketing-dev` for 0009 (m0001 also alters `public_results`; they are compatible). Never against production. e2e tests find the landing link by its text, so change the specs with `landing.begin`.
+- Synced: inner-system-ifs-test@38cd1f9, a7ea83c, 9ea31f0, e95eec0 (ported from upstream)
+
 ## 2026-10-07 [core]: results email errors never carry the provider's message
 - Changed: `lib/email/send-results.ts` throws `Email to participant failed (<name>)` / `Copy to institute failed (<name>)` with Resend's error name only (a lowercase code such as `validation_error`, else `unknown`), never Resend's `message`, which may echo the recipient address. The email route logs `err.message` as the reason, so before this an address could reach the logs. Requested by the marketing repo (upstream request 3, found by data-privacy-auditor).
 - Agents: never put a provider's free-text error message into a thrown error or a log line; use a fixed message plus a validated code.
