@@ -120,6 +120,8 @@ This repo was cloned from the original app, `inner-system-ifs-test`, which is th
 @CORE.md
 
 ## Agents
+Neon tooling: the `neon` CLI is installed globally and signed in (reuse it; never run `neon login` unattended). The Neon MCP server is registered globally with OAuth. The `neon`, `neon-postgres` and `neon-postgres-branches` skills live in `.claude/skills/` with `skills-lock.json`; run `neon skills update -y` at the start of a session that touches the database. Never run `neon init` here: it writes `neon.ts` and pulls env over `.env.local` (which points at `marketing-dev`).
+
 Project subagents are in `.claude/agents/`:
 - `ifs-copy-reviewer` (read-only): checks copy in every locale against the IFS guardrails, forbidden words and section order.
 - `locale-sync`: carries an EN copy or key change into ES/RO/TR as drafts and keeps the locale tests green.
