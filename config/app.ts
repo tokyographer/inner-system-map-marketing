@@ -44,5 +44,14 @@ export const WHATSAPP_RESULTS_READY = false;
 /** Language code of each approved template translation, exactly as WhatsApp Manager lists it. */
 export const WHATSAPP_TEMPLATE_LANGUAGE: Record<Locale, string> = { en: "en", es: "es", ro: "ro", tr: "tr" };
 
-/** Changes with the privacy notice: turning WhatsApp on adds WhatsApp (Meta) to it. */
-export const CONSENT_POLICY_VERSION = WHATSAPP_RESULTS_READY ? "2026-10-whatsapp-draft" : "2026-09-draft";
+/**
+ * Admin WhatsApp inbox: the webhook stores replies to the business number and admins answer them
+ * within WhatsApp's 24-hour window. Turn on only after migration 0011 is applied and the webhook
+ * is configured in Meta with WHATSAPP_APP_SECRET and WHATSAPP_VERIFY_TOKEN set.
+ */
+export const WHATSAPP_INBOX_READY = false;
+/** How long WhatsApp messages are kept in the inbox. */
+export const WHATSAPP_RETENTION_MONTHS = 6;
+
+/** Changes with the privacy notice: each WhatsApp switch adds wording to it. */
+export const CONSENT_POLICY_VERSION = WHATSAPP_INBOX_READY ? "2026-10-whatsapp-inbox-draft" : WHATSAPP_RESULTS_READY ? "2026-10-whatsapp-draft" : "2026-09-draft";

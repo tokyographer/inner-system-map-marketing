@@ -51,7 +51,7 @@ export function recipientKey(to: string): string {
 
 type Fetch = typeof fetch;
 
-async function graphError(res: Response, step: string): Promise<Error> {
+export async function graphError(res: Response, step: string): Promise<Error> {
   let code = "unknown";
   try {
     const body = (await res.json()) as { error?: { code?: unknown } };

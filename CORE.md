@@ -42,3 +42,4 @@ The path list is duplicated in `scripts/core-fingerprint.mjs`. Change both toget
 - Never send results, patterns or scores to ad platforms or email tools, and never build audiences from them.
 - WhatsApp carries results only to the number the person gave on the start screen, only after their explicit WhatsApp consent, only as the approved Utility template, and only through `lib/whatsapp/` (rate limited per recipient, name sanitised before it enters the template). Never use stored WhatsApp numbers for promotion, broadcasts or audiences.
 - Never send promotional messages to a person whose pattern is FLOODED.
+- WhatsApp inbox messages are read and answered only by admins, only within WhatsApp's 24-hour reply window, and are never exported, analysed or used for marketing. Media is never downloaded.

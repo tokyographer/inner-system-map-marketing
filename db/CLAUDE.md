@@ -16,6 +16,7 @@ Migrations in `migrations/` are applied in filename order by `scripts/migrate.mj
 - Deletion must stay real: `app.delete_my_data()` removes every app row for the user, and Neon Auth `deleteUser` removes the account.
 - `app.admin_results()` (0009) is the only way the app reads `public_results` besides the service connection. It is admin-only inside SQL. Keep it that way: never grant `app_user` direct access to `public_results`.
 - `public_results.whatsapp` (0010) holds the E.164 number only when the person consented to WhatsApp delivery. `storePublicResult` names the column only when a number is given, so code can deploy before 0010 is applied; apply 0010 before turning `WHATSAPP_RESULTS_READY` on. `app.admin_results()` does not return it yet. No marketing code (attribution, funnel, analytics, nurture) may read or forward it.
+- `public.whatsapp_conversations` and `public.whatsapp_messages` (0011, core) are upstream's admin WhatsApp inbox: admin-only RLS, opaque conversation ids, service-only `app.run_whatsapp_retention()`. The inbox code and its retention call are upstream-only, so nothing in this repo writes or reads these tables. No marketing code may read them, and they are never used for marketing.
 - Retention is `app.run_retention()`, called by the nightly cron through `asService`.
 
 ## Verifying

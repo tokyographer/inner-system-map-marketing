@@ -40,3 +40,12 @@ export const resultRefSchema = z.object({
 export const pdfLocaleSchema = z.enum(LOCALES).default("en");
 
 export type ResultsFilter = z.infer<typeof resultsFilterSchema>;
+
+/** Admin inbox: a free-text WhatsApp reply to one conversation (by its opaque id, never the number). */
+export const whatsappReplySchema = z.object({
+  conversationId: z.uuid(),
+  body: z.string().trim().min(1).max(4096),
+});
+
+/** The conversation segment in /admin/whatsapp/<id>: an opaque id, so no number appears in URLs or logs. */
+export const whatsappConversationIdSchema = z.uuid();

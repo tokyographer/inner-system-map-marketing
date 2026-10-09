@@ -3,34 +3,39 @@
  * locale, structured as sections so a lawyer can replace the wording without
  * touching layout. Sub-processors listed here must match README.
  */
-import { WHATSAPP_RESULTS_READY, type Locale } from "@/config/app";
+import { WHATSAPP_INBOX_READY, WHATSAPP_RESULTS_READY, WHATSAPP_RETENTION_MONTHS, type Locale } from "@/config/app";
 
 export interface LegalSection { heading: string; paragraphs: string[] }
 export interface LegalPage { title: string; updated: string; notice: string; sections: LegalSection[] }
 
-const SUBPROCESSORS = `Vercel (hosting, Frankfurt), Neon (database and sign-in, Frankfurt), Resend (transactional email, EU), Upstash (rate limiting, EU)${WHATSAPP_RESULTS_READY ? ", Meta Platforms (WhatsApp Cloud API, only if you ask for WhatsApp delivery)" : ""}.`;
+const WHATSAPP_ANY = WHATSAPP_RESULTS_READY || WHATSAPP_INBOX_READY;
+const SUBPROCESSORS = `Vercel (hosting, Frankfurt), Neon (database and sign-in, Frankfurt), Resend (transactional email, EU), Upstash (rate limiting, EU)${WHATSAPP_ANY ? ", Meta Platforms (WhatsApp Cloud API, only if you use WhatsApp with us)" : ""}.`;
 
-/** Shown only while WhatsApp delivery is switched on (config/app.ts), so the notice matches what the app does. */
-const WHATSAPP: Record<Locale, { processing: string; transfer: string }> = {
+/** Shown only while the matching WhatsApp switch is on (config/app.ts), so the notice matches what the app does. */
+const WHATSAPP: Record<Locale, { processing: string; inbox: string; transfer: string }> = {
   en: {
     processing: "WhatsApp (optional, public mode): if you give a WhatsApp number and tick the WhatsApp box, we also send your results PDF to that number through Meta's WhatsApp Cloud API, keep the number with your stored copy for 6 months, and include it in the institute's copy so the school can reply to you on WhatsApp. The deletion link removes the number with everything else.",
-    transfer: " Exception: if you choose WhatsApp delivery, Meta may process the message and the PDF outside the EU.",
+    inbox: `WhatsApp messages: if you write to the institute's WhatsApp number, we keep your messages, your WhatsApp profile name and our replies for ${WHATSAPP_RETENTION_MONTHS} months so the institute's administrators can answer you. Only administrators can read them, and every time they open them is recorded. Photos, voice notes and files are not downloaded or kept; we keep only their type and caption. To have the conversation deleted sooner, write to info@transcendentinstitute.com and an administrator deletes it.`,
+    transfer: " Exception: when you use WhatsApp with us (results delivery or messages), Meta may process those messages, and any PDF, outside the EU.",
   },
   es: {
     processing: "WhatsApp (opcional, modo público): si das un número de WhatsApp y marcas la casilla de WhatsApp, también enviamos el PDF de tus resultados a ese número mediante la API de WhatsApp Cloud de Meta, guardamos el número con tu copia durante 6 meses y lo incluimos en la copia del instituto para que la escuela pueda responderte por WhatsApp. El enlace de eliminación borra el número junto con todo lo demás.",
-    transfer: " Excepción: si eliges el envío por WhatsApp, Meta puede tratar el mensaje y el PDF fuera de la UE.",
+    inbox: `Mensajes de WhatsApp: si escribes al número de WhatsApp del instituto, guardamos tus mensajes, tu nombre de perfil de WhatsApp y nuestras respuestas durante ${WHATSAPP_RETENTION_MONTHS} meses para que los administradores del instituto puedan responderte. Solo los administradores pueden leerlos, y cada vez que los abren queda registrado. No descargamos ni guardamos fotos, notas de voz ni archivos; solo su tipo y su descripción. Para borrar la conversación antes, escribe a info@transcendentinstitute.com y un administrador la elimina.`,
+    transfer: " Excepción: cuando usas WhatsApp con nosotros (envío de resultados o mensajes), Meta puede tratar esos mensajes, y cualquier PDF, fuera de la UE.",
   },
   ro: {
     processing: "WhatsApp (opțional, modul public): dacă dai un număr de WhatsApp și bifezi căsuța WhatsApp, îți trimitem și PDF-ul cu rezultatele la acel număr prin WhatsApp Cloud API de la Meta, păstrăm numărul împreună cu copia ta timp de 6 luni și îl includem în copia institutului, ca școala să-ți poată răspunde pe WhatsApp. Linkul de ștergere elimină numărul împreună cu tot restul.",
-    transfer: " Excepție: dacă alegi livrarea pe WhatsApp, Meta poate prelucra mesajul și PDF-ul în afara UE.",
+    inbox: `Mesaje WhatsApp: dacă scrii la numărul de WhatsApp al institutului, păstrăm mesajele tale, numele tău de profil WhatsApp și răspunsurile noastre timp de ${WHATSAPP_RETENTION_MONTHS} luni, ca administratorii institutului să-ți poată răspunde. Doar administratorii le pot citi, iar fiecare deschidere este înregistrată. Fotografiile, mesajele vocale și fișierele nu sunt descărcate și nici păstrate; păstrăm doar tipul și descrierea lor. Pentru a șterge conversația mai devreme, scrie la info@transcendentinstitute.com și un administrator o șterge.`,
+    transfer: " Excepție: când folosești WhatsApp cu noi (livrarea rezultatelor sau mesaje), Meta poate prelucra acele mesaje, și orice PDF, în afara UE.",
   },
   tr: {
     processing: "WhatsApp (isteğe bağlı, açık mod): bir WhatsApp numarası verir ve WhatsApp kutusunu işaretlersen sonuç PDF'ini Meta'nın WhatsApp Cloud API'si üzerinden bu numaraya da göndeririz, numarayı saklanan kopyanla birlikte 6 ay tutarız ve okulun sana WhatsApp'tan yanıt verebilmesi için enstitünün kopyasına ekleriz. Silme bağlantısı numarayı diğer her şeyle birlikte kaldırır.",
-    transfer: " İstisna: WhatsApp ile gönderimi seçersen Meta mesajı ve PDF'i AB dışında işleyebilir.",
+    inbox: `WhatsApp mesajları: enstitünün WhatsApp numarasına yazarsan, enstitü yöneticilerinin sana yanıt verebilmesi için mesajlarını, WhatsApp profil adını ve yanıtlarımızı ${WHATSAPP_RETENTION_MONTHS} ay saklarız. Bunları yalnızca yöneticiler okuyabilir ve her açılış kaydedilir. Fotoğraflar, sesli notlar ve dosyalar indirilmez ve saklanmaz; yalnızca türleri ve açıklamaları tutulur. Konuşmanın daha önce silinmesi için info@transcendentinstitute.com adresine yaz, bir yönetici siler.`,
+    transfer: " İstisna: WhatsApp'ı bizimle kullandığında (sonuç gönderimi ya da mesajlar), Meta bu mesajları ve varsa PDF'i AB dışında işleyebilir.",
   },
 };
-const whatsappParagraphs = (l: Locale) => (WHATSAPP_RESULTS_READY ? [WHATSAPP[l].processing] : []);
-const whatsappTransfer = (l: Locale) => (WHATSAPP_RESULTS_READY ? WHATSAPP[l].transfer : "");
+const whatsappParagraphs = (l: Locale) => [...(WHATSAPP_RESULTS_READY ? [WHATSAPP[l].processing] : []), ...(WHATSAPP_INBOX_READY ? [WHATSAPP[l].inbox] : [])];
+const whatsappTransfer = (l: Locale) => (WHATSAPP_ANY ? WHATSAPP[l].transfer : "");
 
 export const PRIVACY: Record<Locale, LegalPage> = {
   en: {

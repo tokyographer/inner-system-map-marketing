@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { emailRequestSchema, pdfRequestSchema } from "@/lib/validation/results-request";
 import { isWhatsAppNumber, normalizeWhatsApp } from "@/lib/validation/whatsapp";
+import { whatsappConversationIdSchema, whatsappReplySchema } from "@/lib/validation/admin";
 import { build } from "../scoring/helpers";
 
 const valid = { locale: "en", form: "short", responses: build("short", {}, 3), ageConfirmed: true };
@@ -45,4 +46,14 @@ describe("request validation", () => {
     expect(isWhatsAppNumber("+1234567")).toBe(false);
     expect(isWhatsAppNumber("+1234567890123456")).toBe(false);
   });
+  it("admin WhatsApp reply and conversation id (never a number)", () => {
+    const id = "6f1c2a7e-3b4d-4c5e-8f9a-0b1c2d3e4f5a";
+    expect(whatsappReplySchema.safeParse({ conversationId: id, body: "  Thanks  " })).toMatchObject({ success: true, data: { body: "Thanks" } });
+    expect(whatsappReplySchema.safeParse({ conversationId: id, body: "   " }).success).toBe(false);
+    expect(whatsappReplySchema.safeParse({ conversationId: "+34600000000", body: "x" }).success).toBe(false);
+    expect(whatsappReplySchema.safeParse({ conversationId: id, body: "x".repeat(4097) }).success).toBe(false);
+    expect(whatsappConversationIdSchema.safeParse(id).success).toBe(true);
+    expect(whatsappConversationIdSchema.safeParse("34600000000").success).toBe(false);
+  });
+
 });

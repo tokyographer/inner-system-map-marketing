@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { LOCALES, WHATSAPP_RESULTS_READY, WHATSAPP_TEMPLATE_LANGUAGE } from "@/config/app";
+import { LOCALES, WHATSAPP_INBOX_READY, WHATSAPP_RESULTS_READY, WHATSAPP_TEMPLATE_LANGUAGE } from "@/config/app";
 import { PRIVACY } from "@/content/legal/privacy";
 import { DEFAULT_TEMPLATE, GRAPH_API, readWhatsAppEnv, recipientKey, sendResultsWhatsApp, templateName } from "@/lib/whatsapp/send-results";
 
@@ -91,10 +91,10 @@ describe("WhatsApp config and privacy notice", () => {
   it("has a template language for every locale", () => {
     expect(Object.keys(WHATSAPP_TEMPLATE_LANGUAGE).sort()).toEqual([...LOCALES].sort());
   });
-  it("mentions WhatsApp in the privacy notice exactly when the feature is on", () => {
+  it("mentions WhatsApp in the privacy notice exactly when a WhatsApp feature is on", () => {
     for (const locale of LOCALES) {
       const text = JSON.stringify(PRIVACY[locale]);
-      expect(text.includes("WhatsApp")).toBe(WHATSAPP_RESULTS_READY);
+      expect(text.includes("WhatsApp")).toBe(WHATSAPP_RESULTS_READY || WHATSAPP_INBOX_READY);
     }
   });
 });
