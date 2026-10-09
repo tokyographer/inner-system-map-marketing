@@ -19,3 +19,22 @@ export const assignFacilitatorSchema = z.object({
 });
 
 export type CreateCohortInput = z.infer<typeof createCohortSchema>;
+
+// Filters for the admin "All results" page. Query-string safe: no names or emails.
+const optional = <T extends z.ZodType>(schema: T) => z.preprocess((v) => (v === "" ? undefined : v), schema.optional());
+
+export const resultsFilterSchema = z.object({
+  source: optional(z.enum(["public", "cohort"])),
+  cohort: optional(z.uuid()),
+  locale: optional(z.enum(LOCALES)),
+  from: optional(isoDate),
+  to: optional(isoDate),
+  page: optional(z.coerce.number().int().min(1).max(10_000)),
+});
+
+export const resultRefSchema = z.object({
+  source: z.enum(["public", "cohort"]),
+  id: z.uuid(),
+});
+
+export type ResultsFilter = z.infer<typeof resultsFilterSchema>;
