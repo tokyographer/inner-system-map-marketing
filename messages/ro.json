@@ -40,7 +40,11 @@
     "contactConsent": "Trimite PDF-ul cu rezultatele mele la această adresă când termin, păstrează o copie timp de 6 luni și trimite o copie la Transcendent Institute (info@transcendentinstitute.com), ca școala să poată reveni dacă cer eu. Pot solicita ștergerea oricând.",
     "newsletter": "Adaugă-mă și la newsletterul Transcendent Institute.",
     "contactRequired": "Te rugăm să introduci numele și o adresă de email validă și să bifezi căsuța de consimțământ.",
-    "onScreen": "Rezultatele tale vor fi afișate oricum și pe ecran."
+    "onScreen": "Rezultatele tale vor fi afișate oricum și pe ecran.",
+    "whatsapp": "Număr de WhatsApp (opțional)",
+    "whatsappHint": "Cu prefixul țării, de exemplu +40 712 345 678.",
+    "whatsappConsent": "Trimite și PDF-ul cu rezultatele mele pe WhatsApp la acest număr și păstrează numărul împreună cu rezultatele stocate, ca Transcendent Institute să-mi poată răspunde acolo. WhatsApp aparține Meta, care livrează mesajul.",
+    "whatsappInvalid": "Scrie numărul de WhatsApp cu prefixul țării (începând cu +) și bifează căsuța WhatsApp, sau lasă-le pe amândouă goale."
   },
   "likert": {
     "1": "Niciodată sau aproape niciodată",
@@ -108,7 +112,9 @@
     "sendFailed": "Rezultatele nu au putut fi trimise la {email}. Poți descărca PDF-ul sau poți încerca din nou.",
     "sendAgain": "Trimite din nou",
     "exerciseWhy": "Această scurtă reflecție este pentru protectorul numit mai sus, partea care preia cel mai des conducerea în răspunsurile tale. În IFS începem cu protectorii, niciodată cu părțile tinere pe care le păzesc: un protector care se simte înțeles se poate relaxa, și abia atunci sistemul se deschide. Nimic din ce scrii aici nu părăsește dispozitivul tău decât dacă alegi să împărtășești.",
-    "exerciseSteps": "Cei cinci pași ghidați ai acestei reflecții sunt pregătiți de Transcendent Institute și vor apărea aici. Deocamdată, poți începe cu propoziția de mai jos."
+    "exerciseSteps": "Cei cinci pași ghidați ai acestei reflecții sunt pregătiți de Transcendent Institute și vor apărea aici. Deocamdată, poți începe cu propoziția de mai jos.",
+    "whatsappSent": "PDF-ul cu rezultatele tale este trimis și pe WhatsApp ({number}).",
+    "whatsappFailed": "Rezultatele nu au putut fi trimise pe WhatsApp ({number}). Ți le-am trimis pe email și poți descărca PDF-ul."
   },
   "email": {
     "title": "Trimite-mi rezultatele pe email",

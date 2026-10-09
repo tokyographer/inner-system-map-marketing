@@ -10,7 +10,7 @@ for (const [locale, begin, statement] of [["es", "Comenzar el test", /Afirmació
     await page.getByRole("textbox").nth(0).fill("T");
     await page.getByRole("textbox").nth(1).fill("t@example.com");
     await boxes.nth(0).check();
-    await boxes.nth(2).check();
+    await boxes.last().check(); // the age box is always last; WhatsApp boxes appear above it when enabled
     await page.getByRole("button").filter({ hasText: /Empezar|Începe|Başla/ }).click();
     await expect(page.getByText(statement)).toBeVisible();
     const itemText = await page.locator("fieldset p").first().textContent();

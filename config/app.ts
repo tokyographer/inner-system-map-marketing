@@ -32,7 +32,17 @@ export const ITEM_BANK_VERSION = "v2" as const;
 export const MIN_COMPLETED_FOR_AGGREGATES = 5;
 export const PUBLIC_RESULTS_RETENTION_MONTHS = 6;
 export const COHORT_RETENTION_MONTHS = 12;
-export const CONSENT_POLICY_VERSION = "2026-09-draft";
 
 /** The five guided steps of "Meet this part" are shown only once the school has supplied them. */
 export const EXERCISE_STEPS_READY = false;
+
+/**
+ * WhatsApp delivery of the results PDF (public mode). Turn on only after Meta has approved the
+ * template in all four locales and the WHATSAPP_* env vars are set in every environment.
+ */
+export const WHATSAPP_RESULTS_READY = false;
+/** Language code of each approved template translation, exactly as WhatsApp Manager lists it. */
+export const WHATSAPP_TEMPLATE_LANGUAGE: Record<Locale, string> = { en: "en", es: "es", ro: "ro", tr: "tr" };
+
+/** Changes with the privacy notice: turning WhatsApp on adds WhatsApp (Meta) to it. */
+export const CONSENT_POLICY_VERSION = WHATSAPP_RESULTS_READY ? "2026-10-whatsapp-draft" : "2026-09-draft";

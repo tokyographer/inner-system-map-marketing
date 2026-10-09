@@ -11,11 +11,11 @@ The core below must be identical in both. `npm run core:fingerprint` prints one 
 - `CORE.md`
 - `config/app.ts`, `config/scoring.ts`
 - `content/` (items, translations, typologies, exiles, patterns, exercise, support, level two, PDF and email labels, legal)
-- `lib/scoring/`, `lib/questionnaire/`, `lib/pdf/`, `lib/email/`, `lib/validation/`, `lib/db/`
+- `lib/scoring/`, `lib/questionnaire/`, `lib/pdf/`, `lib/email/`, `lib/whatsapp/`, `lib/validation/`, `lib/db/`
 - `components/results/sections.ts` (the results-page order invariant)
 - `db/migrations/0*.sql`
 - `messages/*.json`, except the top-level `"marketing"` key
-- `tests/unit/scoring/`, `tests/unit/content/`, `tests/unit/pdf/`, `tests/unit/email/`, `tests/fixtures/`
+- `tests/unit/scoring/`, `tests/unit/content/`, `tests/unit/pdf/`, `tests/unit/email/`, `tests/unit/whatsapp/`, `tests/fixtures/`
 
 The path list is duplicated in `scripts/core-fingerprint.mjs`. Change both together.
 
@@ -34,10 +34,11 @@ The path list is duplicated in `scripts/core-fingerprint.mjs`. Change both toget
 - Never add self-harm or suicidality items.
 - Never show exile content before protector content. Never write an exercise addressed to an exile.
 - Never present thresholds as norms.
-- Never log responses, emails, names or scores. Log the job outcome and reason only.
+- Never log responses, emails, WhatsApp numbers, names or scores. Log the job outcome and reason only.
 - Never use `asService()` for a request a signed-in person makes.
 - Never edit an applied migration.
 - Never import a `content/*.en.ts` file directly from a component. Go through `getContent()`.
 - Never commit `.env` or `.env.local`.
 - Never send results, patterns or scores to ad platforms or email tools, and never build audiences from them.
+- WhatsApp carries results only to the number the person gave on the start screen, only after their explicit WhatsApp consent, only as the approved Utility template, and only through `lib/whatsapp/` (rate limited per recipient, name sanitised before it enters the template). Never use stored WhatsApp numbers for promotion, broadcasts or audiences.
 - Never send promotional messages to a person whose pattern is FLOODED.

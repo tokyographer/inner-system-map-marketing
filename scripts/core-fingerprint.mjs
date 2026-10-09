@@ -18,6 +18,7 @@ const CORE_PATHS = [
   "lib/questionnaire/",
   "lib/pdf/",
   "lib/email/",
+  "lib/whatsapp/",
   "lib/validation/",
   "lib/db/",
   "components/results/sections.ts",
@@ -27,6 +28,7 @@ const CORE_PATHS = [
   "tests/unit/content/",
   "tests/unit/pdf/",
   "tests/unit/email/",
+  "tests/unit/whatsapp/",
   "tests/fixtures/",
 ];
 

@@ -1,7 +1,7 @@
 
 # Inner System Map: knowledge base
 
-Generated 2026-09-30 from the application's own content files (item bank v2, scoring rules 2026-09-18.1). This document is the reference for anyone, human or AI, writing training material, presentations, manuals or support answers about the test. Where this document and the app differ, regenerate this document; the app is the source.
+Generated 2026-10-09 from the application's own content files (item bank v2, scoring rules 2026-09-18.1). This document is the reference for anyone, human or AI, writing training material, presentations, manuals or support answers about the test. Where this document and the app differ, regenerate this document; the app is the source.
 
 Names in other languages: ES “Mapa del Sistema Interno”, RO “Harta Sistemului Interior”, TR “İç Sistem Haritası”.
 

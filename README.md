@@ -127,6 +127,17 @@ curl -X POST localhost:3000/api/public/results-pdf -H 'content-type: application
   -d @sample-request.json -o results.pdf
 ```
 
+### WhatsApp delivery (behind a flag)
+When `WHATSAPP_RESULTS_READY` in `config/app.ts` is `true`, the start screen offers an optional WhatsApp number with its own consent box. The email request then also accepts `{ whatsapp: "+34600000000", consent: { ..., whatsapp: true } }`: the PDF is sent by email as before, then to WhatsApp as the approved template, and the response adds `whatsappSent: true | false` (`null` when no number was given). A WhatsApp failure never fails the email. While the flag is `false`, the number is ignored entirely.
+In this repo the number is used only for that delivery: no marketing code (attribution, funnel, analytics, nurture) reads or forwards it. The flag lives in core `config/app.ts`, so it is switched on upstream and ported here with `core-sync`.
+
+To switch it on:
+1. In WhatsApp Manager, create the Utility template `inner_system_map_results` with a **Document** header and the body `Hello {{1}}, …` in en, es, ro and tr, and wait for approval. Check that the language codes Meta shows match `WHATSAPP_TEMPLATE_LANGUAGE` in `config/app.ts`.
+2. Add a payment method to the WhatsApp Business Account (business-started templates are charged per message).
+3. Apply migration `0010_public_results_whatsapp.sql` to `marketing-dev` and, once live, to production (step 4 of the deployment list).
+4. Set `WHATSAPP_TOKEN` (system-user token with `whatsapp_business_messaging`) and `WHATSAPP_PHONE_NUMBER_ID` in Vercel, all environments.
+5. Set `WHATSAPP_RESULTS_READY = true` upstream and port it here, which also adds WhatsApp (Meta) to the privacy notice and changes `CONSENT_POLICY_VERSION`. Deploy, then run the public flow once with your own number.
+
 ## What is produced
 - PDF in memory only; nothing is written to disk by the server.
 - Emails via Resend. No response payloads are logged.
@@ -154,12 +165,14 @@ curl -X POST localhost:3000/api/public/results-pdf -H 'content-type: application
 - Neon (Postgres and Neon Auth, Frankfurt eu-central-1, via Vercel Marketplace)
 - Upstash (Redis for rate limiting, EU, via Vercel Marketplace)
 - Vercel Web Analytics (cookieless page views and funnel events; this repo only)
+- Meta Platforms (WhatsApp Cloud API), only once WhatsApp delivery is switched on and only for people who ask for it
 
 ## Troubleshooting
 1. `503 email_not_configured`: set `RESEND_API_KEY` and `RESEND_FROM` in `.env` and restart `npm run dev`.
 2. `400 invalid_request` with "item(s) missing": the form (`short` = 63 items, `full` = 84) does not match the responses sent.
 3. `429 rate_limited`: 3 emails or 10 PDFs per client per window. Wait for `Retry-After` seconds.
 4. Retention job returns 401: `CRON_SECRET` differs between Vercel and the request. Vercel sends it automatically for scheduled runs; for a manual run pass `Authorization: Bearer <secret>`.
+5. `whatsappSent: false` in the email-results response: the Vercel log line `whatsapp-results failed` carries Meta's code. `not_configured` means `WHATSAPP_TOKEN` or `WHATSAPP_PHONE_NUMBER_ID` is missing; `recipient_rate_limited` means that number already got 2 sends in 24 h; code `132001` means the template name or language code does not match an approved template; `131042` means the WhatsApp account has no payment method.
 
 ## Git workflow
 ```

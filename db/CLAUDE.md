@@ -14,6 +14,8 @@ Migrations in `migrations/` are applied in filename order by `scripts/migrate.mj
 - Role changes are guarded by the trigger in 0008. It skips when `app.user_id` is unset, which is how the first admin is bootstrapped on the service connection.
 - Widening a check constraint (e.g. a new locale) is a new migration (see 0005).
 - Deletion must stay real: `app.delete_my_data()` removes every app row for the user, and Neon Auth `deleteUser` removes the account.
+- `app.admin_results()` (0009) is the only way the app reads `public_results` besides the service connection. It is admin-only inside SQL. Keep it that way: never grant `app_user` direct access to `public_results`.
+- `public_results.whatsapp` (0010) holds the E.164 number only when the person consented to WhatsApp delivery. `storePublicResult` names the column only when a number is given, so code can deploy before 0010 is applied; apply 0010 before turning `WHATSAPP_RESULTS_READY` on. `app.admin_results()` does not return it yet. No marketing code (attribution, funnel, analytics, nurture) may read or forward it.
 - Retention is `app.run_retention()`, called by the nightly cron through `asService`.
 
 ## Verifying

@@ -40,7 +40,11 @@
     "contactConsent": "Enviar el PDF de mis resultados a esta dirección cuando termine, guardar una copia durante 6 meses y enviar una copia a Transcendent Institute (info@transcendentinstitute.com) para que la escuela pueda hacer seguimiento si lo pido. Puedo solicitar su eliminación en cualquier momento.",
     "newsletter": "Añadirme también al boletín de Transcendent Institute.",
     "contactRequired": "Introduce tu nombre y un correo válido, y marca la casilla de consentimiento.",
-    "onScreen": "Tus resultados también se mostrarán en pantalla de todos modos."
+    "onScreen": "Tus resultados también se mostrarán en pantalla de todos modos.",
+    "whatsapp": "Número de WhatsApp (opcional)",
+    "whatsappHint": "Con el prefijo del país, por ejemplo +34 600 000 000.",
+    "whatsappConsent": "Enviar también el PDF de mis resultados a este número por WhatsApp y guardar el número con mis resultados, para que Transcendent Institute pueda responderme allí. WhatsApp es de Meta, que entrega el mensaje.",
+    "whatsappInvalid": "Escribe tu número de WhatsApp con el prefijo del país (empezando por +) y marca la casilla de WhatsApp, o deja ambos vacíos."
   },
   "likert": {
     "1": "Nunca o casi nunca",
@@ -108,7 +112,9 @@
     "sendFailed": "No se pudieron enviar tus resultados a {email}. Puedes descargar el PDF o intentarlo de nuevo.",
     "sendAgain": "Enviar de nuevo",
     "exerciseWhy": "Esta breve reflexión es para el protector nombrado arriba, la parte que más a menudo toma la delantera en tus respuestas. En IFS empezamos por los protectores, nunca por las partes jóvenes que custodian: un protector que se siente comprendido puede relajarse, y solo entonces el sistema se abre. Nada de lo que escribas aquí sale de tu dispositivo a menos que decidas compartirlo.",
-    "exerciseSteps": "Transcendent Institute está preparando los cinco pasos guiados de esta reflexión y aparecerán aquí. Por ahora, puedes empezar con la frase de abajo."
+    "exerciseSteps": "Transcendent Institute está preparando los cinco pasos guiados de esta reflexión y aparecerán aquí. Por ahora, puedes empezar con la frase de abajo.",
+    "whatsappSent": "El PDF de tus resultados también va de camino a WhatsApp ({number}).",
+    "whatsappFailed": "No se pudieron enviar tus resultados por WhatsApp ({number}). Te los enviamos por correo y puedes descargar el PDF."
   },
   "email": {
     "title": "Enviarme mis resultados por correo",

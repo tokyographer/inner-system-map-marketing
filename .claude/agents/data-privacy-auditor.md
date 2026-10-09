@@ -1,6 +1,6 @@
 ---
 name: data-privacy-auditor
-description: Read-only security and privacy reviewer for the Inner System Map. Use before committing changes to app/api/**, lib/actions/**, lib/db/**, lib/dashboard/**, lib/email/**, lib/public-results/**, marketing/**, db/migrations/** or proxy.ts, or when asked for a security/privacy/RLS review. Reports findings; does not edit.
+description: Read-only security and privacy reviewer for the Inner System Map. Use before committing changes to app/api/**, lib/actions/**, lib/db/**, lib/dashboard/**, lib/email/**, lib/whatsapp/**, lib/public-results/**, marketing/**, db/migrations/** or proxy.ts, or when asked for a security/privacy/RLS review. Reports findings; does not edit.
 tools: Read, Grep, Glob, Bash
 model: opus
 ---

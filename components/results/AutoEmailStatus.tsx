@@ -12,6 +12,7 @@ export function AutoEmailStatus({ attempt, contact }: { attempt: CompletedAttemp
   const locale = useLocale();
   const sentFor = useSentFor();
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "failed">("idle");
+  const [whatsappSent, setWhatsappSent] = useState<boolean | null>(null);
   const started = useRef(false);
 
   async function send() {
@@ -21,13 +22,15 @@ export function AutoEmailStatus({ attempt, contact }: { attempt: CompletedAttemp
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          email: contact.email, name: contact.name, locale, form: attempt.form, responses: attempt.responses,
+          email: contact.email, name: contact.name, whatsapp: contact.whatsapp, locale, form: attempt.form, responses: attempt.responses,
           durationSeconds: Math.round((attempt.completedAt - attempt.startedAt) / 1000), ageConfirmed: true,
-          consent: { storeResults: true, newsletter: contact.newsletter, policyVersion: contact.policyVersion },
+          consent: { storeResults: true, newsletter: contact.newsletter, whatsapp: contact.whatsapp !== undefined, policyVersion: contact.policyVersion },
           ...attributionRequestFields(),
         }),
       });
       if (!res.ok) throw new Error(String(res.status));
+      const body = (await res.json().catch(() => ({}))) as { whatsappSent?: boolean | null };
+      setWhatsappSent(typeof body.whatsappSent === "boolean" ? body.whatsappSent : null);
       markSent(attempt.completedAt);
       funnel("email_sent");
       setStatus("sent");
@@ -50,6 +53,9 @@ export function AutoEmailStatus({ attempt, contact }: { attempt: CompletedAttemp
     <div className="card card-warm p-4 text-sm" aria-live="polite">
       {shown === "sending" && <p role="status">{t("sendingTo", { email })}</p>}
       {shown === "sent" && <p role="status">{t("sentTo", { email })}</p>}
+      {shown === "sent" && whatsappSent !== null && contact.whatsapp && (
+        <p className="mt-2">{t(whatsappSent ? "whatsappSent" : "whatsappFailed", { number: contact.whatsapp })}</p>
+      )}
       {shown === "failed" && (
         <div className="flex flex-wrap items-center gap-3">
           <p role="alert">{t("sendFailed", { email })}</p>

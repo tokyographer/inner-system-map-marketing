@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { emailRequestSchema, pdfRequestSchema } from "@/lib/validation/results-request";
+import { isWhatsAppNumber, normalizeWhatsApp } from "@/lib/validation/whatsapp";
 import { build } from "../scoring/helpers";
 
 const valid = { locale: "en", form: "short", responses: build("short", {}, 3), ageConfirmed: true };
@@ -27,5 +28,21 @@ describe("request validation", () => {
     expect(emailRequestSchema.safeParse({ ...valid, name: "   ", email: "a@b.co", consent: { storeResults: true, policyVersion: "v1" } }).success).toBe(false);
     expect(emailRequestSchema.safeParse({ ...valid, name: "Ana", email: "a@b.co", consent: { storeResults: false, policyVersion: "v1" } }).success).toBe(false);
     expect(emailRequestSchema.safeParse({ ...valid, name: "Ana", email: "not-an-email", consent: { storeResults: true, policyVersion: "v1" } }).success).toBe(false);
+  });
+  it("WhatsApp is optional, normalised to E.164 and needs its own consent", () => {
+    const req = { ...valid, name: "Ana", email: "a@b.co" };
+    const plain = emailRequestSchema.safeParse({ ...req, consent: { storeResults: true, policyVersion: "v1" } });
+    expect(plain.success && plain.data.consent.whatsapp).toBe(false);
+    const ok = emailRequestSchema.safeParse({ ...req, whatsapp: "+34 600-00 (00) 00", consent: { storeResults: true, whatsapp: true, policyVersion: "v1" } });
+    expect(ok.success && ok.data.whatsapp).toBe("+34600000000");
+    expect(emailRequestSchema.safeParse({ ...req, whatsapp: "+34600000000", consent: { storeResults: true, policyVersion: "v1" } }).success).toBe(false);
+    expect(emailRequestSchema.safeParse({ ...req, whatsapp: "600000000", consent: { storeResults: true, whatsapp: true, policyVersion: "v1" } }).success).toBe(false);
+  });
+  it("normalises and checks WhatsApp numbers", () => {
+    expect(normalizeWhatsApp(" 0034 600 000 000 ")).toBe("+34600000000");
+    expect(isWhatsAppNumber("+44 7700 900123")).toBe(true);
+    expect(isWhatsAppNumber("+0 1234 5678")).toBe(false);
+    expect(isWhatsAppNumber("+1234567")).toBe(false);
+    expect(isWhatsAppNumber("+1234567890123456")).toBe(false);
   });
 });

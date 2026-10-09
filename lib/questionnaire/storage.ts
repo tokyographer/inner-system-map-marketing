@@ -26,6 +26,8 @@ export interface Contact {
   name: string;
   email: string;
   newsletter: boolean;
+  /** E.164, present only when the person also asked for WhatsApp delivery. */
+  whatsapp?: string;
   policyVersion: string;
 }
 

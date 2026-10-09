@@ -15,6 +15,8 @@ export function hashToken(token: string): string {
 
 export interface StoreArgs {
   email: string; locale: string; form: "full" | "short"; responses: Responses; result: Result; newsletter: boolean; policyVersion: string;
+  /** E.164, only when the person consented to WhatsApp delivery. */
+  whatsapp?: string;
 }
 
 /** Inserts the record and returns the plain delete token (for the email link only). */
@@ -23,10 +25,13 @@ export async function storePublicResult(a: StoreArgs): Promise<{ id: string; del
   const expiresAt = new Date();
   expiresAt.setMonth(expiresAt.getMonth() + PUBLIC_RESULTS_RETENTION_MONTHS);
   const id = await asService(async (db) => {
+    // The whatsapp column (0010) is named only when a number is given, so this works before 0010 is applied.
+    const values = [a.email, a.locale, ITEM_BANK_VERSION, SCORING_VERSION, a.form, JSON.stringify(a.responses), JSON.stringify(a.result), a.newsletter, a.policyVersion, hashToken(deleteToken), expiresAt.toISOString()];
+    const extra = a.whatsapp ? { column: ", whatsapp", param: ", $12", values: [a.whatsapp] } : { column: "", param: "", values: [] };
     const { rows } = await db.query<{ id: string }>(
-      `insert into public.public_results (email, locale, item_bank_version, scoring_version, form, responses, scores, newsletter_opt_in, policy_version, delete_token_hash, expires_at)
-       values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning id`,
-      [a.email, a.locale, ITEM_BANK_VERSION, SCORING_VERSION, a.form, JSON.stringify(a.responses), JSON.stringify(a.result), a.newsletter, a.policyVersion, hashToken(deleteToken), expiresAt.toISOString()]);
+      `insert into public.public_results (email, locale, item_bank_version, scoring_version, form, responses, scores, newsletter_opt_in, policy_version, delete_token_hash, expires_at${extra.column})
+       values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11${extra.param}) returning id`,
+      [...values, ...extra.values]);
     return rows[0].id;
   });
   return { id, deleteToken, expiresAt };

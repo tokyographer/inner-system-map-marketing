@@ -1,10 +1,11 @@
 "use client";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { DEFAULT_FORM, type Form } from "@/config/app";
+import { DEFAULT_FORM, WHATSAPP_RESULTS_READY, type Form } from "@/config/app";
 import { useRouter } from "@/i18n/navigation";
 import { newSeed } from "@/lib/questionnaire/order";
 import { clearProgress, saveContact, saveProgress, useProgress } from "@/lib/questionnaire/storage";
+import { isWhatsAppNumber, normalizeWhatsApp } from "@/lib/validation/whatsapp";
 import { commitAttribution } from "@/marketing/attribution";
 import { funnel } from "@/marketing/funnel";
 import { PUBLIC_POLICY_VERSION } from "@/marketing/config";
@@ -28,12 +29,20 @@ export function StartScreen({ form = DEFAULT_FORM.public, questionnairePath = "/
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
   const [newsletter, setNewsletter] = useState(false);
+  const [whatsapp, setWhatsapp] = useState("");
+  const [whatsappConsent, setWhatsappConsent] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   function begin() {
     if (collectContact && (!name.trim() || !EMAIL.test(email) || !consent)) { setError(t("contactRequired")); return; }
+    const wantsWhatsApp = collectContact && WHATSAPP_RESULTS_READY && (whatsapp.trim() !== "" || whatsappConsent);
+    if (wantsWhatsApp && (!isWhatsAppNumber(whatsapp) || !whatsappConsent)) { setError(t("whatsappInvalid")); return; }
     if (!age) { setError(t("ageRequired")); return; }
-    if (collectContact) { saveContact({ name: name.trim(), email: email.trim(), newsletter, policyVersion: PUBLIC_POLICY_VERSION }); commitAttribution(); funnel("start"); }
+    if (collectContact) {
+      saveContact({ name: name.trim(), email: email.trim(), newsletter, whatsapp: wantsWhatsApp ? normalizeWhatsApp(whatsapp) : undefined, policyVersion: PUBLIC_POLICY_VERSION });
+      commitAttribution();
+      funnel("start");
+    }
     clearProgress();
     saveProgress({ seed: newSeed(), form, startedAt: Date.now(), index: 0, responses: {} });
     router.push(questionnairePath);
@@ -73,6 +82,15 @@ export function StartScreen({ form = DEFAULT_FORM.public, questionnairePath = "/
                 <input type="email" value={email} onChange={(e) => { setEmail(e.target.value); setError(null); }} autoComplete="email" className={input} required />
               </label>
               <label className="flex items-start gap-3 text-sm"><input type="checkbox" checked={consent} onChange={(e) => { setConsent(e.target.checked); setError(null); }} className="mt-1 h-5 w-5" required /><span>{t("contactConsent")}</span></label>
+              {WHATSAPP_RESULTS_READY && (
+                <>
+                  <label className="block text-sm">{t("whatsapp")}
+                    <input type="tel" value={whatsapp} onChange={(e) => { setWhatsapp(e.target.value); setError(null); }} autoComplete="tel" inputMode="tel" aria-describedby="whatsapp-hint" className={input} />
+                  </label>
+                  <p id="whatsapp-hint" className="text-xs text-ink-muted">{t("whatsappHint")}</p>
+                  <label className="flex items-start gap-3 text-sm"><input type="checkbox" checked={whatsappConsent} onChange={(e) => { setWhatsappConsent(e.target.checked); setError(null); }} className="mt-1 h-5 w-5" /><span>{t("whatsappConsent")}</span></label>
+                </>
+              )}
               <label className="flex items-start gap-3 text-sm"><input type="checkbox" checked={newsletter} onChange={(e) => setNewsletter(e.target.checked)} className="mt-1 h-5 w-5" /><span>{t("newsletter")}</span></label>
               <p className="text-xs text-ink-muted">{t("onScreen")}</p>
             </section>
