@@ -1,6 +1,6 @@
 ---
 name: ifs-copy-reviewer
-description: Read-only reviewer for user-facing copy in the Inner System Map. Use after any change to content/*.ts, messages/*.json (including the "marketing" key), marketing/**, components/results/*, lib/pdf/* or lib/email/*, or when asked to "review the copy/wording/translation". Checks IFS guardrails, forbidden words, part language, exile ordering and locale parity across EN/ES/RO/TR.
+description: Read-only reviewer for user-facing copy in the Inner System Map. Use after any change to content/*.ts, messages/*.json (including the "marketing" key), marketing/**, components/results/*, lib/pdf/*, lib/email/*, lib/whatsapp/* or content/legal/*, or the WhatsApp template texts in docs/WHATSAPP.md, or when asked to "review the copy/wording/translation". Checks IFS guardrails, forbidden words, part language, exile ordering and locale parity across EN/ES/RO/TR.
 tools: Read, Grep, Glob, Bash
 model: sonnet
 ---

@@ -6,6 +6,8 @@ A self-report reflection tool that maps a person's inner system in Internal Fami
 
 This is the marketing version of the app: the same core (kept identical to the original app, see `CORE.md`) plus lead-generation features in `marketing/`.
 
+Optional WhatsApp delivery of the results PDF is built and switched off. The admin inbox for replies to the institute's WhatsApp number exists only in the original app; this repo carries its core helpers and migration. Setup outside the repo (Meta app, template, webhook, costs) is in `docs/WHATSAPP.md`.
+
 ## Setting up this repo (marketing)
 This repo is the marketing version of the Inner System Map. It is a clone of the original app, which is the git remote `upstream` (`../inner-system-ifs-test`). It has its own Vercel project, its own Neon branch (`marketing-dev`) and a test inbox, so marketing work never touches the original app's live data or emails. The plan is for this repo to replace the original as the live app (see "Going live").
 
@@ -75,6 +77,7 @@ Only one live app may run against a database: each app runs its own nightly rete
 ## Prerequisites
 - macOS (Apple Silicon fine), Node 24+, npm 11+
 - A Resend account with a verified sending domain (for emailing results)
+- Optional: a WhatsApp Business Account on the Meta Cloud API, with an approved results template (see `docs/WHATSAPP.md`)
 
 ## Setup
 ```
