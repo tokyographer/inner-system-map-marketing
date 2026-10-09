@@ -101,7 +101,7 @@ Cohorts, access codes and facilitator assignments are then managed in the dashbo
 ```
 npm run dev          # http://localhost:3000
 npm run typecheck
-npm test             # unit tests + RLS integration tests (the latter run only when .env.local has DATABASE_URL)
+npm test             # unit tests; integration tests run only with ALLOW_DB_WRITES=1 (and DATABASE_URL), because they write to that database
 npx vitest run --coverage
 npm run build
 npm run e2e          # Playwright: public happy path + accessibility audit (needs `npx playwright install chromium` once)

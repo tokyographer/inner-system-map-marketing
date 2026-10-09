@@ -1,5 +1,6 @@
 /**
- * Runs against the marketing-dev Neon branch using DATABASE_URL from .env.local; skipped without it.
+ * Runs against the marketing-dev Neon branch using DATABASE_URL from .env.local, and only with
+ * ALLOW_DB_WRITES=1 (it writes users and rows); skipped otherwise.
  * Creates its own Neon Auth users (as rls.test.ts does) and removes everything it made.
  */
 import { randomUUID } from "node:crypto";
@@ -20,7 +21,7 @@ const codes: string[] = [];
 const code = (name: string) => { const c = `t-${name}-${run}`; codes.push(c); return c; };
 const count = (ref: string, event: string) => asService(async (db) => Number((await db.query("select coalesce(sum(count), 0) as n from public.marketing_funnel_counts where ref_code = $1 and event = $2 and day = current_date", [ref, event])).rows[0].n));
 
-describe.skipIf(!env.DATABASE_URL)("marketing partners and funnel counts (Neon, m0002)", () => {
+describe.skipIf(!env.DATABASE_URL || process.env.ALLOW_DB_WRITES !== "1")("marketing partners and funnel counts (Neon, m0002)", () => {
   beforeAll(async () => {
     for (const [name, id] of Object.entries(users)) {
       await asService((db) => db.query(`insert into neon_auth."user" (id, name, email, "emailVerified", "createdAt", "updatedAt") values ($1, $2, $3, true, now(), now())`, [id, name, `mkt-${name}-${run}@example.test`]));

@@ -22,6 +22,10 @@ Entry format:
 
 ---
 
+## 2026-10-09 [marketing]: integration tests need ALLOW_DB_WRITES=1 (from upstream a168f0a)
+- Changed: as upstream `a168f0a`, `tests/integration/rls.test.ts` and `public-results.test.ts` now also need `ALLOW_DB_WRITES=1`, and so do this repo's `marketing-attribution.test.ts` and `marketing-funnel-counts.test.ts` (both create users, partners or result rows). CI sets the variable when `CI_DATABASE_URL` exists.
+- Agents: run `ALLOW_DB_WRITES=1 npm test` only with `.env.local` on `marketing-dev`. Any new integration test that writes gets the same gate.
+
 ## 2026-10-09 [core]: review fixes, part 2: landing and start copy match the public flow
 - Changed: ported upstream `f43847e`. `landing.time` and `start.browser` now say that results are emailed as a PDF, a copy is kept 6 months and can be deleted from the email, and that answers are scored in the browser and sent only on completion. All four locales; ES/RO/TR are drafts. The `"marketing"` key is unchanged.
 - Agents: when a flow changes, grep `messages/*.json` (including the `"marketing"` key) and `content/legal/privacy.ts` for promises about storage, sending and choice; the forbidden-word test does not catch a false promise.

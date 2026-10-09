@@ -40,7 +40,7 @@ cp .env.example .env                  # RESEND_* to send email
 npx vercel env pull .env.local --yes  # Neon + Auth vars; add NEON_AUTH_COOKIE_SECRET
 npm run db:migrate                    # applies new db/migrations/*.sql (Neon dev branch)
 npm run lint && npm run typecheck
-npm test                              # vitest; RLS integration tests skip without DATABASE_URL
+npm test                              # vitest; integration tests run only with DATABASE_URL and ALLOW_DB_WRITES=1 (they write users and rows)
 npx vitest run --coverage             # lib/scoring must stay at 100%
 npm run build && npm run e2e          # Playwright at 360px, starts next start on 3111
 npm run docs:kb                       # regenerate docs/KNOWLEDGE-BASE.md after content/scoring changes

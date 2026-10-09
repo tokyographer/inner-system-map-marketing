@@ -1,7 +1,7 @@
 # tests
 
 - `unit/` (vitest, Node): scoring (100% coverage required), content and locales, results order, API validation, rate limiting, email, PDF render, questionnaire order, dashboard aggregates.
-- `integration/` (vitest): RLS and SQL functions, plus public result storage, against the Neon dev branch. These skip without `DATABASE_URL` in `.env.local`.
+- `integration/` (vitest): RLS and SQL functions, plus public result storage, against the Neon dev branch (`marketing-dev` here), plus the marketing attribution and funnel-count tables. All of them create users (including admin profiles) and rows and run retention, so they run only with `ALLOW_DB_WRITES=1` as well as `DATABASE_URL`. Point `.env.local` at `marketing-dev`, never production.
 - `e2e/` (Playwright, Pixel 5 at 360px, port 3111): the public happy path, locales, axe audits, and cohort and facilitator walks (the last two skip without Neon keys). Run `npm run build` first; the config runs `next start`.
 
 ## Invariants guarded by tests (do not weaken them to make a change pass)

@@ -1,7 +1,7 @@
 /**
- * Runs against the Neon development branch using DATABASE_URL from .env.local.
- * Skipped when the variable is absent. Creates its own Neon Auth users (rows in
- * neon_auth."user") and removes everything it made.
+ * Runs against the database in .env.local (DATABASE_URL; `marketing-dev` in this repo, never
+ * production), and only with ALLOW_DB_WRITES=1. Creates its own Neon Auth users (rows in neon_auth."user",
+ * one of them an admin) and removes everything it made.
  */
 import { Pool, neonConfig } from "@neondatabase/serverless";
 import { randomUUID } from "node:crypto";
@@ -14,7 +14,7 @@ function loadEnv(): Record<string, string> {
 }
 const env = loadEnv();
 const URL = env.DATABASE_URL_UNPOOLED ?? env.DATABASE_URL;
-const enabled = Boolean(URL);
+const enabled = Boolean(URL) && process.env.ALLOW_DB_WRITES === "1";
 neonConfig.webSocketConstructor ??= globalThis.WebSocket;
 const pool = enabled ? new Pool({ connectionString: URL }) : null;
 

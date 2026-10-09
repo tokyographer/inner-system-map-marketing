@@ -12,7 +12,7 @@ function loadEnv() {
 const env = loadEnv();
 if (env.DATABASE_URL) process.env.DATABASE_URL = env.DATABASE_URL;
 
-describe.skipIf(!env.DATABASE_URL)("marketing attribution on public results (Neon, m0001)", () => {
+describe.skipIf(!env.DATABASE_URL || process.env.ALLOW_DB_WRITES !== "1")("marketing attribution on public results (Neon, m0001)", () => {
   it("stores utm_* and a registered ref on the row, drops an unregistered ref, and deletes them with the row", async () => {
     const code = `t-attr-${Date.now().toString(36)}`;
     await asService((db) => db.query("insert into public.marketing_partners (code, label) values ($1, 'Test partner')", [code]));

@@ -11,7 +11,7 @@ function loadEnv() {
 const env = loadEnv();
 if (env.DATABASE_URL) process.env.DATABASE_URL = env.DATABASE_URL;
 
-describe.skipIf(!env.DATABASE_URL)("public opt-in results (Neon)", () => {
+describe.skipIf(!env.DATABASE_URL || process.env.ALLOW_DB_WRITES !== "1")("public opt-in results (Neon)", () => {
   it("stores with a hashed token, expires in 6 months, and deletes by the plain token only", async () => {
     const responses = build("short", {}, 3);
     const result = score({ form: "short", responses });
