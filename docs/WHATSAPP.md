@@ -30,6 +30,8 @@ Create it in WhatsApp Manager > Message templates.
 - Name `inner_system_map_results`, category **Utility**, variable type **Number**.
 - Header: **Document** (the code attaches each person's PDF). No header text, no footer, no buttons; marketing-style buttons can move the template to the Marketing category.
 - Review samples: a made-up name such as `Ana` for `{{1}}`, and a sample PDF with a fake name and invented answers, never a real person's results.
+- The body is purely transactional: no invitation, link or button. The reading-session call to action lives only in the PDF (a WhatsApp link to +34 613 71 47 89). Any promotion in the template can make Meta reclassify it as Marketing, which costs more and must never reach FLOODED results. If Meta recategorises it anyway, resubmit without changes to wording first and appeal; do not add marketing content (no UTM links, live-session or program invitations either).
+- People may still reply to the template, and replies reach the upstream app's inbox (the webhook points there), so switch stage 2 on upstream together with stage 1 here.
 - Languages and bodies: the four texts are in `content/whatsapp-template.ts` (`WHATSAPP_TEMPLATE_BODY`), which the forbidden-word test scans. Submit them exactly as written there; ES/RO/TR are drafts, so have a native speaker check them first.
 - After approval, check that the language codes WhatsApp Manager shows match `WHATSAPP_TEMPLATE_LANGUAGE` in `config/app.ts` (`en`, `es`, `ro`, `tr`; Meta sometimes uses `en_US`).
 

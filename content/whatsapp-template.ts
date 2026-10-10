@@ -2,7 +2,9 @@
  * DRAFT, pending human review. Body of the WhatsApp Utility template `inner_system_map_results`,
  * one per locale, exactly as submitted to Meta (the approved copy lives in WhatsApp Manager; the
  * code only sends the template name, so this file is the reviewable record and is scanned by the
- * forbidden-word test). {{1}} is the person's cleaned name.
+ * forbidden-word test). {{1}} is the person's cleaned name. Keep it purely transactional
+ * (delivery of the results the person asked for): any invitation or promotion can make Meta reclassify it as
+ * Marketing. The reading-session call to action lives only in the PDF.
  */
 import type { Locale } from "@/config/app";
 

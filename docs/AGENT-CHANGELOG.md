@@ -22,6 +22,21 @@ Entry format:
 
 ---
 
+## 2026-10-10 [core]: WhatsApp template is transactional only
+- Changed: ported upstream `9952289`. `content/whatsapp-template.ts` bodies are the original one-paragraph delivery message again (the invitation paragraph from `9a7bde2` never shipped here: the three commits were applied as one checkout of upstream HEAD), and its header says to keep the template transactional. A Utility template that invites people to a service risks reclassification as Marketing. `docs/WHATSAPP.md` says so, adapted to this repo (replies reach the upstream inbox).
+- Agents: never add an invitation, link, button, UTM link, program invite or live-session link to the template. Calls to action belong in the PDF (core) or in marketing's results page and email footer.
+- Synced: inner-system-ifs-test@9952289 (ported from upstream)
+
+## 2026-10-10 [core]: clickable WhatsApp booking button in the PDF
+- Changed: ported upstream `31c1df9`. Public, non-FLOODED PDFs carry a box under the framing paragraph (title, booking sentence with the number in plain text, navy button) and a linked footer line, both opening `https://wa.me/34613714789?text=...` with a generic prefilled message per locale (`lib/pdf/booking-link.ts`, `pdf.bookingTitle/bookingButton/bookingPrefill`). Cohort and FLOODED PDFs get neither (`tests/unit/pdf/render.test.ts`). Checked against this repo's extras: the program invite with UTM tags, the live-session link and "Share the map" are on the results page and in the email `personFooter`, not in the PDF, so nothing duplicates or collides; the PDF's own program-invite line (`pdf.invite`) was already core.
+- Agents: keep the booking link out of `marketing/email.ts` (`personFooter`), the WhatsApp template and analytics; do not add UTM tags to the wa.me link (it is core). A new PDF link needs a render test for presence (public) and absence (FLOODED, cohort).
+- Synced: inner-system-ifs-test@31c1df9 (ported from upstream)
+
+## 2026-10-10 [core]: reading-session invitation in the WhatsApp template and the PDF
+- Changed: ported upstream `9a7bde2`. `INSTITUTE_WHATSAPP` (+34 613 71 47 89) in `config/app.ts`; `pdf.booking` in `content/pdf-labels.ts`, printed only in public, non-FLOODED PDFs; the locales test checks the `{number}` slot and the number's format. Its template paragraph was reverted upstream by `9952289` and is not in this repo.
+- Agents: the PDF phone number is a config constant, never typed into copy. Keep promotional lines behind `mode === "public" && !flooded`.
+- Synced: inner-system-ifs-test@9a7bde2 (ported from upstream)
+
 ## 2026-10-09 [core]: review fixes, part 4: forbidden-word test covers every copy file
 - Changed: ported upstream `12f77ea`. The forbidden-word and draft-header tests (`tests/unit/content/locales.test.ts`) also cover `content/legal/privacy.ts` (now with the standard "DRAFT, pending human review" header) and the new `content/whatsapp-template.ts` (the four WhatsApp template bodies, moved out of `docs/WHATSAPP.md`), and the header check covers exercise, support-resources and level-two in ES/RO/TR. `content/CLAUDE.md` matches upstream.
 - Agents: user-facing copy must live where the locales test scans it (see `content/CLAUDE.md`); marketing strings belong under the `"marketing"` key in `messages/*.json`, which the test scans.

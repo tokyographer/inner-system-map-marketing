@@ -33,4 +33,16 @@ describe("results PDF", () => {
       expect(pdf.subarray(0, 5).toString()).toBe("%PDF-");
     }
   });
+  it("prints the WhatsApp booking link on public results, never on FLOODED or cohort PDFs", async () => {
+    const link = "wa.me/34613714789";
+    const MANAGERS = { PERF: 4, CRIT: 4, PLEA: 4, CTRL: 4, INTL: 4, AVOI: 4, CARE: 4, HYPV: 4, DIST: 4 } as const;
+    const EXILES = { SHAM: 5, ABAN: 5, FEAR: 5, POWL: 5, LONE: 5 } as const;
+    const full = (per: Parameters<typeof build>[1], fb: Parameters<typeof build>[2]) => score({ form: "full", responses: build("full", per, fb) });
+    const managed = (await renderResultsPdf({ result: full({ SELF: 2, ...MANAGERS }, 1), locale: "es", mode: "public", name: "Ana" })).toString("latin1");
+    expect(managed.split(link).length - 1).toBe(2);
+    const cohort = (await renderResultsPdf({ result: full({ SELF: 2, ...MANAGERS }, 1), locale: "es", mode: "cohort" })).toString("latin1");
+    expect(cohort).not.toContain(link);
+    const flooded = (await renderResultsPdf({ result: full({ SELF: 2, ...EXILES }, 3), locale: "es", mode: "public", name: "Ana" })).toString("latin1");
+    expect(flooded).not.toContain(link);
+  });
 });

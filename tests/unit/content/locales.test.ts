@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { PRIVACY } from "@/content/legal/privacy";
 import { WHATSAPP_TEMPLATE_BODY } from "@/content/whatsapp-template";
-import { LOCALES } from "@/config/app";
+import { INSTITUTE_WHATSAPP, LOCALES } from "@/config/app";
 import { ALL_ITEM_IDS, getContent, itemText } from "@/content";
 import { ITEMS } from "@/content/items.v2";
 import { ITEM_TEXT_ES } from "@/content/items.v2.es";
@@ -84,5 +84,15 @@ describe("locale completeness", () => {
     expect((es as { _comment?: string })._comment).toContain("DRAFT");
     expect((ro as { _comment?: string })._comment).toContain("DRAFT");
     expect((tr as { _comment?: string })._comment).toContain("DRAFT");
+  });
+  it("the PDF booking line has a number slot in every locale and the institute number is a real international number", () => {
+    for (const locale of LOCALES) {
+      const pdf = getContent(locale).pdf;
+      expect(pdf.booking).toContain("{number}");
+      expect(pdf.bookingTitle.length).toBeGreaterThan(5);
+      expect(pdf.bookingButton.length).toBeGreaterThan(10);
+      expect(pdf.bookingPrefill).not.toMatch(/\{\w+\}|\d/);
+    }
+    expect(INSTITUTE_WHATSAPP.replace(/\s/g, "")).toMatch(/^\+[1-9]\d{7,14}$/);
   });
 });

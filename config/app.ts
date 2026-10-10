@@ -12,6 +12,9 @@ export type Locale = keyof typeof APP_NAME;
 export const LOCALES: Locale[] = ["en", "es", "ro", "tr"];
 export const DEFAULT_LOCALE: Locale = "en";
 
+/** The institute's WhatsApp number for booking a reading session, as printed in the PDF. */
+export const INSTITUTE_WHATSAPP = "+34 613 71 47 89";
+
 /** Each language's name in its own language, for switchers and download buttons. */
 export const LOCALE_NAMES: Record<Locale, string> = { en: "English", es: "Español", ro: "Română", tr: "Türkçe" };
 

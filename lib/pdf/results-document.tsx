@@ -4,7 +4,7 @@
  * exiles (never before protectors), care note, disclaimer. No exercise
  * for an exile is ever included.
  */
-import { Document, Font, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
+import { Document, Font, Link, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import path from "node:path";
 
 // Brand sans embedded so Turkish and Romanian glyphs render (built-in Helvetica cannot).
@@ -18,9 +18,10 @@ Font.register({
   ],
 });
 Font.registerHyphenationCallback((word) => [word]);
-import { APP_NAME, type Locale } from "@/config/app";
+import { APP_NAME, type Locale, INSTITUTE_WHATSAPP } from "@/config/app";
 import { getContent, type Content } from "@/content";
 import { SCORING } from "@/config/scoring";
+import { bookingLink } from "./booking-link";
 import { EXERCISE_STEPS_READY } from "@/config/app";
 import {
   EXILE_KEYS, FIREFIGHTER_KEYS, MANAGER_KEYS, MIXED_KEYS,
@@ -60,6 +61,10 @@ const s = StyleSheet.create({
   card: { borderWidth: 1, borderColor: C.line, borderRadius: 4, padding: 10, marginBottom: 8 },
   field: { marginBottom: 3 },
   fieldLabel: { fontFamily: "Jost", fontWeight: 500 },
+  ctaBox: { borderWidth: 1, borderColor: C.navy, borderRadius: 4, padding: 12, marginTop: 4, marginBottom: 10, backgroundColor: C.parchment },
+  ctaTitle: { fontFamily: "Jost", fontWeight: 500, fontSize: 13, color: C.navy, marginBottom: 3 },
+  ctaButton: { fontFamily: "Jost", fontWeight: 500, fontSize: 11.5, color: C.paper, backgroundColor: C.navy, borderRadius: 3, paddingVertical: 8, paddingHorizontal: 12, marginTop: 8, textAlign: "center", textDecoration: "none" },
+  ctaLink: { color: C.navy, fontFamily: "Jost", fontWeight: 500, textDecoration: "underline" },
 });
 
 interface Props {
@@ -118,6 +123,15 @@ export function ResultsDocument({ result, locale, mode, generatedOn, name }: Pro
         )}
 
         <Text style={s.p}>{c.framing}</Text>
+
+        {/* Reading-session invitation: public, never FLOODED. A clickable WhatsApp link, with the number in plain text for printed copies. */}
+        {mode === "public" && !flooded && (
+          <View style={s.ctaBox} wrap={false}>
+            <Text style={s.ctaTitle}>{L.bookingTitle}</Text>
+            <Text>{L.booking.replace("{number}", INSTITUTE_WHATSAPP)}</Text>
+            <Link src={bookingLink(L.bookingPrefill)} style={s.ctaButton}>{L.bookingButton}</Link>
+          </View>
+        )}
 
         {/* 2. Who is leading */}
         <Text style={s.h2}>{L.whoIsLeading}</Text>
@@ -213,7 +227,10 @@ export function ResultsDocument({ result, locale, mode, generatedOn, name }: Pro
         <View style={[s.careBox, { marginTop: 14 }]}><Text>{c.careNote}</Text></View>
         <Text style={s.muted}>{c.disclaimer}</Text>
         {mode === "public" && !flooded && (
-          <Text style={[s.muted, { marginTop: 8 }]}>{L.invite}</Text>
+          <View>
+            <Text style={[s.muted, { marginTop: 8 }]}>{L.invite}</Text>
+            <Link src={bookingLink(L.bookingPrefill)} style={[s.muted, s.ctaLink, { marginTop: 4 }]}>{L.booking.replace("{number}", INSTITUTE_WHATSAPP)}</Link>
+          </View>
         )}
       </Page>
     </Document>
