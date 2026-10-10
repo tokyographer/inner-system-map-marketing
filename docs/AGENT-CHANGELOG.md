@@ -14,6 +14,10 @@ Skip typo fixes, single-item rewording and pure refactors that keep behaviour. C
 
 Entry format:
 ```
+## 2026-10-10 [marketing]: agents and instructions updated after the WhatsApp, privacy and retention work
+- Changed: `.claude/agents/*` (core-sync: flags that deliberately differ, upstream-only code, files kept identical by hand, fetching unpushed commits from the sibling path; verify-gate and data-privacy-auditor: integration tests need `ALLOW_DB_WRITES=1` and are never run by an agent, WhatsApp and privacy-parity checks; scoring-engineer: every `SCORING` key needs a golden case that flips; locale-sync and ifs-copy-reviewer: privacy notice, template bodies, promotion rules, claims-versus-code), plus the Run Order and Definition of done wording in `CLAUDE.md` (migrations are applied by the user to `marketing-dev` only) and the core-sync status line.
+- Agents: read the `core-sync` "deliberately not mirrored" section before reporting drift.
+
 ## 2026-10-10 [marketing]: favicon and app icons use the Transcendent Institute logomark
 - Changed: same icons as upstream `inner-system-ifs-test@5f4b090` (`app/icon.svg`, `app/favicon.ico`, `app/apple-icon.png`, `scripts/build-favicons.mjs`, `tests/unit/brand/icons.test.ts`). Non-core, copied by hand.
 - Agents: keep these files identical to upstream's; regenerate with the script instead of editing.

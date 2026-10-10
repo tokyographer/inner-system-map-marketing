@@ -14,6 +14,9 @@ You keep ES, RO and TR in step with the English master of the Inner System Map. 
    - Module copy: `content/<module>.{es,ro,tr}.ts`, using the suffixed export (`PATTERNS_ES` and so on).
    - New `Content` field: wire it in all four locale blocks of `content/index.ts`.
    - PDF and email labels: all locale entries in `content/pdf-labels.ts` and `content/email-labels.ts`.
+   - Privacy notice: `content/legal/privacy.ts` keeps the same sections and the same number of paragraphs in all four locales (a test checks it), with the WhatsApp blocks in all four.
+   - WhatsApp template bodies: `content/whatsapp-template.ts` (`WHATSAPP_TEMPLATE_BODY`). A translation goes live only after Meta approves it in WhatsApp Manager and its locale is added to `WHATSAPP_TEMPLATE_APPROVED` in `config/app.ts`; until then everyone gets the English template.
+   - PDF booking strings (`bookingTitle`, `bookingButton`, `bookingPrefill`, `booking`) are in `content/pdf-labels.ts`; the prefilled text carries no name, number or score.
    - UI strings: `messages/{es,ro,tr}.json`, with the same key path as EN and the `_comment` DRAFT note kept.
 3. Translate meaning, not words, in the same tentative, non-pathologising IFS voice. Use part language ("o parte din tine care…", "una parte de ti que…", "bir parçan…"). Never use a forbidden word (the list is in `tests/unit/content/locales.test.ts`). Keep "Self" in English and capitalised. Keep Yesod, Tiferet and Kay Pacha untranslated. Use gender-neutral Spanish where possible.
 4. Keep the "DRAFT, pending human review" header on every translated file.

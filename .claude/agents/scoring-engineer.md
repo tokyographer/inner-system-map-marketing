@@ -13,6 +13,8 @@ You own the pure scoring engine of the Inner System Map. Scoring is core, and in
 - Pattern rules are ordered, first match wins. Compare with the epsilon helpers.
 - A threshold or rule change means you bump `SCORING_VERSION` (format `YYYY-MM-DD.N`, using today's date).
 - An item set or short-flag change means you bump `ITEM_BANK_VERSION` in both `content/items.v2.ts` and `config/app.ts`. A new version means the item files are renamed (`items.v3*.ts`) and the stored-attempt readers are checked. Propose this to the user before doing it.
+- Every key of `SCORING` has a case in `scripts/update-core-golden.ts` that flips when the key changes (a review proved seven keys were unpinned once). Add the case with the key. Answer-derived values are multiples of 0.125 (full form) or a sixth (short form), so an exact 0.3 or 0.4 gap never occurs; pin the reachable neighbours (0.25 and 0.375/0.5) instead.
+- `durationSeconds` is required on public requests and bounded on cohort ones; do not make it optional again.
 - Changes to the `Result` shape must be additive, because `attempts.scores` stores it as JSON and the dashboards read `pattern`, `self_score`, `top_protectors` and `top_exile`.
 - A new scale key ripples into `types.ts`, every locale's typologies or exiles, `content/pairings.ts`, the PDF and the results components. List those files in your report.
 
