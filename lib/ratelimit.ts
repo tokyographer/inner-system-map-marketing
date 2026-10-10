@@ -1,7 +1,9 @@
 /**
  * Rate limiting. Uses Upstash Redis (sliding window, shared across all
- * function instances) when UPSTASH_REDIS_REST_URL is set; otherwise an
- * in-memory window, which is per instance and therefore only a soft limit.
+ * function instances) when its REST URL and token are set, under either the
+ * UPSTASH_REDIS_REST_* names or the KV_REST_API_* names the Vercel Marketplace
+ * integration creates; otherwise an in-memory window, which is per instance
+ * and therefore only a soft limit.
  */
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
@@ -23,15 +25,22 @@ function memoryLimit(key: string, limit: number, windowMs: number, now = Date.no
 
 /** True when limits are shared across instances (Upstash). Sends that cost money or reputation need this. */
 export function sharedLimiterConfigured(): boolean {
-  return Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
+  return redisConfig() !== null;
+}
+
+function redisConfig(): { url: string; token: string } | null {
+  const url = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
+  return url && token ? { url, token } : null;
 }
 
 function redisLimiter(limit: number, windowMs: number): Ratelimit | null {
-  if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) return null;
+  const config = redisConfig();
+  if (!config) return null;
   const id = `${limit}:${windowMs}`;
   let l = limiters.get(id);
   if (!l) {
-    l = new Ratelimit({ redis: Redis.fromEnv(), limiter: Ratelimit.slidingWindow(limit, `${Math.ceil(windowMs / 1000)} s`), prefix: "ism" });
+    l = new Ratelimit({ redis: new Redis(config), limiter: Ratelimit.slidingWindow(limit, `${Math.ceil(windowMs / 1000)} s`), prefix: "ism" });
     limiters.set(id, l);
   }
   return l;

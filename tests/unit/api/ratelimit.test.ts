@@ -25,10 +25,19 @@ describe("clientKey", () => {
 
 describe("sharedLimiterConfigured", () => {
   afterEach(() => vi.unstubAllEnvs());
-  it("needs both Upstash variables", () => {
-    vi.stubEnv("UPSTASH_REDIS_REST_URL", ""); vi.stubEnv("UPSTASH_REDIS_REST_TOKEN", "");
+  const clear = () => { for (const k of ["UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN", "KV_REST_API_URL", "KV_REST_API_TOKEN"]) vi.stubEnv(k, ""); };
+  it("needs both a URL and a token, under either naming", () => {
+    clear();
     expect(sharedLimiterConfigured()).toBe(false);
-    vi.stubEnv("UPSTASH_REDIS_REST_URL", "https://r.test"); vi.stubEnv("UPSTASH_REDIS_REST_TOKEN", "t");
+    vi.stubEnv("UPSTASH_REDIS_REST_URL", "https://r.test");
+    expect(sharedLimiterConfigured()).toBe(false);
+    vi.stubEnv("UPSTASH_REDIS_REST_TOKEN", "t");
+    expect(sharedLimiterConfigured()).toBe(true);
+    clear();
+    vi.stubEnv("KV_REST_API_URL", "https://r.test"); vi.stubEnv("KV_REST_API_TOKEN", "t");
+    expect(sharedLimiterConfigured()).toBe(true);
+    clear();
+    vi.stubEnv("UPSTASH_REDIS_REST_URL", "https://r.test"); vi.stubEnv("KV_REST_API_TOKEN", "t");
     expect(sharedLimiterConfigured()).toBe(true);
   });
 });
