@@ -14,6 +14,10 @@ Skip typo fixes, single-item rewording and pure refactors that keep behaviour. C
 
 Entry format:
 ```
+## 2026-10-10 [marketing]: favicon and app icons use the Transcendent Institute logomark
+- Changed: same icons as upstream `inner-system-ifs-test@5f4b090` (`app/icon.svg`, `app/favicon.ico`, `app/apple-icon.png`, `scripts/build-favicons.mjs`, `tests/unit/brand/icons.test.ts`). Non-core, copied by hand.
+- Agents: keep these files identical to upstream's; regenerate with the script instead of editing.
+
 ## 2026-10-10 [marketing]: rate limiter reads the Marketplace Upstash variable names
 - Changed: `lib/ratelimit.ts` accepts `UPSTASH_REDIS_REST_*` or `KV_REST_API_*` (what the Vercel Marketplace Upstash integration creates), with a test. Same change as upstream `451d55a`; the file is kept identical to upstream by hand because it is not a core path.
 - Agents: marketing has no Upstash resource yet. When it goes live, connect Upstash to this project's Production environment only, or WhatsApp sends stay skipped.
