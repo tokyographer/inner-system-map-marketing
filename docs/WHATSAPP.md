@@ -37,9 +37,11 @@ Create it in WhatsApp Manager > Message templates.
 
 ## Costs
 
-- Business-started templates (the results message) are charged per delivered message, at a rate that depends on the recipient's country. A payment method must be on the WhatsApp Business Account. Check Meta's current price list; rates change.
-- Free-text replies inside the 24-hour customer service window (the inbox) are free.
-- No inbox subscription: replies are handled in this app.
+Checked against Meta's pricing documentation on 2026-10-10 (rate card effective 2026-07-01). The numerical rates are only in Meta's interactive selector and downloadable CSV/PDF rate cards, so look the figure up there (https://developers.facebook.com/documentation/business-messaging/whatsapp/pricing, or https://business.whatsapp.com/products/platform-pricing with Utility selected).
+
+- Utility templates are charged per delivered message, at a rate set by the **recipient's** country; free only inside an open 24-hour customer service window. The results message is first contact, so expect to pay. Volume tiers lower the rate monthly. Rates change (Turkey down in April 2026, Romania up in July 2026).
+- Our ceiling is in the shared email route: 2 results per number per day and 100 WhatsApp sends per day, so the worst day costs 100 times the highest Utility rate among recipients' countries.
+- A payment method must be on the WhatsApp Business Account.
 
 ## Switching on stage 1 (results PDF)
 
