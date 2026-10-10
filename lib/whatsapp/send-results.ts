@@ -5,7 +5,7 @@
  * Never logs or echoes the number, the name or Meta's error message; errors carry Meta's numeric code only.
  */
 import { createHash } from "node:crypto";
-import { WHATSAPP_TEMPLATE_LANGUAGE, type Locale } from "@/config/app";
+import { WHATSAPP_TEMPLATE_APPROVED, WHATSAPP_TEMPLATE_LANGUAGE, type Locale } from "@/config/app";
 import { resultsPdfFilename } from "@/lib/pdf/filename";
 import { cleanDisplayName } from "@/lib/validation/name";
 
@@ -43,6 +43,11 @@ export function recipientKey(to: string): string {
   return `wa:${createHash("sha256").update(to).digest("hex")}`;
 }
 
+/** The template language code to request: the person's own language once its translation is approved, otherwise English. */
+export function templateLanguage(locale: Locale, approved: readonly Locale[] = WHATSAPP_TEMPLATE_APPROVED): string {
+  return WHATSAPP_TEMPLATE_LANGUAGE[approved.includes(locale) ? locale : "en"];
+}
+
 type Fetch = typeof fetch;
 
 export async function graphError(res: Response, step: string): Promise<Error> {
@@ -77,7 +82,7 @@ export async function sendResultsWhatsApp(args: SendWhatsAppArgs, env: WhatsAppE
       type: "template",
       template: {
         name: env.template,
-        language: { code: WHATSAPP_TEMPLATE_LANGUAGE[args.locale] },
+        language: { code: templateLanguage(args.locale) },
         components: [
           { type: "header", parameters: [{ type: "document", document: { id: mediaId, filename } }] },
           { type: "body", parameters: [{ type: "text", text: greetingName }] },

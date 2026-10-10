@@ -46,6 +46,11 @@ export const EXERCISE_STEPS_READY = false;
 export const WHATSAPP_RESULTS_READY = false;
 /** Language code of each approved template translation, exactly as WhatsApp Manager lists it. */
 export const WHATSAPP_TEMPLATE_LANGUAGE: Record<Locale, string> = { en: "en", es: "es", ro: "ro", tr: "tr" };
+/**
+ * Languages whose translation of the template Meta has approved. Anyone else gets the English one
+ * (the PDF is still in their language). Add a locale here only after its translation is approved.
+ */
+export const WHATSAPP_TEMPLATE_APPROVED: Locale[] = ["en"];
 
 /**
  * Admin WhatsApp inbox: the webhook stores replies to the business number and admins answer them

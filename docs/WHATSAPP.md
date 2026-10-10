@@ -34,6 +34,7 @@ Create it in WhatsApp Manager > Message templates.
 - People may still reply to the template, and replies reach the upstream app's inbox (the webhook points there), so switch stage 2 on upstream together with stage 1 here.
 - Languages and bodies: the four texts are in `content/whatsapp-template.ts` (`WHATSAPP_TEMPLATE_BODY`), which the forbidden-word test scans. Submit them exactly as written there; ES/RO/TR are drafts, so have a native speaker check them first.
 - After approval, check that the language codes WhatsApp Manager shows match `WHATSAPP_TEMPLATE_LANGUAGE` in `config/app.ts` (`en`, `es`, `ro`, `tr`; Meta sometimes uses `en_US`).
+- **English only for now.** `WHATSAPP_TEMPLATE_APPROVED` in `config/app.ts` lists the languages whose translation Meta has approved; today that is `["en"]`. Everyone else receives the English template (the PDF attached is still in their own language). Do not add `es`, `ro` or `tr` there until that translation is approved in WhatsApp Manager, or those sends fail with code `132001` (the email still goes out). Adding a language is a core change: make it upstream, then `core-sync` it here.
 
 ## Costs
 
@@ -45,8 +46,8 @@ Checked against Meta's pricing documentation on 2026-10-10 (rate card effective 
 
 ## Switching on stage 1 (results PDF)
 
-1. Template approved in all four languages.
-2. Payment method on the WhatsApp Business Account.
+1. Template approved in English (the other three languages optional; list each approved one in `WHATSAPP_TEMPLATE_APPROVED`).
+2. Payment method on the WhatsApp Business Account (done).
 3. Migration `0010_public_results_whatsapp.sql` applied to this deployment's production database (a deliberate step; `npm run db:migrate` runs only against `marketing-dev` during development).
 4. `WHATSAPP_TOKEN` and `WHATSAPP_PHONE_NUMBER_ID` set in Vercel for every environment (`WHATSAPP_TEMPLATE` only if the name differs), and Upstash connected (`UPSTASH_REDIS_REST_URL`/`TOKEN`): without shared rate limits every WhatsApp send is skipped.
 5. Legal review: consent to send the results PDF through Meta, possibly outside the EU.

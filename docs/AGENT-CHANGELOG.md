@@ -22,6 +22,11 @@ Entry format:
 
 ---
 
+## 2026-10-10 [core]: WhatsApp template language falls back to English until a translation is approved
+- Changed: ported upstream `5f49316`. `WHATSAPP_TEMPLATE_APPROVED` (`config/app.ts`, `["en"]`) lists the locales whose template translation Meta approved. `templateLanguage(locale)` (`lib/whatsapp/send-results.ts`) requests the person's own language only when it is listed and English otherwise, so Spanish, Romanian and Turkish participants get the English template (with the PDF in their language) instead of a failed send (`132001`) while only the English template exists. `docs/WHATSAPP.md` and README adapted to this repo (the change is made upstream and ported).
+- Agents: add a locale to `WHATSAPP_TEMPLATE_APPROVED` only upstream, after the translation shows as approved in WhatsApp Manager, then `core-sync` it here.
+- Synced: inner-system-ifs-test@5f49316 (ported from upstream)
+
 ## 2026-10-10 [core]: WhatsApp template is transactional only
 - Changed: ported upstream `9952289`. `content/whatsapp-template.ts` bodies are the original one-paragraph delivery message again (the invitation paragraph from `9a7bde2` never shipped here: the three commits were applied as one checkout of upstream HEAD), and its header says to keep the template transactional. A Utility template that invites people to a service risks reclassification as Marketing. `docs/WHATSAPP.md` says so, adapted to this repo (replies reach the upstream inbox).
 - Agents: never add an invitation, link, button, UTM link, program invite or live-session link to the template. Calls to action belong in the PDF (core) or in marketing's results page and email footer.

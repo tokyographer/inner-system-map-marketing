@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
-import { LOCALES, WHATSAPP_INBOX_READY, WHATSAPP_RESULTS_READY, WHATSAPP_TEMPLATE_LANGUAGE } from "@/config/app";
+import { LOCALES, WHATSAPP_INBOX_READY, WHATSAPP_RESULTS_READY, WHATSAPP_TEMPLATE_APPROVED, WHATSAPP_TEMPLATE_LANGUAGE } from "@/config/app";
 import { PRIVACY } from "@/content/legal/privacy";
-import { DEFAULT_TEMPLATE, GRAPH_API, readWhatsAppEnv, recipientKey, sendResultsWhatsApp, templateName } from "@/lib/whatsapp/send-results";
+import { DEFAULT_TEMPLATE, GRAPH_API, readWhatsAppEnv, recipientKey, sendResultsWhatsApp, templateLanguage, templateName } from "@/lib/whatsapp/send-results";
 
 const env = { token: "tok", phoneNumberId: "111", template: "inner_system_map_results" };
 const args = { to: "+34600000000", name: "Ana", locale: "es" as const, pdf: Buffer.from("%PDF-fake") };
@@ -48,7 +48,7 @@ describe("sendResultsWhatsApp", () => {
       type: "template",
       template: {
         name: "inner_system_map_results",
-        language: { code: "es" },
+        language: { code: "en" },
         components: [
           { type: "header", parameters: [{ type: "document", document: { id: "media-1", filename: "mapa-del-sistema-interno-results-ana.pdf" } }] },
           { type: "body", parameters: [{ type: "text", text: "Ana" }] },
@@ -88,6 +88,14 @@ describe("templateName and recipientKey", () => {
 });
 
 describe("WhatsApp config and privacy notice", () => {
+  it("requests the person's own template language only once it is approved, otherwise English", () => {
+    expect(templateLanguage("es", ["en"])).toBe("en");
+    expect(templateLanguage("tr", ["en", "es"])).toBe("en");
+    expect(templateLanguage("es", ["en", "es"])).toBe("es");
+    expect(templateLanguage("en", [])).toBe("en");
+    expect(WHATSAPP_TEMPLATE_APPROVED).toContain("en");
+    for (const l of WHATSAPP_TEMPLATE_APPROVED) expect(LOCALES).toContain(l);
+  });
   it("has a template language for every locale", () => {
     expect(Object.keys(WHATSAPP_TEMPLATE_LANGUAGE).sort()).toEqual([...LOCALES].sort());
   });

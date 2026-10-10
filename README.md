@@ -135,6 +135,7 @@ When `WHATSAPP_RESULTS_READY` in `config/app.ts` is `true`, the start screen off
 In this repo the number is used only for that delivery: no marketing code (attribution, funnel, analytics, nurture) reads or forwards it. The flag lives in core `config/app.ts`, so it is switched on upstream and ported here with `core-sync`.
 
 To switch it on:
+0. Only English is approved for now: `WHATSAPP_TEMPLATE_APPROVED` in `config/app.ts` is `["en"]`, so all participants get the English template (the PDF stays in their language). Adding a locale there is a core change: make it upstream once its translation is approved, then port it here with `core-sync`.
 1. In WhatsApp Manager, create the Utility template `inner_system_map_results` with a **Document** header and the body `Hello {{1}}, …` in en, es, ro and tr, and wait for approval. Check that the language codes Meta shows match `WHATSAPP_TEMPLATE_LANGUAGE` in `config/app.ts`.
 2. Add a payment method to the WhatsApp Business Account (business-started templates are charged per message).
 3. Apply migration `0010_public_results_whatsapp.sql` to `marketing-dev` and, once live, to production (step 4 of the deployment list).
